@@ -1,0 +1,202 @@
+/*****************************************************************************/
+/*
+/* Common
+/*
+/*****************************************************************************/
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body { height: 100%; }
+
+body {
+  background: url('./../assets/bg.png') repeat top left #FFF;
+  font: 14px Georgia,'Times New Roman',serif;
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.0;
+  font-size: 100%; 
+}
+
+h1 { 
+  margin-bottom: 1em; 
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/*****************************************************************************/
+/*
+/* Home
+/*
+/*****************************************************************************/
+ul.posts {
+  list-style-type: none;
+}
+
+ul.posts li {
+  margin: 0 0 1em 0;
+  padding: 0 0 1em 0;
+  border-bottom: 1px solid #0AC692;
+}
+
+ul.posts li, 
+.post p,
+.date {
+  line-height: 20px;
+}
+
+ul.posts li:last-child{
+  margin: 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+ul.posts li p,
+.post p { 
+  margin: 2px 0 0 0; 
+}
+
+.date span {
+  color: #aaa;
+  font-family: Monaco, "Courier New", monospace;
+  font-size: 80%;
+}
+
+/*****************************************************************************/
+/*
+/* Site
+/*
+/*****************************************************************************/
+.top-stripe {
+  height: 62px;
+  background: rgb(2,32,30); /* Old browsers */
+  background: -moz-linear-gradient(45deg,  rgba(2,32,30,1) 0%, rgba(0,70,60,1) 25%, rgba(26,141,124,1) 80%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(2,32,30,1)), color-stop(25%,rgba(0,70,60,1)), color-stop(80%,rgba(26,141,124,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(45deg,  rgba(2,32,30,1) 0%,rgba(0,70,60,1) 25%,rgba(26,141,124,1) 80%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg,  rgba(2,32,30,1) 0%,rgba(0,70,60,1) 25%,rgba(26,141,124,1) 80%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg,  rgba(2,32,30,1) 0%,rgba(0,70,60,1) 25%,rgba(26,141,124,1) 80%); /* IE10+ */
+  background: linear-gradient(45deg,  rgba(2,32,30,1) 0%,rgba(0,70,60,1) 25%,rgba(26,141,124,1) 80%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#02201e', endColorstr='#1a8d7c',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.top-site {
+  max-width: 640px;
+  margin: 0 auto 2em;
+}
+
+.top-site .header a {
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.top-site .header h1.title {
+  display: block;
+  float: left;
+  font-size: 54px;
+  font-family: Georgia,'Times New Roman',serif;
+  margin: 17px 0 0 0;
+  width: 274px;
+}
+
+.top-site .header h1.title a {
+  color: #FFF;
+}
+
+.top-site .header h1.title a:hover {
+  color: #FFF;
+}
+
+.top-site .header a.extra {
+  font-size: 20px;
+  color: #FFF;
+  margin: 44px 0 0 0;
+  display: block;
+  float: right;
+}
+
+.site {
+  text-align: justify;
+  max-width: 640px;
+  margin: 0 auto 2em;
+  background-color: #FFF;
+  padding: 20px;
+}
+
+.site a,
+.site h2 { 
+  color: #1A8D7C;
+  text-decoration: none; 
+}
+
+.site h2 {
+  line-height: 20px;
+}
+
+.site a:hover { 
+  color: #07594D; 
+  text-decoration: underline;
+}
+
+.site a:visited { 
+  color: #07594D; 
+}
+
+.site .title {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.site .meta {
+  color: #aaa;
+}
+
+/*****************************************************************************/
+/*
+/* Posts
+/*
+/*****************************************************************************/
+
+/* standard */
+pre {
+  border: 1px solid #E2DEDE;
+  background-color: #FCFCFC;
+  padding: 0 .4em;
+  margin: 10px 0;
+}
+
+.post ul, .post ol {
+  margin-left: 1.35em;
+}
+
+code {
+  border: 1px solid #E2DEDE;
+  background-color: #FCFCFC;
+  padding: 0 .2em;
+  font-size: 12px;
+}
+
+pre code {
+  border: none;
+}
+
+/* terminal */
+pre.terminal {
+  border: 1px solid #000;
+  background-color: #333;
+  color: #FFF;
+}
+
+pre.terminal code {
+  background-color: #333;
+}
