@@ -134,7 +134,8 @@ ul.posts li p,
 }
 
 .site a,
-.site h2 { 
+.site h2,
+footer a { 
   color: #1A8D7C;
   text-decoration: none; 
 }
@@ -143,7 +144,8 @@ ul.posts li p,
   line-height: 20px;
 }
 
-.site a:hover { 
+.site a:hover,
+footer a:hover { 
   color: #07594D; 
   text-decoration: underline;
 }
