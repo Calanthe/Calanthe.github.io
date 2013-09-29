@@ -1,3 +1,4 @@
 name: Zofia Korcz
 markdown: redcarpet
 pygments: true
+permalink: /:title

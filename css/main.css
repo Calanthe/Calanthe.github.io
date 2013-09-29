@@ -105,7 +105,7 @@ ul.posts li p,
   float: left;
   font-size: 54px;
   font-family: Georgia,'Times New Roman',serif;
-  margin: 17px 0 0 0;
+  margin: 18px 0 0 0;
   width: 274px;
 }
 
@@ -163,6 +163,10 @@ footer a:hover {
   color: #aaa;
 }
 
+footer {
+  margin: 0 0 10px 0;
+}
+
 /*****************************************************************************/
 /*
 /* Posts
@@ -201,4 +205,8 @@ pre.terminal {
 
 pre.terminal code {
   background-color: #333;
+}
+
+.post {
+  margin: 0 0 20px 0;
 }
