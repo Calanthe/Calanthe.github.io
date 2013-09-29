@@ -51,8 +51,7 @@ ul.posts li {
 }
 
 ul.posts li, 
-.post p,
-.date {
+.post p {
   line-height: 20px;
 }
 
@@ -65,6 +64,10 @@ ul.posts li:last-child{
 ul.posts li p,
 .post p { 
   margin: 2px 0 0 0; 
+}
+
+.date {
+  line-height: 10px;
 }
 
 .date span {
