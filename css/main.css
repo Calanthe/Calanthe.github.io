@@ -14,7 +14,7 @@ html, body { height: 100%; }
 
 body {
   background: url('./../assets/bg.png') repeat top left #FFF;
-  font: 14px Georgia,'Times New Roman',serif;
+  font: 14px Arial,sans-serif;
   text-align: center;
 }
 
@@ -72,8 +72,16 @@ ul.posts li p,
 
 .date span {
   color: #aaa;
-  font-family: Monaco, "Courier New", monospace;
+  font-family: "Courier New", monospace;
   font-size: 80%;
+}
+
+.about.post p{
+  margin: 0 0 10px 0;
+}
+
+.about.post p.no-margin {
+  margin: 0;
 }
 
 /*****************************************************************************/
@@ -122,6 +130,7 @@ ul.posts li p,
 
 .top-site .header a.extra {
   font-size: 20px;
+  font-family: Georgia,'Times New Roman',serif;
   color: #FFF;
   margin: 44px 0 0 0;
   display: block;
@@ -143,6 +152,11 @@ footer a {
   text-decoration: none; 
 }
 
+.site a,
+footer a {
+  border-bottom: 1px dotted #1A8D7C;
+}
+
 .site h2 {
   line-height: 20px;
 }
@@ -150,7 +164,7 @@ footer a {
 .site a:hover,
 footer a:hover { 
   color: #07594D; 
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .site a:visited { 
@@ -159,7 +173,9 @@ footer a:hover {
 
 .site .title {
   font-size: 20px;
+  font-family: 'Droid Serif', Georgia,'Times New Roman', serif;
   font-weight: normal;
+  border-bottom: none;
 }
 
 .site .meta {
