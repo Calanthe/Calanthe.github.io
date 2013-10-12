@@ -84,6 +84,20 @@ ul.posts li p,
   margin: 0;
 }
 
+.about ul {
+  list-style-type: none;
+}
+
+.about ul li {
+  padding: 2px 0;
+}
+
+.about ul li a {
+  display: inline-block;
+  padding: 0 0 0 14px;
+  background: url('./../assets/link.png') 0% 60% no-repeat;
+}
+
 /*****************************************************************************/
 /*
 /* Site
@@ -198,10 +212,6 @@ pre {
   background-color: #FCFCFC;
   padding: 0 .4em;
   margin: 10px 0;
-}
-
-.post ul, .post ol {
-  margin-left: 1.35em;
 }
 
 code {
