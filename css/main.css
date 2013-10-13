@@ -234,7 +234,11 @@ pre.terminal code {
 }
 
 .post {
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
+}
+
+.social {
+  margin: 0 0 8px 0;
 }
 
 .post h3 {
