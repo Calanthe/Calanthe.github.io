@@ -94,8 +94,8 @@ ul.posts li p,
 
 .about ul li a {
   display: inline-block;
-  padding: 0 0 0 14px;
-  background: url('./../assets/link.png') 0% 60% no-repeat;
+  /*padding: 0 0 0 14px;
+  background: url('./../assets/link.png') 0% 60% no-repeat;*/
 }
 
 /*****************************************************************************/
