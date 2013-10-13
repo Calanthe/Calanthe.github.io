@@ -160,6 +160,7 @@ ul.posts li p,
 }
 
 .site a,
+.site a:visited,
 .site h2,
 footer a { 
   color: #1A8D7C;
@@ -179,10 +180,6 @@ footer a {
 footer a:hover { 
   color: #07594D; 
   text-decoration: none;
-}
-
-.site a:visited { 
-  color: #07594D; 
 }
 
 .site .title {
@@ -210,14 +207,14 @@ footer {
 pre {
   border: 1px solid #E2DEDE;
   background-color: #FCFCFC;
-  padding: 0 .4em;
+  padding: 0.2em .4em;
   margin: 10px 0;
 }
 
 code {
   border: 1px solid #E2DEDE;
   background-color: #FCFCFC;
-  padding: 0 .2em;
+  padding: 0.1em .2em;
   font-size: 12px;
 }
 
@@ -238,4 +235,12 @@ pre.terminal code {
 
 .post {
   margin: 0 0 20px 0;
+}
+
+.post h3 {
+  font-size: 18px;
+  font-family: 'Droid Serif', Georgia,'Times New Roman', serif;
+  font-weight: normal;
+  color: #1A8D7C;
+  margin: 8px 0;  
 }
