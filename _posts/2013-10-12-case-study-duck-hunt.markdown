@@ -3,8 +3,11 @@ layout: post
 title: "Case study - how does CSS only Duck Hunt work?"
 date:   2013-10-12 19:53:59
 ---
-![Duck Hunt  CSS only game]({{ site.url }}/assets/duckhunt.jpg)
+![Duck Hunt  CSS only game]({{ site.url }}/assets/duckhunt.jpg)  
+
 [CSS Duck Hunt][mdnduck] was the first game I submitted to 'CSS only' [Mozilla Dev Derby][mdn] over one year ago. It didn't win anything, but I was glad that I managed to develop a nostalgic game in a rather unique way. Since then, some people have asked me to explain how this game works.
+
+<!--more-->
 
 At the beginning I had only a very general idea about what I wanted to accomplish. Everything except for the flying bird and the gun were supposed to be static images. After implementing the duck's movement and the process of shooting it, I started thinking about a more complex solution.
 

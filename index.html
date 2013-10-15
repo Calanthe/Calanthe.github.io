@@ -9,7 +9,12 @@ title: Zofia Korcz
       <li>
       	<a class="title" href="{{ post.url }}">{{ post.title }}</a>
       	<div class="date"><span>{{ post.date | date_to_string }}</span></div>
-      	<p>{{ post.excerpt }}</p> 
+      	<p>{% if post.content contains '<!--more-->' %}
+      			{{ post.content | split:'<!--more-->' | first }}
+			{% else %}
+				{{ post.excerpt }}
+			{% endif %}
+		</p> 
       </li>
     {% endfor %}
   </ul>
