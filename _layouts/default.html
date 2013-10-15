@@ -4,10 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>{{ page.title }}</title>
-        <meta name="description" content="Personal site of Zofia Korcz - front-end developer and HTML5 amateur games maker" />
-        <meta name="Keywords" content="HTML,HTML5,JavaScript,DOM,jQuery,HTML5 games,CSS 3,tutorial,programming,development,Duck Hunt,canvas,webgl,MDN">
+        <meta name="description" content={{ site.description }} />
+        <meta name="Keywords" content="HTML,HTML5,JavaScript,DOM,jQuery,HTML5 games,CSS 3,tutorial,programming,development,Duck Hunt,canvas,webgl,MDN,Zofia Korcz,Zosia Korcz">
         <meta name="viewport" content="width=device-width">
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+        <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.url }}/feed.xml">
 
         <!-- syntax highlighting CSS -->
         <link rel="stylesheet" href="/css/syntax.css">
@@ -36,7 +37,7 @@
 
           </div>
           <footer>
-            <p>&#169; 2013&#8211;present <a href="/">Zofia Korcz</a></p>
+            <p>&#169; 2013&#8211;present <a href="{{ site.url }}">Zofia Korcz</a> | <a href="{{ site.url }}/feed.xml">RSS feed</a></p>
           </footer>
         </div> <!-- /container -->
 <script type="text/javascript">
