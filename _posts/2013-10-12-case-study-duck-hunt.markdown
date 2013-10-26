@@ -396,7 +396,7 @@ input.point:checked{
 Making games in CSS is neither easy nor is it an effective task. The whole game is just a long animation with a few \*condition statements\*, which depends on whether the user shoots a duck or not. I am also aware that my version of Duck Hunt is far away from perfection. 
 Sometimes browsers have problems with detecting shots, and in addition, if a bird animates too fast, the player can shoot more that three times. Because of its \*CSS nature\* we can't pause the game, save it or restore it's state after reloading the page.
 
-I don't think it's the new way of building HTML games, on the contrary, it isn't. But it definitely is the best way to learn something new and uncommon, to face problems you probablby wouldn't have during development of a typical website. 
+I don't think it's the new way of building HTML games, on the contrary, it isn't. But it definitely is the best way to learn something new and uncommon, to face problems you probably wouldn't have during development of a typical website. 
 The most important thing for me is to try new, non standard ways of building software that will teach me how to open my mind to think differently and improve creativity. 
 
 If you have any ideas on how to improve this game, add some features or make it completely different - just [let me know](mailto:korczzofia@gmail.com). You can also contribute on [github][github] or comment below this article.
