@@ -200,7 +200,7 @@ When any side of the ship hits the border of level, then whole game animation is
 
 ###Conclusion
 
-As you can see, programming arcade games in canvas is trully an easy task ;). All you need to do is:
+As you can see, programming arcade games in `canvas` is trully an easy task ;). All you need to do is:
 
 1. Have a clever idea.
 2. Choose the easiest way of implementation. (I know it's the hardest part, especially for the beginners.)
