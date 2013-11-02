@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 { 
-  margin-bottom: 1em; 
+  margin-bottom: 1em;
 }
 
 .clearfix:after {
@@ -254,4 +254,12 @@ pre.terminal code {
 .post img {
   border: 1px solid #E2DEDE;
   padding: 1px;
+}
+
+.post ol {
+  padding: 0 0 0 30px;
+}
+
+.post ol li {
+  padding: 4px 0;
 }
