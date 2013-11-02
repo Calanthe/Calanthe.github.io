@@ -1,0 +1,318 @@
+---
+layout: post
+title: "Swift - my first arcade canvas game"
+date:   2013-10-26 19:34:06
+---
+<p><img src="{{ site.url }}/assets/swift/swift.jpg" alt="Swift - arcade game"></p>
+
+<p>This time I would like to show you how easily you can develop a simple arcade game in <a href="http://diveintohtml5.info/canvas.html">canvas</a> element. As an example, I will use a <a href="http://js13kgames.com/entries/swift">Swift game</a> which I made for 2012&#39;s edition of <a href="http://js13kgames.com/">JS13KGames</a>.</p>
+
+<!--more-->
+
+<p>It&#39;s important to mention, that all of the mechanics of this game is strongly inspired by <a href="http://swiftstitch.sophiehoulden.com/">the Swift Stitch game</a> made by <a href="http://www.sophiehoulden.com/">Sophie Houlden</a>. I found her game very entertaining, because of the perfect combination of easy to learn rules and hard to play gameplay. I thought this could be a nice example to build a similar game with almost the same rules and easier and customized levels. If you find my version of the game too easy and want to play something more challenging - give the original <a href="http://swiftstitch.sophiehoulden.com/demo/">Swift Stitch game</a> a try. The real fun starts when you reach &#39;gravity&#39; levels ;).</p>
+
+<h3>The game loop</h3>
+
+<p>The game loop, according to <a href="http://en.wikipedia.org/wiki/Game_programming">Wikipedia</a> and <a href="http://gamedev.tutsplus.com/articles/glossary/quick-tip-what-is-the-game-loop/">gamedev.tutplus</a>, is the central component of any game, which is responsible for keeping your game runnig. Within that infinite loop, all actions like: rendering a level, player or enemy, counting scores, resolving collisions, detecting user&#39;s input or playing sounds are taken care of.
+</p>
+
+{% highlight js %}
+function run(){
+  animationId = requestAnimationFrame(run);
+  animate();
+}
+{% endhighlight %}
+
+{% highlight js %}
+function animate(){
+	_context.clearRect(0, 0, 800, 600);                
+	                        
+	//draw information about current level and lives
+	drawInfo();
+
+	//draw change mode lines, last one is end of level
+	drawChangeModeLines();
+
+	//show ship                
+	Ship.draw(_posX,_posY,0);
+
+	//draw level
+	drawLevelShape();
+
+	//set shift variables for next animation step
+	moveWholeLevel();
+	                        
+	//check if ship is on change mode line
+	//if yes, then change _up or _right mode
+	changeModesOnSpecialLines();
+	        
+	//stop the game when ship hits the wall        
+	detectCollision();
+}
+{% endhighlight %}
+
+<p>I think that the above code speaks for itself. The <code>requestAnimationFrame()</code> function is an API for performing optimized animations in browsers. It&#39;s the best alternative to commonly used but not so efficient <code>setInterval()</code> function. To help you understand better, I recommend you to get acquainted with <a href="http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish&#39;s post</a> first.</p>
+
+<p>During the animation (every 1000/60 ms) everything inside <code>animate()</code> is executed. First the <code>canvas</code> needs to be cleared, then every game&#39;s element is drawn, including: information about the current level and player&#39;s lives, a ship which the user controls, borders of the level and special lines, on which the ship changes its direction. </p>
+
+<p>The <code>drawInfo()</code> function is the easiest part of the whole game. It is just a simple function responsible for drawing information about user&#39;s status: current level and the amount of available lives. I used standard <code>_context.fillStyle</code>, <code>_context.font</code> and <code>_context.fillText()</code> methods and properties to show subtitles.</p>
+
+<p>The whole code responsible for drawing the ship is placed within the (surprisingly!) <code>Ship</code> object. As you probably noticed so far, the ship is represented as a standard red or grey triangle. It&#39;s not my intention here to show how to draw basic shapes in <code>canvas</code> element. If you need to catch up with that, you can start with my <a href="http://www.cognifide.com/blogs/ux/introdution-to-html5-canvas-element/">Introduction to HTML5 canvas element</a> article.</p>
+
+<h3>Drawing levels and special lines</h3>
+
+<p>Lets continue with something more interesting. The most important part of this game is the mechanism to draw different levels in such way, that it will be easy enought to detect if the ship hits the border. I also had to have in mind, that the size of my game is limited to 13 kilobytes. As you see, proper method of drawing and detecting borders of levels was essential part of the implementation. After at least a few hours of intensive thinking, I came across my <a href="http://js1k.com/2012-love/demo/1139">JS1K &#39;Love&#39; demo</a> and I remembered one particular <code>canvas</code> method, which turned out to be my perfect solution: <code>_context.isPointInPath()</code>. All I needed to implement afterwards, was to:</p>
+
+<ol>
+<li>Draw a large geometric black figure with only white visible borders, so it could imitate the whole level. </li>
+<li>Place the ship inside of that figure.</li>
+<li>During the animation, use <code>_context.isPointInPath()</code> to check if the ship&#39;s position is in the path of the of the drawn figure (level).</li>
+</ol>
+
+<p>This is it! I didn&#39;t need to detect collisions with borders by myself, because <code>canvas</code> already implemented useful <code>_context.isPointInPath()</code> method. After figuring it out, I could finally focus on drawing custom level shapes.</p>
+
+<p>I used an <code>array</code> of <code>objects</code> to store important information about each level, which are represented by coordinates of all points connecting the figure. The first level is stored as followed:</p>
+
+{% highlight js %}
+_level = [
+    [{x:0,y:100},{x:1000,y:100},{x:1000,y:600},{x:1400,y:600},{x:1400,y:1200},
+    {x:1800,y:1200},{x:1800,y:1400},{x:1200,y:1400},{x:1200,y:800},{x:800,y:800},
+    {x:800,y:300},{x:0,y:300},{x:0,y:100}]
+],
+{% endhighlight %}
+
+<p>Now the figure can be drawn by using <code>_context.lineTo()</code> method:</p>
+
+{% highlight js %}
+function drawLevelShape(){
+    var i;
+    _context.beginPath();
+    _context.lineWidth = 2;
+    _context.strokeStyle = _stroke;
+    
+    for(i = 0; i<_level[_lvl].length; i++){
+        _context.lineTo(_level[_lvl][i].x-_shiftX,_level[_lvl][i].y-_shiftY);
+    }
+
+    _context.stroke();
+    _context.closePath();
+}
+{% endhighlight %}
+
+<p>A very similar solution is used for storing and drawing change mode lines:</p>
+
+{% highlight js %}
+_lines = [
+	[{x1:800,y1:400,x2:1000,y2:400,vert:false,mode:false},
+	{x1:0,y1:802,x2:200,y2:802,vert:false,mode:false},
+	{x1:979,y1:900,x2:979,y2:1100,vert:true,mode:true}]
+],
+{% endhighlight %}
+
+<p>The above example shows lines for the third level. First four values (<code>x1</code>,<code>y1</code>,<code>x2</code>,<code>y2</code>) are coordinates of the start and end points of the lines. The <code>vert</code> flag means if the line is vertical (<code>true</code>) or horizontal (<code>false</code>). The <code>mode</code> is for identifying which course the ship will change after crossing the line: <code>true</code> is for vertical mode, <code>false</code> for horizontal. The last line is always the end of level, so <code>mode</code> flag is not important.</p>
+
+{% highlight js %}
+function drawChangeModeLines(){
+    var i;
+    _context.lineWidth = 4;
+    for(i = 0; i<_lines[_lvl].length; i++){
+        _context.beginPath();
+        if(i===_lines[_lvl].length-1){//last one is end of level, so red color
+            _context.strokeStyle = '#FF4040';
+        }
+        else if(_lines[_lvl][i].mode){ //blue
+            _context.strokeStyle = '#37B6CE';
+        }
+        else{ //green
+            _context.strokeStyle = '#00BD39';
+        }
+        _context.lineTo(_lines[_lvl][i].x1-_shiftX,_lines[_lvl][i].y1-_shiftY);
+        _context.lineTo(_lines[_lvl][i].x2-_shiftX,_lines[_lvl][i].y2-_shiftY);
+        _context.stroke();
+        _context.closePath();
+    }
+}
+{% endhighlight %}
+
+<p>How does drawing level and special lines look in a different way:</p>
+
+<div class="tutor" data-height="100">
+    <div class="clearfix">
+        <div class="img-item">
+            <img src="/assets/swift/level.jpg" alt="Example level" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/lines.jpg" alt="Example special lines" width="636" height="100"/>
+        </div>
+    </div>
+    <div class="li-wrapper">
+        <ul>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+        </ul>
+    </div>
+</div>
+
+<h3>How does the whole game loop work?</h3>
+
+<p>As I mentioned a few paragraphs before, after drawing the level, the ship must be placed inside, directly in the center of playing area. The ship has its own coordinates (<code>_posX = 400</code>,<code>_posY = 190</code>) which has to be constant during the whole game. Only the coordinates of level and special lines moves every animation step. This is why the <code>_shiftX</code> and <code>_shiftY</code> variables are used. It depends on which action the user takes, those mentioned <code>shift</code> variables changes the direction of ship (de facto coordinates of the level and special lines). All of the *magic* is placed inside <code>moveWholeLevel()</code> function:</p>
+
+{% highlight js %}
+function moveWholeLevel(){
+    if(_position){ 
+        if(_up){
+        	_shiftY -= _v[_lvl];
+        }
+        else {
+            _shiftY += _v[_lvl];
+        }
+    }
+    else{
+        if(_right){
+            _shiftX += _v[_lvl];
+        }
+        else{
+            _shiftX -= _v[_lvl];
+        }
+    }
+}
+{% endhighlight %}
+
+<p>The <code>_position</code>, <code>_right</code> and <code>_up</code> flags are changed after the user clicks the mouse (or touches the screen). The <code>_v</code> variable is an array of velocities for each level.</p>
+
+{% highlight js %}
+_v = [2,2,3,3,4,4,5,5,4,5] //velocity of each level
+{% endhighlight %}
+
+<p>The higher the velocity value, the faster the coordinates of each level change. According to the above example, the fastest levels are: 7th, 8th and 10th.   </p>
+
+<p>Maybe the following examples will help you understand how the movement in each level works and what is happening when the user clicks the mouse (or touches the screen):</p>
+
+<div class="tutor" data-height="100">
+    <h3>Simple horizontal movement</h3>
+    <div class="clearfix">
+        <div class="img-item">
+            <img src="/assets/swift/mov_1_1.jpg" alt="Horizontal movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_1_2.jpg" alt="Horizontal movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_1_3.jpg" alt="Horizontal movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_1_4.jpg" alt="Horizontal movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_1_5.jpg" alt="Horizontal movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_1_6.jpg" alt="Horizontal movement" width="636" height="100"/>
+        </div>
+    </div>
+    <div class="li-wrapper">
+        <ul>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">6</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="tutor" data-height="100">
+    <h3>Simple horizontal movement with changing vertical direction</h3>
+    <div class="clearfix">
+        <div class="img-item">
+            <img src="/assets/swift/mov_2_1.jpg" alt="Horizontal movement with changing vertical direction" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_2_2.jpg" alt="Horizontal movement with changing vertical direction" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_2_3.jpg" alt="Horizontal movement with changing vertical direction" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_2_4.jpg" alt="Horizontal movement with changing vertical direction" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_2_5.jpg" alt="Horizontal movement with changing vertical direction" width="636" height="100"/>
+        </div>
+    </div>
+    <div class="li-wrapper">
+        <ul>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="tutor" data-height="100">
+    <h3>Simple vertical movement with changing horizontal direction</h3>
+    <div class="clearfix">
+        <div class="img-item">
+            <img src="/assets/swift/mov_3_1.jpg" alt="Vertical movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_3_2.jpg" alt="Vertical movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_3_3.jpg" alt="Vertical movement" width="636" height="100"/>
+        </div>
+        <div class="img-item">
+            <img src="/assets/swift/mov_3_4.jpg" alt="Vertical movement" width="636" height="100"/>
+        </div>
+    </div>
+    <div class="li-wrapper">
+        <ul>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+        </ul>
+    </div>
+</div>
+
+<p>We also have to remember about checking if the user didn&#39;t hit the wall. Since we can use <code>_context.isPointInPath()</code>, it&#39;s an easy task:</p>
+
+{% highlight js %}
+function detectCollision(){
+    if (!_context.isPointInPath(_posX-_shipDim,_posY-_shipDim) 
+    	|| !_context.isPointInPath(_posX+_shipDim,_posY-_shipDim) 
+    	|| !_context.isPointInPath(_posX-_shipDim,_posY+_shipDim) 
+    	|| !_context.isPointInPath(_posX+_shipDim,_posY+_shipDim)){
+        cancelAnimationFrame(_animationId);
+        _lives--;
+        if(_lives){
+            resetOptions();
+            showInfo(100);
+        }
+        else{ //game over
+            _lvl=0;
+            resetOptions();
+            _lives = 5;
+            showInfo(99);
+        }
+    }
+}
+{% endhighlight %}
+
+<p>When any side of the ship hits the border of level, then the whole game animation is stopped and the total amount of player&#39;s lives is reduced. If the user still has any lives left, he/she can face the current level again. Otherwise, the player is forced to start whole game from the beginning.</p>
+
+<h3>Conclusion</h3>
+
+<p>As you can see, programming arcade games in <code>canvas</code> is truly an easy task ;). All you need to do is:</p>
+
+<ol>
+<li>Have a clever idea.</li>
+<li>Choose the easiest way of implementation. (I know it&#39;s the hardest part, especially for beginners.)</li>
+<li>Work hard.</li>
+<li>Work even harder.</li>
+</ol>
+
+<p>As always, the whole code explained here is available on <a href="https://github.com/Calanthe/swift/blob/master/swift.js">github</a>. If you have any suggestions or improvements, I would be delighted to look into it!</p>

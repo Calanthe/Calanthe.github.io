@@ -61,9 +61,12 @@ ul.posts li:last-child{
   border-bottom: none;
 }
 
-ul.posts li p,
-.post p { 
+ul.posts li p { 
   margin: 2px 0 0 0; 
+}
+
+div.post p { 
+  padding: 5px 0; 
 }
 
 .date {
@@ -71,7 +74,7 @@ ul.posts li p,
 }
 
 .date span {
-  color: #aaa;
+  color: #AAA;
   font-family: "Courier New", monospace;
   font-size: 80%;
 }
@@ -94,8 +97,6 @@ ul.posts li p,
 
 .about ul li a {
   display: inline-block;
-  /*padding: 0 0 0 14px;
-  background: url('./../assets/link.png') 0% 60% no-repeat;*/
 }
 
 /*****************************************************************************/
@@ -190,7 +191,7 @@ footer a:hover {
 }
 
 .site .meta {
-  color: #aaa;
+  color: #AAA;
 }
 
 footer {
@@ -208,7 +209,7 @@ pre {
   border: 1px solid #E2DEDE;
   background-color: #FCFCFC;
   padding: 0.2em .4em;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 
 code {
@@ -246,7 +247,7 @@ pre.terminal code {
   font-family: 'Droid Serif', Georgia,'Times New Roman', serif;
   font-weight: normal;
   color: #1A8D7C;
-  margin: 8px 0;  
+  padding: 5px 0;  
 }
 
 .posts li p img,
