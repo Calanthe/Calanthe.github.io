@@ -1,0 +1,45 @@
+@media only screen and (max-device-width: 480px) {
+  
+  body {
+    font-size: 20px;
+  }
+
+  img {
+    display: none;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 42px;
+  }
+
+  .site li a.title,
+  .site h2.title {
+    font-size: 30px;
+    line-height: 30px;
+  }
+
+  ul.posts li p, .post p {
+    line-height: 26px;
+  }
+
+  .date {
+    line-height: 22px;
+  }
+
+  .post h3 {
+    font-size: 22px;
+  }
+
+  code {
+    word-wrap: break-word;
+    font-size: 14px;
+  }
+
+  .tutor {
+    display: none;
+  }
+}
