@@ -5,7 +5,7 @@ date:   2013-11-15 14:08:00
 ---
 ![Purrfect game]({{ site.url }}/assets/duckhunt.jpg)
 
-[Node Knockout][nodenockout] is one of the most popular 48h, online hackaton featuring `node.js`. Together with my friends: [@mchmurski][mchmurski], [Ania][Ania] and [@lukaszwojciak][lukaszwojciak] we wanted to make a multiplayer, enjoyable game with a catchy idea - popular cat memes as a main characters! 
+[Node Knockout][nodenockout] is one of the most popular 48h, online hackaton featuring [node.js][node.js]. Together with my friends: [@mchmurski][mchmurski], [Ania][Ania] and [@lukaszwojciak][lukaszwojciak] we wanted to make a multiplayer, enjoyable game with a catchy idea - popular cat memes as a main characters! 
 
 <!--more-->
 
@@ -21,7 +21,7 @@ As I mentioned before, we wanted to use famous cats to be our characters, which 
 
 here will be img tutor? list of meme, big cat and avatar
 
-Because of the limited, 48h time of the competition, we managed to animate only chemical cat. On the following pictures, you can see examples of waiting and running animations used in the game:
+Because of the limited, 48h time of the competition, we managed to animate only the chemical cat. On the following pictures, you can see examples of waiting and running animations used in the game:
 
 here will be 2 animated cats - with captions?
 
@@ -422,7 +422,7 @@ collide = function (player) {
 
 ###Physics
 
-The physics is very important yet rather easy part of the Purrfect game. We wanted to accomplish someting similar to the Icy tower game, where you can bounce off the walls to get extra speed and jump higher. This is how we implemented it:
+The physics is very important yet rather easy part of the [Purrfect][purrfect] game. We wanted to accomplish someting similar to the Icy tower game, where you can bounce off the walls to get extra speed and jump higher. This is how we implemented it:
 
 {% highlight js %}
 //in the main game loop
@@ -496,15 +496,7 @@ animate = function () {
                 //move whole level to show 300px above the current player
                 container.position.y = -players[player].position.y + 300;
 
-                // collisions
-                if (playa.position.y > 580) {
-                    playa.yspeed = 0;
-                    playa.position.y = 580;
-                } else if (playa.position.y !== 580 && playa.onGround === false) {
-                    playa.yspeed -= 2;
-                }
-
-                //slow down when hit the ground of the ledge
+                //slow down when hit the ground on the ledge
                 if (playa.onGround) {
                     playa.yspeed = 0;
                 }
@@ -525,6 +517,14 @@ animate = function () {
 I am aware that above examples may not be the easiest to understand. That's why I prepared more appealing examples:
 
 here will be img tutor with jumps etc 
+
+###Conclusion
+
+[Node Knockout'13][nodenockout] was my first hackaton which I have ever participated. It was a hard but enjoyable weekend. I had real occasion to face my tiredness and it turned out, that despite small amount of sleep I was able to think logically without any major problems.
+
+Together with my team, we had lots of fun during development. We wanted to create a multiplayer, playable game with memorable characters. Despite many problems and one major crisis, we've managed to accomplish more less what we've planned. 
+
+The most important for me, is to learn new, fascinating technologies, which helps creating html5 games. Such events, are the best way to achieve that. I learned some basics about [Pixijs][pixijs] and [Spine][spine] and improve knowledge related to the [node.js][node.js] and [sockets][socket.io]. But most of all, I am glad that I spend fantastic time with people who share similar interests to mine and have the same urge to make games :). I am more than sure, that it wasn't my last hackaton, which I've participated.
 
 
 [nodenockout]: http://nodeknockout.com/
