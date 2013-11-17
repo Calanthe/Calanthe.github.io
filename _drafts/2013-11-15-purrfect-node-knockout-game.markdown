@@ -264,9 +264,268 @@ if (player.yspeed < 50 && rainbow.parent) {
 
 here will be animated gifs of nyan cat and rainbow effect
 
+For the better understanding of PIXI classes and modules, have a look at [PIXI API documentation][pixidoc].
+
 ###Level rendering
 
-For the better understanding of PIXI classes and modules, have a look at [PIXI API documentation][pixidoc].  
+Now lets focus on the most important part of the game: rendering tower and ledges. Each levels has to be generated randomly, but players which take part in a race in the same room, have to see exactly the same tower with identical arrangement of the ledges. That's why we implemented mechanism to randomly generate levels on the server-side. After generating it, each level is stored in separate room. The following code shows example generated level:
+
+{% highlight js %}
+generated level
+{% endhighlight %}
+
+Having this, we can render ledges on the client-side:
+
+{% highlight js %}
+//load 4 kind of ledges of 6 different colors
+for (var i = 0; i < 6; i+=1) {
+    textures[i] = {
+        'left': new PIXI.Texture.fromImage('/img/' + i + '_ledge/left.png'),
+        'right': new PIXI.Texture.fromImage('/img/' + i + '_ledge/right.png'),
+        'middle': new PIXI.Texture.fromImage('/img/' + i + '_ledge/middle.png'),
+        'alone': new PIXI.Texture.fromImage('/img/' + i + '_ledge/alone.png')
+    };
+}
+
+//set vertical distance between ledges in the first 100 rows
+var apart = 270; 
+
+//get ledges array from the server
+var ledgesLength = ledges.length;
+for (i; i < ledgesLength; i += 1) {
+
+    //set vertical distance between ledges in the second 100 rows
+    if (i > 100) {
+        apart = 320;
+    }
+
+    //set vertical distance between ledges in the third 100 rows
+    if (i > 200) {
+        apart = 340;
+    }
+
+    //compute vertical distance between ledges
+    position = lastPosition - apart;
+    lastPosition = position;
+    j = 0;
+    ledge = ledges[i];
+
+    //iterate through every row 
+    for (j; j < ledge.length; j += 1) {
+
+        //ignore free spaces
+        if (ledge[j]) {
+
+            //choose appropriate ledge
+            if (ledge[j] === 1) {
+                ledge = new PIXI.Sprite(textures[Math.floor(i/50)].middle);
+            } else if (ledge[j] === 2) {
+                ledge = new PIXI.Sprite(textures[Math.floor(i/50)].left);
+            } else if (ledge[j] === 3) {
+                ledge = new PIXI.Sprite(textures[Math.floor(i/50)].right);
+            } else {
+                ledge = new PIXI.Sprite(textures[Math.floor(i/50)].foreveralone);
+            }
+
+            //set position
+            ledge.position.x = 80 * column;
+            ledge.position.y = position;
+
+            ledge.anchor.x = 0.5;
+            ledge.anchor.y = 0.5;
+
+            //save ledge in an array
+            renderedLedges.push(ledge);
+
+            //render ledge
+            container.addChildAt(ledge, 0);
+
+            //find the last ledge, it will be used to detect if the game is finished
+            if (i === ledgesLength - 1) {
+                ledge.lastLevel = true;
+            } else {
+                ledge.lastLevel = false;
+            }
+        }
+    }
+}
+{% endhighlight %}
+
+Above code isn't effective. It computes and generates every type of ledges for each row (up to 300). After implementing this, the fps value slowed down rapidly. We came up with improved solution, to generate only fifty next and previous rows of the ledges:
+
+{% highlight js %}
+//in the main game loop, where collision with ledges is detected:
+//if ledge is too far, remove it
+if (ledge.parent && Math.abs(ledge.position.y - player.position.y) / 80 > 50) {
+    ledge.parent.removeChild(ledge);
+} else if (ledge.parent === undefined 
+    && Math.abs(ledge.position.y - player.position.y) / 80 < 50) {
+    container.addChildAt(ledge, 0);
+}
+{% endhighlight %}
+
+The whole collision with ledges is detected as followed:
+
+{% highlight js %}
+collide = function (player) {
+    if (player && player.position) {
+
+        //iterate through each ledge
+        for (var i = 0; i < ledges.length; i += 1) {
+            var ledge = ledges[i];
+
+            if (ledge) {
+
+                //check the horizontal distance between ledge and player
+                //remember that each cat is 30px wide
+                var xdist = ledge.position.x - player.position.x + 30;
+
+                //check if the horizontal distance is lower than the width of the ledge
+                if (xdist - 60 > -ledge.width && xdist < ledge.width) {
+
+                    //check the vertical distance between ledge and player
+                    var ydist = ledge.position.y - player.position.y;
+
+                    //check if the vertical distance is lower than the height of the ledge
+                    //also make sure that the player is not in a move anymore
+                    if (ydist > -ledge.height 
+                        && ydist < ledge.height 
+                        && player.yspeed < 0) {
+
+                        //update new position value
+                        player.position.y = ledge.position.y;
+
+                        //the player is on ground now
+                        player.onGround = true;
+
+                        //jumps are allowed now
+                        player.lockJump = 0;
+
+                        //the vertical speed is 0
+                        player.yspeed = 0;
+
+                        //change animaiton to idle/waiting state
+                        if (player.flying 
+                            && !(player.keyPressed[39] || player.keyPressed[37] 
+                                || player.keyPressed[38] || player.keyPressed[40] 
+                                || player.keyPressed[32])) {
+                            player.flying = false;
+                            player.state.setAnimationByName('idle', true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+{% endhighlight %}
+
+###Physics
+
+The physics is very important yet rather easy part of the Purrfect game. We wanted to accomplish someting similar to the Icy tower game, where you can bounce off the walls to get extra speed and jump higher. This is how we implemented it:
+
+{% highlight js %}
+//in the main game loop
+animate = function () {
+
+    requestAnimationFrame(animate);
+
+    for (var player in players) {
+        if (players.hasOwnProperty(player)) {
+
+            if (players[player] === players[me]) {
+                playa = players[me];
+
+                //responding to keyboard
+                //the left arrow key is pressed, so move the cat to the left
+                if (playa.keyPressed[37]) {
+                    playa.xspeed -= 0.6;
+                }
+
+                //the right arrow key is pressed, so move the cat to the right
+                else if (playa.keyPressed[39]) {
+                    playa.xspeed += 0.6;
+                }              
+                else {
+
+                    //slow down a bit
+                    if (playa.xspeed > 0) {
+                        playa.xspeed -= 0.9;
+                    } else if (playa.xspeed < 0) {
+                        playa.xspeed += 0.9;
+                    }
+
+                    //stop the cat
+                    if (Math.abs(playa.xspeed) < 1 && playa.xspeed !== 0) {
+                        playa.xspeed = 0;
+                    }
+                }
+
+                //speed limits
+                if (playa.xspeed > 27) {
+                    playa.xspeed = 27;
+                }
+                if (playa.xspeed < -27) {
+                    playa.xspeed = -27;
+                }
+
+                //when the space bar is pressed
+                if (!playa.lockJump && playa.keyPressed[32] 
+                    || playa.position.y === 580 && playa.keyPressed[32]) {
+
+                    //get the jump boost
+                    jumpBoost = (playa.xspeed === 0 ? 1 : Math.abs(playa.xspeed / 20));
+                    if (jumpBoost < 1) {
+                        jumpBoost = 1;
+                    }
+
+                    //increase the vertical speed value
+                    playa.yspeed += 6 * jumpBoost;
+                }
+
+                // responding to boundaries
+                if (playa.position.x <= 40) {
+                    playa.xspeed *= (-1);
+                    playa.position.x = 41;
+                }
+                if (playa.position.x >= 750) {
+                    playa.xspeed *= (-1);
+                    playa.position.x = 749;
+                }
+
+                //move whole level to show 300px above the current player
+                container.position.y = -players[player].position.y + 300;
+
+                // collisions
+                if (playa.position.y > 580) {
+                    playa.yspeed = 0;
+                    playa.position.y = 580;
+                } else if (playa.position.y !== 580 && playa.onGround === false) {
+                    playa.yspeed -= 2;
+                }
+
+                //slow down when hit the ground of the ledge
+                if (playa.onGround) {
+                    playa.yspeed = 0;
+                }
+
+                //update positions of the player
+                playa.position.x += playa.xspeed;
+                playa.position.y -= playa.yspeed;
+
+                //detect collision with the ledges
+                collide(players[player]);
+            }
+        }
+    }
+    renderer.render(stage);
+};
+{% endhighlight %}
+
+I am aware that above examples may not be the easiest to understand. That's why I prepared more appealing examples:
+
+here will be img tutor with jumps etc 
+
 
 [nodenockout]: http://nodeknockout.com/
 [mchmurski]: https://twitter.com/mchmurski 
