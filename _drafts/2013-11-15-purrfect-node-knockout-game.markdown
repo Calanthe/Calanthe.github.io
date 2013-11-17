@@ -25,7 +25,7 @@ Because of the limited, 48h time of the competition, we managed to animate only 
 
 here will be 2 animated cats - with captions?
 
-###Pixi.js and level rendering
+###Rendering with Pixi.js
 
 [Pixijs][pixijs] is a JavaScript framework, which renders 2d webGL fast graphic with canvas fallback. We decided to use this library, because since it supports Spine animations, it is the easiest solution to combine it with our animated cat.
 
@@ -163,7 +163,110 @@ for (var item in players) {
 }
 {% endhighlight %}
 
+Very similar but little more fancy is with the Nyan catnips:
 
+{% highlight js %}
+//first load img with nyan cat and light effect
+var powerup = new PIXI.Sprite(new PIXI.Texture.fromImage('/img/nyan.png')),
+    powerItem = {},
+    blend = PIXI.Sprite.fromImage('img/lighto.png');
+
+    //set position based on values from server
+    powerup.position.x = 80 * column;
+    powerup.position.y = position;
+
+    //set blend mode to gain fancy effect
+    powerup.anchor.x = 0.5;
+    powerup.anchor.y = 0.5;
+    powerup.blendMode = 'w';
+
+    blend.blendMode = 'hxx';
+    blend.anchor.x = 0.5;
+    blend.anchor.y = 0.5;
+    blend.alpha = 0.3;
+    blend.scale.x = 1;
+
+    powerItem.powerup = powerup;
+    powerItem.type = render;
+    powerItem.blend = powerup;
+    powerItem.scaleTo = 1;
+    powerItem.position = 80 * column;
+    powerItem.width = powerup.width;
+    powerItem.height = powerup.height;
+
+    //save powerup in array
+    renderedPowerups.push(powerItem);
+
+    //add blend effect
+    powerup.addChild(blend);
+
+    //render powerup
+    container.addChildAt(powerup, 0);
+
+    //in the main loop, add animation to the powerup
+    //randomly change the size of nyan cat
+    if (Math.abs(powerup.scaleTo - powerup.blend.scale.y) <= 0.01) {
+        var random = Math.round(Math.random() * Math.random() * 100 + 80) / 100;
+        powerup.scaleTo = random;
+    }
+
+    //change the size of light behind the cat
+    if (powerup.scaleTo < powerup.blend.scale.x) {
+        powerup.blend.scale.x -= 0.01;
+        powerup.blend.scale.y -= 0.01;
+    }
+
+    if (powerup.scaleTo > powerup.blend.scale.x) {
+        powerup.blend.scale.x += 0.01;
+        powerup.blend.scale.y += 0.01;
+    }
+
+    //rotate it also a little
+    if (powerup.powerup.rotation > 0.5) {
+        powerup.rotateTo = -0.6;
+    }
+    if (powerup.powerup.rotation < -0.5) {
+        powerup.rotateTo = 0.6;
+    }
+
+    if (powerup.rotateTo < 0) {
+        powerup.powerup.rotation -= 0.02;
+
+    } else {
+        powerup.powerup.rotation += 0.02;
+
+    }
+{% endhighlight %}
+
+When the user hits the Nyan catnip, he/she gets rainbow effect:
+
+{% highlight js %}
+//load rainbow image
+var rainbow = new PIXI.Sprite(new PIXI.Texture.fromImage('/img/rainbow.png'));
+
+rainbow.anchor.x = 0.5;
+rainbow.anchor.y = 0.5;
+
+//when the user hits Nyan powerup
+//change speed
+player.yspeed += 50;
+
+//attach rainbow to the player
+player.addChild(rainbow);
+
+//when the powerup is over
+if (player.yspeed < 50 && rainbow.parent) {
+
+    //detach rainbow from the player
+    rainbow.parent.removeChild(rainbow);
+}
+{% endhighlight %}
+
+here will be animated gifs of nyan cat and rainbow effect
+
+###Level rendering
+
+For the better understanding of PIXI classes and modules, have a look at [PIXI API documentation][pixidoc].  
 
 [nodenockout]: http://nodeknockout.com/
 [mchmurski]: https://twitter.com/mchmurski 
@@ -177,3 +280,4 @@ for (var item in players) {
 [pixijs]: http://www.pixijs.com/
 [spine]: http://esotericsoftware.com/
 [spinetutorials]: http://esotericsoftware.com/spine-videos/
+[pixidoc]: http://www.goodboydigital.com/pixijs/docs/
