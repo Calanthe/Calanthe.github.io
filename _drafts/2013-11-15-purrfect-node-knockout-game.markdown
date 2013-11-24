@@ -262,6 +262,8 @@ if (player.yspeed < 50 && rainbow.parent) {
 }
 {% endhighlight %}
 
+This is how animated Nyan catnip powerup and rainbow effect looks like:
+
 here will be animated gifs of nyan cat and rainbow effect
 
 For the better understanding of PIXI classes and modules, have a look at [PIXI API documentation][pixidoc].
@@ -420,9 +422,11 @@ collide = function (player) {
 };
 {% endhighlight %}
 
+As you can see, there is no big mystery in that. Just iterate through each ledges, check if the user's position is in contact with the coordinates of single ledge and if so, stop the cat and allow to jump again.   
+
 ###Physics
 
-The physics is very important yet rather easy part of the [Purrfect][purrfect] game. We wanted to accomplish someting similar to the Icy tower game, where you can bounce off the walls to get extra speed and jump higher. This is how we implemented it:
+The physics is very important yet rather easy part of the [Purrfect][purrfect] game. We wanted to accomplish someting similar to the classic Icy tower game, where you can bounce off the walls to get extra speed and jump higher. This is how we implemented it:
 
 {% highlight js %}
 //in the main game loop
@@ -525,7 +529,6 @@ here will be img tutor with jumps etc
 Together with my team, we had lots of fun during development. We wanted to create a multiplayer, playable game with memorable characters. Despite many problems and one major crisis, we've managed to accomplish more less what we've planned. 
 
 The most important for me, is to learn new, fascinating technologies, which helps creating html5 games. Such events, are the best way to achieve that. I learned some basics about [Pixijs][pixijs] and [Spine][spine] and improve knowledge related to the [node.js][node.js] and [sockets][socket.io]. But most of all, I am glad that I spend fantastic time with people who share similar interests to mine and have the same urge to make games :). I am more than sure, that it wasn't my last hackaton, which I've participated.
-
 
 [nodenockout]: http://nodeknockout.com/
 [mchmurski]: https://twitter.com/mchmurski 
