@@ -21,13 +21,15 @@ As I mentioned before, we wanted to use famous cats to be our characters, which 
 
 here will be img tutor? list of meme, big cat and avatar
 
-Because of the limited, 48h time of the competition, we managed to animate only the chemical cat. On the following pictures, you can see examples of waiting and running animations used in the game:
+On the following pictures, you can see examples of waiting and running animations of each cat prepared for the game:
 
 here will be 2 animated cats - with captions?
 
+Because of the limited, 48h time of the competition, we managed to use only the chemical cat.
+
 ###Rendering with Pixi.js
 
-[Pixijs][pixijs] is a JavaScript framework, which renders 2d webGL fast graphic with canvas fallback. We decided to use this library, because since it supports Spine animations, it is the easiest solution to combine it with our animated cat.
+[Pixijs][pixijs] is a JavaScript framework, which renders 2d [WebGL][webgl] fast graphic with canvas fallback. We decided to use this library, because since it supports [Spine][spine] animations, it is the easiest solution to combine it with our animated cat.
 
 This is how rendering basic stage and background looks in Pixi.js:
 
@@ -35,7 +37,7 @@ This is how rendering basic stage and background looks in Pixi.js:
 //get canvas element
 var canvas = document.querySelector('#canvas');
 
-//PIXI will detect renderer (webGL or canvas fallback) automatically
+//PIXI will detect renderer (WebGL or canvas fallback) automatically
 var renderer = PIXI.autoDetectRenderer(800, 600, canvas);
 
 //create PIXI container, which represents collection of display objects
@@ -48,22 +50,9 @@ stage.addChild(container);
 
 //now load and render background
 var tiling = PIXI.Texture.fromImage('/img/game.png'),
-    tilingSprite = new PIXI.Sprite(tiling),
-    tiling2 = PIXI.Texture.fromImage('/img/starsFront.png'),
-    tilingSprite2 = new PIXI.TilingSprite(tiling2, 800, 600),
-    tiling3 = PIXI.Texture.fromImage('/img/starsMiddle.png'),
-    tilingSprite3 = new PIXI.TilingSprite(tiling3, 800, 600),
-    tiling4 = PIXI.Texture.fromImage('/img/starsBack.png'),
-    tilingSprite4 = new PIXI.TilingSprite(tiling4, 800, 600);
+    tilingSprite = new PIXI.Sprite(tiling);
 
-var tilings = {
-    bg: tilingSprite,
-    sFront: tilingSprite2,
-    sMiddle: tilingSprite3,
-    sBack: tilingSprite4
-};
-
-stage.addChildAt(tilings.bg,0);
+stage.addChildAt(tilingSprite,0);
 
 {% endhighlight %}
 
@@ -126,7 +115,7 @@ for (var item in players) {
         //if this is my cat
         if (players[item].id === myID) {
 
-            //listen for key events to control cat
+            //listen for the key events to control cat
             $(document).keydown(function (e) {
                 var k = e.keyCode;
 
@@ -148,6 +137,7 @@ for (var item in players) {
                 }
             });
 
+            //when user releases the key on the keyboard
             $(document).keyup(function (e) {
                 var k = e.keyCode;
 
@@ -292,7 +282,7 @@ for (var i = 0; i < 6; i+=1) {
 //set vertical distance between ledges in the first 100 rows
 var apart = 270; 
 
-//get ledges array from the server
+//get the array of ledges from the server
 var ledgesLength = ledges.length;
 for (i; i < ledgesLength; i += 1) {
 
@@ -530,6 +520,10 @@ Together with my team, we had lots of fun during development. We wanted to creat
 
 The most important for me, is to learn new, fascinating technologies, which helps creating html5 games. Such events, are the best way to achieve that. I learned some basics about [Pixijs][pixijs] and [Spine][spine] and improve knowledge related to the [node.js][node.js] and [sockets][socket.io]. But most of all, I am glad that I spend fantastic time with people who share similar interests to mine and have the same urge to make games :). I am more than sure, that it wasn't my last hackaton, which I've participated.
 
+###Appendage
+
+During the judging process we got a few opinions that [Purrfect][purrfect] would be much better with the additional single player mode. Some people were disappointed, that they can't play the game, because of lack of any online opponents. Of course, there is a possibility to play with yourself, just by joining the same game in another browser or a tab. But in this case, the game is getting boring really fast, it lacks all the fun and enjoyment. That's why we started working on single-player version of the game, which unstable version can be tested [here][purrfect-adventure]. This \*remake\* will be fulfilled with the new set of powerups, redesigned tower, all of the planned cats as characters and lots of other \*kitty\* improvements. We also plan to conquer the mobile world and release the iOS version of the [Purrfect game][purrfect-adventure]. Stay tuned!
+
 [nodenockout]: http://nodeknockout.com/
 [mchmurski]: https://twitter.com/mchmurski 
 [Ania]: http://nodeknockout.com/people/526e56c214142e1075000067
@@ -543,3 +537,5 @@ The most important for me, is to learn new, fascinating technologies, which help
 [spine]: http://esotericsoftware.com/
 [spinetutorials]: http://esotericsoftware.com/spine-videos/
 [pixidoc]: http://www.goodboydigital.com/pixijs/docs/
+[webgl]: http://www.chromeexperiments.com/webgl/
+[purrfect-adventure]: http://purrfect.fudgejs.com/
