@@ -356,7 +356,7 @@ if (ledge.parent && Math.abs(ledge.position.y - player.position.y) / 80 > 50) {
 }
 {% endhighlight %}
 
-The whole collision with ledges is detected as followed:
+To detect collision between the player and ledges and walls, we used the simplest but the most effective for this situation algorithm called [Swept AABB][swept]. Cats and ledges are treated as rectangles, and in each animation frame collision of those figures' coordinates are checked. The whole mechanism was implemented as followed:
 
 {% highlight js %}
 collide = function (player) {
@@ -539,3 +539,4 @@ During the judging process we got a few opinions that [Purrfect][purrfect] would
 [pixidoc]: http://www.goodboydigital.com/pixijs/docs/
 [webgl]: http://www.chromeexperiments.com/webgl/
 [purrfect-adventure]: http://purrfect.fudgejs.com/
+[swept]: http://www.gamedev.net/page/resources/_/technical/game-programming/swept-aabb-collision-detection-and-response-r3084
