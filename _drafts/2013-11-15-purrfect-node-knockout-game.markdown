@@ -260,10 +260,27 @@ For the better understanding of PIXI classes and modules, have a look at [PIXI A
 
 ###Level rendering
 
-Now lets focus on the most important part of the game: rendering tower and ledges. Each levels has to be generated randomly, but players which take part in a race in the same room, have to see exactly the same tower with identical arrangement of the ledges. That's why we implemented mechanism to randomly generate levels on the server-side. After generating it, each level is stored in separate room. The following code shows example generated level:
+Now lets focus on the most important part of the game: rendering tower and ledges. Each levels has to be generated randomly, but players which take part in a race in the same room, have to see exactly the same tower with identical arrangement of the ledges. That's why we implemented mechanism to randomly generate levels on the server-side. After generating it, each level is stored in separate room. The following code shows some part of example generated level:
 
 {% highlight js %}
-generated level
+var blocks = {
+	empty:0,
+	mid:1,
+	left:2,
+	right:3,
+	foreveralone:4
+};
+
+var level = [
+	[1,1,1,1,1,1,1,1,1,1,1], //starting ledge
+	[1,3,0,0,0,2,1,3,0,0,2],
+	[1,1,1,3,0,0,0,0,2,1,1],
+	[1,3,0,0,0,2,1,1,3,0,0],
+	(...)
+	[0,0,0,0,0,0,2,1,1,1,1],
+	[3,0,0,4,0,0,4,0,0,0,2],
+	[1,1,1,1,1,1,1,1,1,1,1] //finish
+]
 {% endhighlight %}
 
 Having this, we can render ledges on the client-side:
