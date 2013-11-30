@@ -5,23 +5,23 @@ date:   2013-11-15 14:08:00
 ---
 ![Purrfect game]({{ site.url }}/assets/duckhunt.jpg)
 
-[Node Knockout][nodenockout] is one of the most popular 48h, online hackaton featuring [node.js][node.js]. Together with my friends: [@mchmurski][mchmurski], [Ania][Ania] and [@lukaszwojciak][lukaszwojciak] we wanted to make a multiplayer, enjoyable game with a catchy idea - popular cat memes as a main characters! 
+[Node Knockout][nodenockout] is one of the most popular 48h, online hackathon featuring [node.js][node.js]. Together with my friends: [@mchmurski][mchmurski], [Ania][Ania] and [@lukaszwojciak][lukaszwojciak] we wanted to make a multiplayer, enjoyable game with a catchy idea - popular cat memes as main characters! 
 
 <!--more-->
 
-The main purpose of the [Purrfect][purrfect] game is to jump as fast as you can to reach the highest (300th) level before other players do - for the cat's glory!. To run faster and jump higher, you can bounce off the walls or look for Nyan catnips powerup. After consuming a catnip, your cat is blessed by Nyan cat's rainbow power, and in conclusion it gets extra skill to reach very high areas.
+The main purpose of the [Purrfect][purrfect] game is to jump as fast as you can to reach the highest (300th) level before other players do - for the cat's glory!. To run faster and jump higher, you can bounce off the walls or look for Nyan's catnip powerup. After consuming a catnip, your cat is blessed by Nyan cat's rainbow power, and as a result it gets extra skills to reach very high areas.
 
-The [Purrfect][purrfect] is a multiplayer game and it was written in both server-side ([node.js][node.js], [Socket.IO][socket.io], [express][express]) and client-side ([lithiumJS][lithium], [pixijs][pixijs], [Spine][spine]) technologies. In this article I will walk you through some of the most fundamental ones but I want to focus only on the client-side part of the implementation.
+The [Purrfect][purrfect] is a multiplayer game and it was written in both server-side ([node.js][node.js], [Socket.IO][socket.io], [express][express]) and client-side ([lithiumJS][lithium], [pixijs][pixijs], [Spine][spine]) technologies. In this article I will walk you through some of the most fundamental code fragments but I want to focus only on the client-side part of the implementation.
 
 ###Animations with Spine
 
-The [Spine][spine] is an application which allows to easily create 2D skeletal animation for games. You have to prepare proper graphic assets by yourself - the whole character and separately all of the important parts of its body. Having this, you can prepare all character's animations used in the game. When finished, prepared animation can be exported in JSON or binary file and used easily in the further development. [This list of video tutorials][spinetutorials] should be very helpful if you want to understand this topic better.
+The [Spine][spine] is an application which allows to easily create 2D skeletal animation for games. You have to prepare proper graphic assets by yourself - the whole character and separately all of the individual parts of its body. Once you have this, you can prepare all of the character's animations used in the game. When you're finished, the prepared animation can be exported in JSON or binary file and used easily in further development. [This list of video tutorials][spinetutorials] should be very helpful if you want to understand this topic better.
 
-As I mentioned before, we wanted to use famous cats to be our characters, which take part in a race. After choosing the most characteristic memes, the following assets have been prepared:
+As I mentioned before, we wanted to use famous cats to be our recognized, which take part in a race. After choosing the most characteristic memes, the following assets have been prepared:
 
 here will be img tutor? list of meme, big cat and avatar
 
-On the following pictures, you can see examples of waiting and running animations of each cat prepared for the game:
+In the following pictures, you can see examples of waiting and running animations of each cat prepared for the game:
 
 here will be 2 animated cats - with captions?
 
@@ -31,7 +31,7 @@ Because of the limited, 48h time of the competition, we managed to use only the 
 
 [Pixijs][pixijs] is a JavaScript framework, which renders 2d [WebGL][webgl] fast graphic with canvas fallback. We decided to use this library, because since it supports [Spine][spine] animations, it is the easiest solution to combine it with our animated cat.
 
-This is how rendering basic stage and background looks in Pixi.js:
+This is how rendering the basic stage and background looks in Pixi.js:
 
 {% highlight js %}
 //get canvas element
@@ -40,15 +40,15 @@ var canvas = document.querySelector('#canvas');
 //PIXI will detect renderer (WebGL or canvas fallback) automatically
 var renderer = PIXI.autoDetectRenderer(800, 600, canvas);
 
-//create PIXI container, which represents collection of display objects
+//create PIXI container, which represents a collection of displayed objects
 var container = new PIXI.DisplayObjectContainer(); 
 
-//A Stage represents the root of the display tree. 
+//A Stage represents the root of the displayed tree. 
 //Everything connected to the stage is rendered
 var stage = new PIXI.Stage(0x000000,false);
 stage.addChild(container);
 
-//now load and render background
+//now load and render the background
 var tiling = PIXI.Texture.fromImage('/img/game.png'),
     tilingSprite = new PIXI.Sprite(tiling);
 
@@ -56,7 +56,7 @@ stage.addChildAt(tilingSprite,0);
 
 {% endhighlight %}
 
-The followig snippet shows example code of how players are rendered:
+The following snippet shows an example code of how players are rendered:
 
 {% highlight js %}
 //first load exported Spine animation
@@ -66,7 +66,7 @@ var loader = new PIXI.AssetLoader(assets);
 loader.onComplete = loaded;
 loader.load();
 
-//now create a Text object with name
+//now create a text object with name
 var text = new PIXI.Text(player.name, {font: '16px Arial', fill: 'white'});
 
 //for each player 
@@ -97,7 +97,7 @@ for (var item in players) {
         player.scale.x = 0.5;
         player.scale.y = 0.5;
 
-        //set another values, which will be important to compute physics
+        //set other values, which will be important to compute physics
         player.keyPressed = {};
         player.speedup = 0;
         player.lockJump = 0;
@@ -153,7 +153,7 @@ for (var item in players) {
 }
 {% endhighlight %}
 
-Very similar but little more fancy is with the Nyan catnips:
+Very similar but a little more fancy is with the Nyan's catnip:
 
 {% highlight js %}
 //first load img with nyan cat and light effect
@@ -228,7 +228,7 @@ var powerup = new PIXI.Sprite(new PIXI.Texture.fromImage('/img/nyan.png')),
     }
 {% endhighlight %}
 
-When the user hits the Nyan catnip, he/she gets rainbow effect:
+When the user hits the Nyan's catnip, he/she gets a rainbow effect:
 
 {% highlight js %}
 //load rainbow image
@@ -237,7 +237,7 @@ var rainbow = new PIXI.Sprite(new PIXI.Texture.fromImage('/img/rainbow.png'));
 rainbow.anchor.x = 0.5;
 rainbow.anchor.y = 0.5;
 
-//when the user hits Nyan powerup
+//when the user hits Nyan's powerup
 //change speed
 player.yspeed += 50;
 
@@ -252,15 +252,15 @@ if (player.yspeed < 50 && rainbow.parent) {
 }
 {% endhighlight %}
 
-This is how animated Nyan catnip powerup and rainbow effect looks like:
+This is how the animated Nyan catnip powerup and rainbow effect look like:
 
 here will be animated gifs of nyan cat and rainbow effect
 
-For the better understanding of PIXI classes and modules, have a look at [PIXI API documentation][pixidoc].
+For better understanding of PIXI classes and modules, have a look at [PIXI API documentation][pixidoc].
 
 ###Level rendering
 
-Now lets focus on the most important part of the game: rendering tower and ledges. Each levels has to be generated randomly, but players which take part in a race in the same room, have to see exactly the same tower with identical arrangement of the ledges. That's why we implemented mechanism to randomly generate levels on the server-side. After generating it, each level is stored in separate room. The following code shows some part of example generated level:
+Now lets focus on the most important part of the game: rendering tower and ledges. Each levels has to be generated randomly, but players which take part in a race in the same room, have to see exactly the same tower with identical arrangement of the ledges. That's why we implemented a mechanism to randomly generate levels on the server-side. After generating it, each level is stored in separate room. The following code shows some part of the example generated level:
 
 {% highlight js %}
 var blocks = {
@@ -286,7 +286,7 @@ var level = [
 Having this, we can render ledges on the client-side:
 
 {% highlight js %}
-//load 4 kind of ledges of 6 different colors
+//load 4 kind of ledges in 6 different colors
 for (var i = 0; i < 6; i+=1) {
     textures[i] = {
         'left': new PIXI.Texture.fromImage('/img/' + i + '_ledge/left.png'),
@@ -299,7 +299,7 @@ for (var i = 0; i < 6; i+=1) {
 //set vertical distance between ledges in the first 100 rows
 var apart = 270; 
 
-//get the array of ledges from the server
+//get an array of ledges from the server
 var ledgesLength = ledges.length;
 for (i; i < ledgesLength; i += 1) {
 
@@ -325,7 +325,7 @@ for (i; i < ledgesLength; i += 1) {
         //ignore free spaces
         if (ledge[j]) {
 
-            //choose appropriate ledge
+            //choose the appropriate ledge
             if (ledge[j] === 1) {
                 ledge = new PIXI.Sprite(textures[Math.floor(i/50)].middle);
             } else if (ledge[j] === 2) {
@@ -360,7 +360,7 @@ for (i; i < ledgesLength; i += 1) {
 }
 {% endhighlight %}
 
-Above code isn't effective. It computes and generates every type of ledges for each row (up to 300). After implementing this, the fps value slowed down rapidly. We came up with improved solution, to generate only fifty next and previous rows of the ledges:
+The above code isn't effective. It computes and generates every type of ledge for each row (up to 300). After implementing this, the fps value slowed down rapidly. We came up with the improved solution, to generate only the next and previous fifty rows of ledges:
 
 {% highlight js %}
 //in the main game loop, where collision with ledges is detected:
@@ -373,7 +373,7 @@ if (ledge.parent && Math.abs(ledge.position.y - player.position.y) / 80 > 50) {
 }
 {% endhighlight %}
 
-To detect collision between the player and ledges and walls, we used the simplest but the most effective for this situation algorithm called [Swept AABB][swept]. Cats and ledges are treated as rectangles, and in each animation frame collision of those figures' coordinates are checked. The whole mechanism was implemented as followed:
+To detect collision between the player and ledges and walls, we used the simplest but the most effective algorithm for this situation called [Swept AABB][swept]. Cats and ledges are treated as rectangles, and in each animation frame collision of those figures' coordinates are checked. The whole mechanism was implemented as followed:
 
 {% highlight js %}
 collide = function (player) {
@@ -404,7 +404,7 @@ collide = function (player) {
                         //update new position value
                         player.position.y = ledge.position.y;
 
-                        //the player is on ground now
+                        //the player is on the ground now
                         player.onGround = true;
 
                         //jumps are allowed now
@@ -429,11 +429,11 @@ collide = function (player) {
 };
 {% endhighlight %}
 
-As you can see, there is no big mystery in that. Just iterate through each ledges, check if the user's position is in contact with the coordinates of single ledge and if so, stop the cat and allow to jump again.   
+As you can see, there is no big mystery in that. Just iterate through each ledge, check if the user's position is in contact with the coordinates of a single ledge and if so, stop the cat and allow it to jump again.   
 
 ###Physics
 
-The physics is very important yet rather easy part of the [Purrfect][purrfect] game. We wanted to accomplish someting similar to the classic Icy tower game, where you can bounce off the walls to get extra speed and jump higher. This is how we implemented it:
+The physics is a very important yet rather easy part of the [Purrfect][purrfect] game. We wanted to accomplish someting similar to the classic Icy Tower game, where you can bounce off the walls to get extra speed and jump higher. This is how we implemented it:
 
 {% highlight js %}
 //in the main game loop
@@ -525,21 +525,21 @@ animate = function () {
 };
 {% endhighlight %}
 
-I am aware that above examples may not be the easiest to understand. That's why I prepared more appealing examples:
+I am aware that the above code snippets may not be the easiest to understand. That's why I prepared more appealing examples:
 
 here will be img tutor with jumps etc 
 
 ###Conclusion
 
-[Node Knockout'13][nodenockout] was my first hackaton which I have ever participated. It was a hard but enjoyable weekend. I had real occasion to face my tiredness and it turned out, that despite small amount of sleep I was able to think logically without any major problems.
+[Node Knockout'13][nodenockout] was my first hackathon which I participated in. It was a hard but enjoyable weekend. I had a real occasion to face my tiredness and it turned out, that despite a small amount of sleep I was able to think logically without any major problems.
 
-Together with my team, we had lots of fun during development. We wanted to create a multiplayer, playable game with memorable characters. Despite many problems and one major crisis, we've managed to accomplish more less what we've planned. 
+Together with my team, we had lots of fun during the development. We wanted to create a multiplayer, playable game with memorable characters. Despite many problems and one major crisis, we managed to accomplish more or less what we had planned to do. 
 
-The most important for me, is to learn new, fascinating technologies, which helps creating html5 games. Such events, are the best way to achieve that. I learned some basics about [Pixijs][pixijs] and [Spine][spine] and improve knowledge related to the [node.js][node.js] and [sockets][socket.io]. But most of all, I am glad that I spend fantastic time with people who share similar interests to mine and have the same urge to make games :). I am more than sure, that it wasn't my last hackaton, which I've participated.
+The most important thing for me, is to learn new, fascinating technologies, which help in creating html5 games. Such events, are the best way to achieve that. I learned some basics about [Pixijs][pixijs] and [Spine][spine] and improved knowledge related to the [node.js][node.js] and [sockets][socket.io]. But most of all, I am glad that I spent fantastic time with people who share similar interests to mine and have the same urge to make games :). I am more than sure, that it won't be the last hackaton, in which I participate.
 
 ###Appendage
 
-During the judging process we got a few opinions that [Purrfect][purrfect] would be much better with the additional single player mode. Some people were disappointed, that they can't play the game, because of lack of any online opponents. Of course, there is a possibility to play with yourself, just by joining the same game in another browser or a tab. But in this case, the game is getting boring really fast, it lacks all the fun and enjoyment. That's why we started working on single-player version of the game, which unstable version can be tested [here][purrfect-adventure]. This \*remake\* will be fulfilled with the new set of powerups, redesigned tower, all of the planned cats as characters and lots of other \*kitty\* improvements. We also plan to conquer the mobile world and release the iOS version of the [Purrfect game][purrfect-adventure]. Stay tuned!
+During the judging process we got a few opinions that [Purrfect][purrfect] would be much better with the additional single player mode. Some people were disappointed, that they couldn't play the game, because of lack of any online opponents. Of course, there is a possibility to play with yourself, just by joining the same game in another browser or a tab. But in this case, the game gets boring really fast, it lacks all the fun and enjoyment. That's why we started working on single-player version of the game. The unstable version can be tested [here][purrfect-adventure]. This \*remake\* will be fulfilled with the new set of powerups, redesigned tower, all of the planned cats as characters and lots of other \*kitty\* improvements. We also plan to conquer the mobile world and release the iOS version of the [Purrfect game][purrfect-adventure]. Stay tuned!
 
 [nodenockout]: http://nodeknockout.com/
 [mchmurski]: https://twitter.com/mchmurski 
