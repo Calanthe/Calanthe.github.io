@@ -101,13 +101,9 @@ for (var item in players) {
         player.keyPressed = {};
         player.speedup = 0;
         player.lockJump = 0;
-        player.fallingVelocity = 0;
-        player.ground = 580;
         player.xspeed = 0;
         player.yspeed = 0;
         player.score = 0;
-        player.oldY = 0;
-        player.oldX = 0;
 
         //by default cat is in idle/waiting state
         player.state.setAnimationByName('idle', true);
@@ -121,18 +117,18 @@ for (var item in players) {
 
                 //when the left arrow is pressed, turn cat to the left
                 if (k === 37) {
-                    me.scale.x = -0.5;
+                    player.scale.x = -0.5;
                 }
 
                 //when the right arrow is pressed, turn cat to the right
                 if (k === 39) {
-                    me.scale.x = 0.5;
+                    player.scale.x = 0.5;
                 }
 
                 //change animation to running mode
                 if (k >= 32 && k <= 40) {
-                    me.flying = true;
-                    me.state.setAnimationByName('animation', true);
+                    player.flying = true;
+                    player.state.setAnimationByName('animation', true);
                     e.preventDefault();
                 }
             });
@@ -143,8 +139,8 @@ for (var item in players) {
 
                 //change animation to idle/waiting mode
                 if (k >= 32 && k <= 40) {
-                    if (!me.flying) {
-                        me.state.setAnimationByName('idle', true);
+                    if (!player.flying) {
+                        player.state.setAnimationByName('idle', true);
                     }
                 }
             });
@@ -504,7 +500,7 @@ animate = function () {
                     playa.position.x = 749;
                 }
 
-                //move whole level to show 300px above the current player
+                //move the whole level to show 300px above the current player
                 container.position.y = -players[player].position.y + 300;
 
                 //slow down when hit the ground on the ledge
