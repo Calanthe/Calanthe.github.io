@@ -99,7 +99,6 @@ for (var item in players) {
 
         //set other values, which will be important to compute physics
         player.keyPressed = {};
-        player.speedup = 0;
         player.lockJump = 0;
         player.xspeed = 0;
         player.yspeed = 0;
