@@ -3,7 +3,7 @@ layout: post
 title: "Purrfect - a Node Knockout'13 multiplayer game"
 date:   2013-11-15 14:08:00
 ---
-![Purrfect game]({{ site.url }}/assets/duckhunt.jpg)
+![Purrfect game](/./assets/purrfect/purrfect.jpg)
 
 [Node Knockout][nodenockout] is one of the most popular 48h, online hackathon featuring [node.js][node.js]. Together with my friends: [@mchmurski][mchmurski], [Ania][Ania] and [@lukaszwojciak][lukaszwojciak] we wanted to make a multiplayer, enjoyable game with a catchy idea - popular cat memes as main characters! 
 
@@ -19,7 +19,16 @@ The [Spine][spine] is an application which allows to easily create 2D skeletal a
 
 As I mentioned before, we wanted to use famous cats to be our recognized, which take part in a race. After choosing the most characteristic memes, the following assets have been prepared:
 
-here will be img tutor? list of meme, big cat and avatar
+##Business cat
+![Business cat](/./assets/purrfect/business_cat.jpg)
+##Chemistry cat
+![Chemistry cat](/./assets/purrfect/chemistry_cat.jpg)
+##Grumpy cat
+![Grumpy cat](/./assets/purrfect/grumpy_cat.jpg)
+##Keyboard cat
+![Keyboard cat](/./assets/purrfect/keyboard_cat.jpg)
+##Bread cat
+![Bread cat](/./assets/purrfect/bread_cat.jpg)
 
 In the following pictures, you can see examples of waiting and running animations of each cat prepared for the game:
 
@@ -247,9 +256,9 @@ if (player.yspeed < 50 && rainbow.parent) {
 }
 {% endhighlight %}
 
-This is how the animated Nyan catnip powerup and rainbow effect look like:
+This is how the rendered Nyan's catnip powerup and rainbow effect look like:
 
-here will be animated gifs of nyan cat and rainbow effect
+![Nyan catnip](/./assets/purrfect/nyan_powerup.jpg)
 
 For better understanding of PIXI classes and modules, have a look at [PIXI API documentation][pixidoc].
 

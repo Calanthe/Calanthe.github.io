@@ -250,6 +250,14 @@ pre.terminal code {
   padding: 5px 0;  
 }
 
+.post h2 {
+  font-size: 16px;
+  font-family: 'Droid Serif', Georgia,'Times New Roman', serif;
+  font-weight: normal;
+  color: #1A8D7C;
+  padding: 3px 0 0 0;  
+}
+
 .posts li p img,
 .post img {
   border: 1px solid #E2DEDE;
