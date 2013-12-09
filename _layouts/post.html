@@ -1,6 +1,23 @@
 ---
-layout: default
+layout: post_index
 ---
+<div class="menu-wrapper">
+  <ul>
+    <li class="about">
+      <a href="/about.html">About me</a>
+    </li>
+    <li class="twitter">
+      <a href="https://twitter.com/intuitio">Twitter</a>
+    </li>
+    <li class="github">
+      <a href="https://github.com/Calanthe">Github</a>
+    </li>
+    <li class="rss">
+      <a href="{{ site.url }}/feed.xml">RSS</a>
+    </li>
+  </ul>
+</div>
+
 <h2 class="title">{{ page.title }}</h2>
 <div class="date"><span>{{ page.date | date_to_string }}</span></div>
 
