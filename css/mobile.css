@@ -1,4 +1,4 @@
-@media only screen and (max-device-width: 480px) {
+@media only screen and (max-width: 480px) {
   
   body {
     font-size: 20px;
@@ -16,10 +16,29 @@
     font-size: 42px;
   }
 
-  .site li a.title,
-  .site h2.title {
-    font-size: 30px;
-    line-height: 30px;
+  .top-stripe img {
+    margin: 40px 0;
+  }
+
+  div.site div.menu-wrapper {
+    margin: 0 0 10px 0;
+    background-color: #FFF;
+    border-top: none;
+    border-bottom: none;
+    height: auto;
+  }
+
+  div.site div.menu-wrapper ul {
+    padding: 0;
+    width: auto;
+    border-top: #1A8D7C 1px dotted;
+  }
+
+  div.site div.menu-wrapper ul li {
+    list-style: none;
+    display: block;
+    padding: 12px 10px;
+    border-bottom: #1A8D7C 1px dotted;
   }
 
   ul.posts li p, .post p {
@@ -40,6 +59,10 @@
   }
 
   .tutor {
+    display: none;
+  }
+
+  .top-stripe .retro-stripe {
     display: none;
   }
 }

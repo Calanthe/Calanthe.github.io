@@ -23,10 +23,6 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 100%; 
 }
 
-h1 { 
-  margin-bottom: 1em;
-}
-
 .clearfix:after {
     content: ".";
     display: block;
@@ -79,24 +75,19 @@ div.post p {
   font-size: 80%;
 }
 
+.about, .menu-wrapper {
+  font: 14px Droid Serif,sans-serif;
+}
+
 .about.post p{
   margin: 0 0 10px 0;
+  line-height: 27px;
+  font-size: 17px;
+  letter-spacing: 0.3px;
 }
 
-.about.post p.no-margin {
+.about.post p.no-margin, .about.post {
   margin: 0;
-}
-
-.about ul {
-  list-style-type: none;
-}
-
-.about ul li {
-  padding: 2px 0;
-}
-
-.about ul li a {
-  display: inline-block;
 }
 
 /*****************************************************************************/
@@ -105,7 +96,6 @@ div.post p {
 /*
 /*****************************************************************************/
 .top-stripe {
-  height: 62px;
   background: rgb(2,32,30); /* Old browsers */
   background: -moz-linear-gradient(45deg,  rgba(2,32,30,1) 0%, rgba(0,70,60,1) 25%, rgba(26,141,124,1) 80%); /* FF3.6+ */
   background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(2,32,30,1)), color-stop(25%,rgba(0,70,60,1)), color-stop(80%,rgba(26,141,124,1))); /* Chrome,Safari4+ */
@@ -118,7 +108,7 @@ div.post p {
 
 .top-stripe img {
   display: inline-block;
-  margin: 40px 0 0 0;
+  margin: 20px 0 20px 0;
   -webkit-border-radius: 100px;
   -moz-border-radius: 100px;
   border-radius: 100px;
@@ -129,38 +119,39 @@ div.post p {
 
 .top-site {
   max-width: 640px;
-  margin: 0 auto 2em;
+  margin: 0 auto;
+  padding: 2em 0;
+  font-family: 'Droid Serif', Georgia,'Times New Roman', serif;
+  color: #FFF;
 }
 
-.top-site .header a {
+.top-site .header a,
+.top-site .header a:hover {
+  color: #FFF;
   font-weight: normal;
   text-decoration: none;
+  border-bottom: #FFF 1px dotted;
 }
 
-.top-site .header h1.title {
-  display: block;
-  float: left;
-  font-size: 54px;
-  font-family: Georgia,'Times New Roman',serif;
-  margin: 18px 0 0 0;
-  width: 274px;
+.top-site .header h1 {
+  font-size: 34px;
+  font-weight: normal;
+  padding: 0 0 14px 0;
 }
 
-.top-site .header h1.title a {
-  color: #FFF;
+.top-site .header h2 {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 18px;
 }
 
-.top-site .header h1.title a:hover {
-  color: #FFF;
-}
-
-.top-site .header a.extra {
-  font-size: 20px;
-  font-family: Georgia,'Times New Roman',serif;
-  color: #FFF;
-  margin: 44px 0 0 0;
-  display: block;
-  float: right;
+.top-stripe .retro-stripe {
+  width: 500px;
+  height: 50px;
+  margin: 0 auto;
+  background-image: url('./../assets/retro_stripe.png');
+  background-size: 500px 50px;
+  background-repeat: no-repeat;
 }
 
 .site {
@@ -203,6 +194,54 @@ footer a:hover {
 
 .site .meta {
   color: #AAA;
+}
+
+.site .menu-wrapper {
+  height: 40px;
+  margin: 0 0 10px 0;
+  max-width: 640px;
+  border-top: #1A8D7C 1px dotted;
+  border-bottom: #1A8D7C 1px dotted;
+  background-color: #FFF;
+}
+
+.site .menu-wrapper ul {
+  display: block;
+  padding: 0px 10px;
+  margin: 0 auto;
+  width: 392px;
+}
+
+.site .menu-wrapper ul li {
+  list-style: none;
+  display: inline-block;
+  padding: 12px 10px;
+}
+
+.site .menu-wrapper ul li a {
+  border-bottom: none;
+  padding: 4px 0 4px 28px;
+  background: url('./../assets/sprites.png') no-repeat;
+}
+
+.site .menu-wrapper ul li.about a {
+  background-position: 0 0;
+}
+
+.site .menu-wrapper ul li.home a {
+  background-position: 0 -26px;
+}
+
+.site .menu-wrapper ul li.twitter a {
+  background-position: 0 -78px;
+}
+
+.site .menu-wrapper ul li.github a {
+  background-position: 0 -104px;
+}
+
+.site .menu-wrapper ul li.rss a {
+  background-position: 0 -52px;
 }
 
 footer {
