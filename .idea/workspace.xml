@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2bf8e370-6c31-4803-aab8-34e3f1de3c91" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/_drafts/2013-11-15-purrfect-node-knockout-game.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/_drafts/2013-11-15-purrfect-node-knockout-game.markdown" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/_drafts/swift-my-first-arcade-canvas-game.markdown" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" afterPath="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" />
     </list>
     <ignored path="Calanthe.github.io.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,7 +28,7 @@
       <file leaf-file-name="planet-defender-global-game-jam-entry.markdown" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="62" selection-start="246" selection-end="246" vertical-scroll-proportion="0.15306123" vertical-offset="0" max-vertical-offset="686">
+            <state line="3" column="18" selection-start="89" selection-end="89" vertical-scroll-proportion="0.06559767" vertical-offset="0" max-vertical-offset="686">
               <folding />
             </state>
           </provider>
@@ -286,7 +284,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="62" selection-start="246" selection-end="246" vertical-scroll-proportion="0.15306123" vertical-offset="0" max-vertical-offset="686">
+        <state line="3" column="18" selection-start="89" selection-end="89" vertical-scroll-proportion="0.06559767" vertical-offset="0" max-vertical-offset="686">
           <folding />
         </state>
       </provider>

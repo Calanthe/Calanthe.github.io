@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Planet Defender - a 2014 Global Game Jam entry"
-date:   2014-01-02 15:56:06
+title: "Planet Defender - a Global Game Jam'14 entry"
+date:   2014-02-01 15:56:06
 ---
-![Planet Defender]({{ site.url }}/assets/planet_defender/planet_defender.jpg)
+![Planet Defender](./assets/planet_defender/planet_defender.jpg)
 
-The third weekend of January was the coldest (so far) time of 
+The third weekend of January was the coldest in Poland (so far!) time of passing winter. Temperature in Poznań hit -11°C during the day. In such conditions, the best way to spend free time
+is to stay at home and enjoy the advantages of comfortable and warm bed ;). But this weekend was special for the game makers from all over the world. The [Global Game Jam][ggj] was taking place and I couldn't miss that!
 
 <!--more-->
 
@@ -28,4 +29,4 @@ When any side of the ship hits the border of level, then the whole game animatio
 
 ###Conclusion
 
-[canvas]: http://diveintohtml5.info/canvas.html
+[ggj]: http://globalgamejam.org/
