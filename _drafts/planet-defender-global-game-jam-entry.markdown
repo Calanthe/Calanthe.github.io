@@ -10,9 +10,16 @@ is to stay at home and enjoy the advantages of comfortable and warm bed ;). But 
 
 <!--more-->
 
-It's important to mention, that all of the mechanics of this game is strongly inspired by [the Swift Stitch game][original_swift] made by [Sophie Houlden][sophiehoulden]. I found her game very entertaining, because of the perfect combination of easy to learn rules and hard to play gameplay. I thought this could be a nice example to build a similar game with almost the same rules and easier and customized levels. If you find my version of the game too easy and want to play something more challenging - give the original [Swift Stitch game][original_swift_demo] a try. The real fun starts when you reach 'gravity' levels ;).
+[Poznań Global Game Jam][pggj] edition took place in [Politechnika Poznańska][pp]. Over forty enthusiastic people participated in this event to within 48 hours make glorious games.
+The main theme of this year's jam, was 'We don't see things as they are, we see them as we are'. Because of the differences in time zones, organizers announced it few hours after we already started implementing our ideas.
+The prototype version of our game was almost working at that time, so the better solution was, to focus on delivering what we have already started.
 
-###The game loop
+My team (me & [@lukaszwojciak][wojciak]) decided to learn something new and related to circle geometry, so we got an idea, to implement game similar to classic Space Invaders, but with a planet behind the main character, so he/she can protect it.
+We had some problems with defining the main character, but at the end we came to conclusion, that the easiest to implement and animate will be a simple pyramid, which will imitate the egyptian God Ra.
+
+Similar to [Purrfect][purrfect_article], we used [Spine][spine] and [Pixi.js][pixi] to animate and render graphic assets. In his article I would like to focus mainly on circle geometry and all of the mathematics which is necessary to understand the rotation of the planet and collision between the planet and meteors.
+
+###Introduction to circle geometry
 
 The game loop, according to [Wikipedia][wiki_game] and [gamedev.tutplus][gamedev_loop], is the central component of any game, which is responsible for keeping your game runnig. Within that infinite loop, all actions like: rendering a level, player or enemy, counting scores, resolving collisions, detecting user's input or playing sounds are taken care of.
 
@@ -30,3 +37,9 @@ When any side of the ship hits the border of level, then the whole game animatio
 ###Conclusion
 
 [ggj]: http://globalgamejam.org/
+[pggj]: http://globalgamejam.org/2014/jam-sites/poznan-game-jam?destination=node/348
+[pp]: http://www.put.poznan.pl/
+[wojciak]: https://twitter.com/lukaszwojciak
+[purrfect_article]: http://zofiakorcz.pl/purrfect-game/
+[spine]: http://esotericsoftware.com
+[pixi]: http://www.pixijs.com/
