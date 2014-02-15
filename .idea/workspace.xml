@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2bf8e370-6c31-4803-aab8-34e3f1de3c91" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" afterPath="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" afterPath="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_config.yml" afterPath="$PROJECT_DIR$/_config.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Calanthe.github.io.iws" />
@@ -26,19 +27,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="planet-defender-global-game-jam-entry.markdown" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
+      <file leaf-file-name="planet-defender-circular-world-game_with_pixijs.markdown" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="74" selection-start="1667" selection-end="1667" vertical-scroll-proportion="0.4002809" vertical-offset="0" max-vertical-offset="750">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="2013-12-11-purrfect-game.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="12" selection-start="3247" selection-end="3247" vertical-scroll-proportion="-11.5" vertical-offset="399" max-vertical-offset="8760">
+            <state line="97" column="27" selection-start="4837" selection-end="4837" vertical-scroll-proportion="0.68398875" vertical-offset="968" max-vertical-offset="1815">
               <folding />
             </state>
           </provider>
@@ -62,7 +54,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/_config.yml" />
         <option value="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" />
+        <option value="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game.markdown" />
+        <option value="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
       </list>
     </option>
   </component>
@@ -96,6 +91,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -190,27 +186,18 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="Settings.JavaScript.Linters.JSHint" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../jam_defender" />
     <property name="FullScreen" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -221,15 +208,23 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -290,49 +285,85 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
+    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="61" selection-start="2000" selection-end="2000" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/circle.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="71" selection-start="1754" selection-end="1765" vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="1395">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="0" selection-start="592" selection-end="592" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="555">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
+    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="18" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="555">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
+    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="18" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="555">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
+    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="18" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="5" selection-start="5" selection-end="5" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="699" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="12" selection-start="3247" selection-end="3247" vertical-scroll-proportion="-11.5" vertical-offset="399" max-vertical-offset="8760">
+        <state line="45" column="12" selection-start="3247" selection-end="3247" vertical-scroll-proportion="-11.5" vertical-offset="399" max-vertical-offset="8760" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="5" selection-start="5" selection-end="5" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="725" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="10" selection-start="212" selection-end="212" vertical-scroll-proportion="0.14482759" vertical-offset="0" max-vertical-offset="725">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown">
+    <entry file="file://$USER_HOME$/Desktop/circle.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="74" selection-start="1667" selection-end="1667" vertical-scroll-proportion="0.4002809" vertical-offset="0" max-vertical-offset="750">
+        <state line="69" column="71" selection-start="1754" selection-end="1765" vertical-scroll-proportion="0.47674417" vertical-offset="707" max-vertical-offset="1395">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2013-10-12-case-study-duck-hunt.markdown">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.8029196" vertical-offset="1920" max-vertical-offset="6285">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="27" selection-start="4837" selection-end="4837" vertical-scroll-proportion="0.68398875" vertical-offset="968" max-vertical-offset="1815">
           <folding />
         </state>
       </provider>

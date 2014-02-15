@@ -4,3 +4,5 @@ url: http://zofiakorcz.pl
 markdown: redcarpet
 pygments: true
 permalink: /:title
+port: 4000
+safe: true
