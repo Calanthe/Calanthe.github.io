@@ -56,7 +56,7 @@ Speaking of the planet, we can easily render it as followed:
 var texture = PIXI.Texture.fromImage('planet.jpg'),
     sprite = new PIXI.Sprite(texture);
 
-//position related to the container
+//position related to the camera container
 sprite.position.x = 0;
 sprite.position.y = 0;
 
@@ -78,13 +78,13 @@ window.addEventListener('keydown', function (e) {
     var key = e.keyCode;
 
     if (key === 37) {
-        _camera.velocity = 0.02;
-        _player.walkLeft();
+        camera.velocity = 0.02;
+        player.walkLeft();
     }
 
     if (key === 39) {
-        _camera.velocity = -0.02;
-        _player.walkRight();
+        camera.velocity = -0.02;
+        player.walkRight();
     }
 }
 
@@ -93,13 +93,58 @@ camera.rotation += camera.velocity;
 {% endhighlight %}
 
 After detecting which key has been pressed, the velocity of the camera is being updated. In a main game loop, rotation of the camera will be changed accordingly to the new velocity.
-mention about player
+For the sake of simplicity, I don't want to describe in details how the player object works. In general it's just a [Spine][spine] object, with `walkLeft`, `walkRight`, `idle` and `fire` animation states.
 
-is renderer important here?
+placeholder for the imgtutor with rotation of the planet - note the camera on the pictures
 
-###Drawing levels and special lines
+###The movement of the meteors and collision with the planet
 
-When any side of the ship hits the border of level, then the whole game animation is stopped and the total amount of player's lives is reduced. If the user still has any lives left, he/she can face the current level again. Otherwise, the player is forced to start whole game from the beginning.
+At the beginning of the game, we create only one meteor (enemy) which will starts its movement from the position somewhere above the player.
+
+{% highlight js %}
+//Create a Spine animation
+var spine = new PIXI.Spine('rock/skeleton.json');
+
+//position related to the camera container
+spine.position.x = 0;
+spine.position.y = 0;
+spine.rotation = 0;
+spine.radius = 400;
+
+//pivot will be needed to detect the collision with the planet
+spine.pivot.y = spine.radius + window.innerHeight / 2 + Math.random() * 400;
+
+//render sprite and add it to the camera container
+camera.addChild(spine);
+
+//multiplier value will be needed to calculate next meteor's rotation
+var multiplier = 1;
+{% endhighlight %}
+
+After destroying the first meteor, few more are being created but with little different pivot and rotation values.
+
+{% highlight js %}
+//after destroying a meteor
+multiplier += 0.1;
+
+//each of the incoming meteor will have different pivot and rotation values
+spine.pivot.y = spine.radius + window.innerHeight / 2 + Math.random() * 400;
+spine.rotation = Math.random() * ((Math.PI / 16) * multiplier) - ((Math.PI / 16) * multiplier / 2);
+{% endhighlight %}
+
+When the player rotates the planet, all of the existing meteors have to update their positions.
+
+{% highlight js %}
+//meteor is an enemy here
+enemy.position.y += enemy.velocity * Math.cos(enemy.rotation);
+enemy.position.x -= enemy.velocity * Math.sin(enemy.rotation);
+enemy.velocity *= 1.008 - (0.003 * enemy.rotation) / Math.PI;
+{% endhighlight %}
+
+As you can see, there is no big magic here. We just used commonly known trigonometric functions of the equations of the circle.
+When the planet will rotate, all of the meteors will change their positions accordingly to the rotation of the planet.
+
+Now let's focus on detecting collisions between the planet and meteors.
 
 ###Conclusion
 
