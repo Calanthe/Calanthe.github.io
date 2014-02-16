@@ -95,9 +95,9 @@ camera.rotation += camera.velocity;
 After detecting which key has been pressed, the velocity of the camera is being updated. In a main game loop, rotation of the camera will be changed accordingly to the new velocity.
 For the sake of simplicity, I don't want to describe in details how the player object works. In general it's just a [Spine][spine] object, with `walkLeft`, `walkRight`, `idle` and `fire` animation states.
 
-placeholder for the imgtutor with rotation of the planet - note the camera on the pictures
+placeholder for the imgtutor with rotation of the planet - note the camera on the pictures, maybe move it further and include meteors also?
 
-###The movement of the meteors and collision with the planet
+###The movement of meteors and collision with the planet
 
 At the beginning of the game, we create only one meteor (enemy) which will starts its movement from the position somewhere above the player.
 
@@ -129,7 +129,8 @@ multiplier += 0.1;
 
 //each of the incoming meteor will have different pivot and rotation values
 spine.pivot.y = spine.radius + window.innerHeight / 2 + Math.random() * 400;
-spine.rotation = Math.random() * ((Math.PI / 16) * multiplier) - ((Math.PI / 16) * multiplier / 2);
+spine.rotation = Math.random() * ((Math.PI / 16) * multiplier)
+                                 - ((Math.PI / 16) * multiplier / 2);
 {% endhighlight %}
 
 When the player rotates the planet, all of the existing meteors have to update their positions.
@@ -144,7 +145,70 @@ enemy.velocity *= 1.008 - (0.003 * enemy.rotation) / Math.PI;
 As you can see, there is no big magic here. We just used commonly known trigonometric functions of the equations of the circle.
 When the planet will rotate, all of the meteors will change their positions accordingly to the rotation of the planet.
 
-Now let's focus on detecting collisions between the planet and meteors.
+Now let's focus on detecting collisions between the planet and meteors. To calculate it we will use a [Pythagorean theorem][pyttheorem].
+We already know
+explain pitagoras in details?
+
+{% highlight js %}
+var enemyDistanceFromCenter = this.pivot.y - Math.sqrt(this.position.y * this.position.y
+                                             + this.position.x * this.position.x);
+if (enemyDistanceFromCenter < radius + 30) {
+    //collision detected
+}
+{% endhighlight %}
+
+placeholder for an static image probably with triangle
+
+###Bullets and collision with meteors
+
+To create a bullet we will use almost the technique as with the meteors. The only difference is that weapons will be fired always in the same position and its initial rotation will depend on the camera's rotation.
+
+{% highlight js %}
+//when the user press space bar
+var texture = PIXI.Texture.fromImage('bullet.png'),
+    sprite = new PIXI.Sprite(texture);
+
+//position related to the camera container
+sprite.position.x = 0;
+sprite.position.y = 0;
+
+//anchor will be needed to calculate the axis of rotation
+sprite.anchor.x = 0.5;
+sprite.anchor.y = 0.5;
+
+//radius will be very important to detect the collision
+sprite.radius = 400;
+
+sprite.rotation = -camera.rotation;
+sprite.pivot.y = sprite.radius + 80;
+
+//render sprite and add it to the camera container
+camera.addChildAt(sprite, 2);
+{% endhighlight %}
+
+When we rotate the planet, positions of the bullets will be also changed:
+
+{% highlight js %}
+bullet.position.y -= velocity * Math.cos(bullet.rotation);
+bullet.position.x += velocity * Math.sin(bullet.rotation);
+{% endhighlight %}
+
+Calculating collision between the weapons and meteors is rather similar to the previous example. We will use [Pythagorean theorem][pyttheorem] once again to check if the distance between the bullet and the meteor is accurate.
+
+{% highlight js %}
+var bulletDistance = Math.abs(Math.sqrt(bullet.position.y * bullet.position.y
+                                        + bullet.position.x * bullet.position.x)),
+    enemyDistanceFromCenter = enemy.pivot.y - Math.sqrt(enemy.position.y
+                        * enemy.position.y + enemy.position.x * enemy.position.x),
+    bulletDistanceFromCenter = bulletDistance + planet.radius + bullet.height;
+
+if (bulletDistanceFromCenter - enemyDistanceFromCenter < 0 &&
+    bulletDistanceFromCenter - enemyDistanceFromCenter > -(bullet.height) * 1.5) {
+    //collision detected
+}
+{% endhighlight %}
+
+placeholder for the static image or img tutor with long distance and collision?
 
 ###Conclusion
 
@@ -159,3 +223,4 @@ Now let's focus on detecting collisions between the planet and meteors.
 [wiki]: http://en.wikipedia.org/wiki/Circle
 [spaceinvaders]: https://www.youtube.com/watch?v=QObneYZIdKI
 [pixicontainer]: http://www.goodboydigital.com/pixijs/docs/classes/DisplayObjectContainer.html
+[pyttheorem]: http://en.wikipedia.org/wiki/Pythagorean_theorem
