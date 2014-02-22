@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2bf8e370-6c31-4803-aab8-34e3f1de3c91" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html" afterPath="$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" afterPath="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
     </list>
     <ignored path="Calanthe.github.io.iws" />
@@ -25,22 +27,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="planet-defender-circular-world-game_with_pixijs.markdown" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="planet-defender-circular-world-game_with_pixijs.markdown" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="205" column="4" selection-start="9286" selection-end="9286" vertical-scroll-proportion="0.5926966" vertical-offset="2653" max-vertical-offset="3465">
+            <state line="8" column="219" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3465">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="2013-10-12-case-study-duck-hunt.markdown" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_posts/2013-10-12-case-study-duck-hunt.markdown">
-          <provider editor-type-id="MarkdownPreviewEditor">
-            <state />
-          </provider>
+      <file leaf-file-name="main.css" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="207.40741" vertical-offset="5600" max-vertical-offset="6285">
+            <state line="66" column="16" selection-start="1140" selection-end="1140" vertical-scroll-proportion="0.4002809" vertical-offset="705" max-vertical-offset="5040">
               <folding />
             </state>
           </provider>
@@ -68,6 +67,8 @@
         <option value="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" />
         <option value="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game.markdown" />
         <option value="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
+        <option value="$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html" />
+        <option value="$PROJECT_DIR$/css/main.css" />
       </list>
     </option>
   </component>
@@ -117,6 +118,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Calanthe.github.io" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Calanthe.github.io" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Calanthe.github.io" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -337,11 +352,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="12" selection-start="3247" selection-end="3247" vertical-scroll-proportion="-11.5" vertical-offset="399" max-vertical-offset="8760" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="5" selection-start="5" selection-end="5" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="725" />
@@ -371,9 +381,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/syntax.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.36551723" vertical-offset="265" max-vertical-offset="990">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="205" column="4" selection-start="9286" selection-end="9286" vertical-scroll-proportion="0.5926966" vertical-offset="2653" max-vertical-offset="3465">
+        <state line="8" column="219" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3465">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="215" selection-start="897" selection-end="897" vertical-scroll-proportion="0.24812031" vertical-offset="0" max-vertical-offset="8760">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="16" selection-start="1140" selection-end="1140" vertical-scroll-proportion="0.4002809" vertical-offset="705" max-vertical-offset="5040">
           <folding />
         </state>
       </provider>

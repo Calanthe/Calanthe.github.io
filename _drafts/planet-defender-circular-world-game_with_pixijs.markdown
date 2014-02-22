@@ -11,7 +11,7 @@ is to stay at home and enjoy the advantages of comfortable and warm bed ;). But 
 <!--more-->
 
 [Poznań Global Game Jam][pggj] edition took place in [Politechnika Poznańska][pp]. Over forty enthusiastic people participated in this event to within 48 hours make glorious games.
-The main theme of this year's jam, was 'We don't see things as they are, we see them as we are'. Because of the differences in time zones, organizers announced it few hours after we already started implementing our ideas.
+The main theme of this year's jam, was '_We don't see things as they are, we see them as we are_'. Because of the differences in time zones, organizers announced it few hours after we already started implementing our ideas.
 The prototype version of our game was almost working at that time, so the better solution was, to focus on delivering what we have already started.
 
 My team (me & [@lukaszwojciak][wojciak]) decided to learn something new and related to circle geometry, so we got an idea, to implement game similar to the classic [Space Invaders][spaceinvaders], but with a planet behind the main character, so he/she can protect it.
@@ -99,7 +99,7 @@ placeholder for the imgtutor with rotation of the planet - note the camera on th
 
 ###The movement of meteors and collision with the planet
 
-At the beginning of the game, we create only one meteor (enemy) which will starts its movement from the position somewhere above the player.
+At the beginning of the game, we create only one meteor (enemy) which will start its movement from the position somewhere above the player.
 
 {% highlight js %}
 //Create a Spine animation
