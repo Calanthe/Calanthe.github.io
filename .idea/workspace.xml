@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2bf8e370-6c31-4803-aab8-34e3f1de3c91" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html" afterPath="$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/about.html" afterPath="$PROJECT_DIR$/about.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" afterPath="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
     </list>
@@ -27,19 +27,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="planet-defender-circular-world-game_with_pixijs.markdown" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="planet-defender-circular-world-game_with_pixijs.markdown" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="219" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3465">
+            <state line="160" column="18" selection-start="7836" selection-end="7836" vertical-scroll-proportion="0.6053371" vertical-offset="1969" max-vertical-offset="3795">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="16" selection-start="1140" selection-end="1140" vertical-scroll-proportion="0.4002809" vertical-offset="705" max-vertical-offset="5040">
+            <state line="97" column="18" selection-start="1517" selection-end="1517" vertical-scroll-proportion="0.0" vertical-offset="1021" max-vertical-offset="5070">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="about.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/about.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="18" selection-start="435" selection-end="435" vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="540">
               <folding />
             </state>
           </provider>
@@ -66,9 +75,10 @@
         <option value="$PROJECT_DIR$/_config.yml" />
         <option value="$PROJECT_DIR$/_drafts/planet-defender-global-game-jam-entry.markdown" />
         <option value="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game.markdown" />
-        <option value="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
         <option value="$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html" />
         <option value="$PROJECT_DIR$/css/main.css" />
+        <option value="$PROJECT_DIR$/about.html" />
+        <option value="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
       </list>
     </option>
   </component>
@@ -277,6 +287,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934928" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25859374" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -287,7 +298,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -388,13 +398,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="219" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3465">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_posts/2013-12-11-purrfect-game.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="215" selection-start="897" selection-end="897" vertical-scroll-proportion="0.24812031" vertical-offset="0" max-vertical-offset="8760">
@@ -404,7 +407,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="16" selection-start="1140" selection-end="1140" vertical-scroll-proportion="0.4002809" vertical-offset="705" max-vertical-offset="5040">
+        <state line="97" column="18" selection-start="1517" selection-end="1517" vertical-scroll-proportion="0.0" vertical-offset="1021" max-vertical-offset="5070">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/about.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="18" selection-start="435" selection-end="435" vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="540">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="160" column="18" selection-start="7836" selection-end="7836" vertical-scroll-proportion="0.6053371" vertical-offset="1969" max-vertical-offset="3795">
           <folding />
         </state>
       </provider>

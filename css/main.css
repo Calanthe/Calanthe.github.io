@@ -81,19 +81,21 @@ div.post p {
   font-size: 80%;
 }
 
-.about, .menu-wrapper {
+.menu-wrapper {
   font: 14px Droid Serif,sans-serif;
 }
 
 .about.post p{
   margin: 0 0 10px 0;
-  line-height: 27px;
-  font-size: 17px;
-  letter-spacing: 0.3px;
 }
 
 .about.post p.no-margin, .about.post {
   margin: 0;
+}
+
+div.about p:nth-child(2) {
+	font-style: normal;
+	color: #424141;
 }
 
 /*****************************************************************************/

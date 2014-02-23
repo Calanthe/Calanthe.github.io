@@ -11,13 +11,12 @@ is to stay at home and enjoy the advantages of comfortable and warm bed ;). But 
 <!--more-->
 
 [Poznań Global Game Jam][pggj] edition took place in [Politechnika Poznańska][pp]. Over forty enthusiastic people participated in this event to within 48 hours make glorious games.
-The main theme of this year's jam, was '_We don't see things as they are, we see them as we are_'. Because of the differences in time zones, organizers announced it few hours after we already started implementing our ideas.
-The prototype version of our game was almost working at that time, so the better solution was, to focus on delivering what we have already started.
+The main theme of this year's jam, was '_We don't see things as they are, we see them as we are_'. We found it out few hours after we already started implementing our ideas, so the better solution was, to focus on delivering what we have already started.
 
-My team (me & [@lukaszwojciak][wojciak]) decided to learn something new and related to circle geometry, so we got an idea, to implement game similar to the classic [Space Invaders][spaceinvaders], but with a planet behind the main character, so he/she can protect it.
+My team (me & [@lukaszwojciak][wojciak]) decided to learn something new and related to circle geometry, so we got an idea, to implement game called [Planet Defender][jam_defender], which is somehow similar to the classic [Space Invaders][spaceinvaders], but with a planet behind the main character, so he/she can protect it.
 We had some problems with defining the main character, but at the end we came to conclusion, that the easiest to implement and animate will be a simple pyramid, which will imitate the egyptian God Ra.
 
-Similar to [Purrfect][purrfect_article], we used [Spine][spine] and [Pixi.js][pixi] to animate and render graphic assets. In his article I would like to focus mainly on circle geometry and all of the mathematics which is necessary to understand the rotation of the planet and collision between the planet and meteors.
+Similar to [Purrfect][purrfect_article], we used [Spine][spine] and [Pixi.js][pixi] to animate and render graphic assets. In this article I would like to focus mainly on circle geometry and all of the mathematics which is necessary to understand the rotation of the planet and collision between the planet and meteors.
 
 ###Rotation of the planet
 
@@ -67,10 +66,11 @@ sprite.anchor.y = 0.5;
 //radius will be very important to detect the collision
 sprite.radius = 400;
 
-//render sprite and add it to the camera container
+//render sprite and add it to the camera container at a specific index
 camera.addChildAt(sprite, 0);
 {% endhighlight %}
 
+The planet is attached to the camera, so its position relates to that aforementioned container.
 Now we want to add a rotation of the planet in such a way, that its direction will dependent on the player's action.
 
 {% highlight js %}
@@ -99,7 +99,7 @@ placeholder for the imgtutor with rotation of the planet - note the camera on th
 
 ###The movement of meteors and collision with the planet
 
-At the beginning of the game, we create only one meteor (enemy) which will start its movement from the position somewhere above the player.
+At the beginning of the game, we create only one meteor (enemy) which will start its movement from the position directly above the player.
 
 {% highlight js %}
 //Create a Spine animation
@@ -109,9 +109,11 @@ var spine = new PIXI.Spine('rock/skeleton.json');
 spine.position.x = 0;
 spine.position.y = 0;
 spine.rotation = 0;
+//this will be needed to calculate the pivot value
 spine.radius = 400;
 
 //pivot will be needed to detect the collision with the planet
+//this is a distance from the center of the planet
 spine.pivot.y = spine.radius + window.innerHeight / 2 + Math.random() * 400;
 
 //render sprite and add it to the camera container
@@ -139,15 +141,16 @@ When the player rotates the planet, all of the existing meteors have to update t
 //meteor is an enemy here
 enemy.position.y += enemy.velocity * Math.cos(enemy.rotation);
 enemy.position.x -= enemy.velocity * Math.sin(enemy.rotation);
+//update the velocity so each meteor goes faster when it is nearer to the player
 enemy.velocity *= 1.008 - (0.003 * enemy.rotation) / Math.PI;
 {% endhighlight %}
 
 As you can see, there is no big magic here. We just used commonly known trigonometric functions of the equations of the circle.
 When the planet will rotate, all of the meteors will change their positions accordingly to the rotation of the planet.
+Theirs velocity also changes a little, so they goes faster when they are closer to the player.
 
 Now let's focus on detecting collisions between the planet and meteors. To calculate it we will use a [Pythagorean theorem][pyttheorem].
-We already know
-explain pitagoras in details?
+This theorem will help us calculate the needed distance between the meteor and the center of the planet.
 
 {% highlight js %}
 var enemyDistanceFromCenter = this.pivot.y - Math.sqrt(this.position.y * this.position.y
@@ -157,11 +160,16 @@ if (enemyDistanceFromCenter < radius + 30) {
 }
 {% endhighlight %}
 
-placeholder for an static image probably with triangle
+placeholder for img tutor with two situations
+
+As you can see (something diffrent?), in the situation, when the meteor is straight above the player, collision detection is very easy. All we need to do is calculate a difference between a starting point and an actual position of the meteor.
+Calculated distance just need to be compared with the planet's radius, which need to be extended by the radius of single meteor.
+The only impediment in situation where there is rotation added, is that to calculate distance, we need to help yourself with the mentioned [Pythagorean theorem][pyttheorem].
 
 ###Bullets and collision with meteors
 
-To create a bullet we will use almost the technique as with the meteors. The only difference is that weapons will be fired always in the same position and its initial rotation will depend on the camera's rotation.
+To create a bullet we will use almost the same technique as with the meteors. The only difference is that weapons will be fired always in the same position and its initial rotation will depend on the camera's rotation.
+Meteor's position was related to the camera, bullets have to follow that camera and change theirs rotation in the opposite direction to that container.
 
 {% highlight js %}
 //when the user press space bar
@@ -179,10 +187,11 @@ sprite.anchor.y = 0.5;
 //radius will be very important to detect the collision
 sprite.radius = 400;
 
+//each bullet has to follow the camera and rotate in direction completely opposite
 sprite.rotation = -camera.rotation;
 sprite.pivot.y = sprite.radius + 80;
 
-//render sprite and add it to the camera container
+//render sprite and add it to the camera container at a specific index
 camera.addChildAt(sprite, 2);
 {% endhighlight %}
 
@@ -193,7 +202,7 @@ bullet.position.y -= velocity * Math.cos(bullet.rotation);
 bullet.position.x += velocity * Math.sin(bullet.rotation);
 {% endhighlight %}
 
-Calculating collision between the weapons and meteors is rather similar to the previous example. We will use [Pythagorean theorem][pyttheorem] once again to check if the distance between the bullet and the meteor is accurate.
+Calculating collision between the weapons and meteors is rather similar to the previous example.
 
 {% highlight js %}
 var bulletDistance = Math.abs(Math.sqrt(bullet.position.y * bullet.position.y
@@ -202,15 +211,25 @@ var bulletDistance = Math.abs(Math.sqrt(bullet.position.y * bullet.position.y
                         * enemy.position.y + enemy.position.x * enemy.position.x),
     bulletDistanceFromCenter = bulletDistance + planet.radius + bullet.height;
 
-if (bulletDistanceFromCenter - enemyDistanceFromCenter < 0 &&
-    bulletDistanceFromCenter - enemyDistanceFromCenter > -(bullet.height) * 1.5) {
+if (bulletDistanceFromCenter - enemyDistanceFromCenter < 0) {
     //collision detected
 }
 {% endhighlight %}
 
 placeholder for the static image or img tutor with long distance and collision?
 
+We used [Pythagorean theorem][pyttheorem] once again to calculate the positions of the bullet and meteor. When we know those values, checking the distance between those two object is just a matter of a proper subtraction.
+
 ###Conclusion
+
+Learning and coding [Planet Defender][jam_defender] game was a real fun! We managed to calculate and detect all of the necessary values without any game framework and physics engine.
+It looked little scary at the beginning, but with little math and ubiquitously known theorems, it wasn't that difficult.
+
+It was really enjoyable and profitable weekend. This was my second hackathon in which I participated but this time, I spent much more time on sleeping and I don't regret that ;). Tiredness can heavily slow down our thinking process. It is very important to, especially during the events like this, spend some time on mental regeneration.
+
+Among eleven completed games, there were only two made in html5 and JavaScript. The [Planet Defender][jam_defender] won second prize and I happily returned to home with my new `Angry Birds` mascot :). The only think I regret form that weekend, is that I missed a visitation of a local TV station. What I've seen during [the repetition?][tv], contestants had some real fun during that time ;).
+
+If you are interested into our messy code, [here is the github repo][repo]. Feel free to comment or contribute our work. Any helpful action will be appreciated.
 
 [ggj]: http://globalgamejam.org/
 [pggj]: http://globalgamejam.org/2014/jam-sites/poznan-game-jam?destination=node/348
@@ -224,3 +243,6 @@ placeholder for the static image or img tutor with long distance and collision?
 [spaceinvaders]: https://www.youtube.com/watch?v=QObneYZIdKI
 [pixicontainer]: http://www.goodboydigital.com/pixijs/docs/classes/DisplayObjectContainer.html
 [pyttheorem]: http://en.wikipedia.org/wiki/Pythagorean_theorem
+[jam_defender]: http://wojciak.com.pl/jam_defender
+[tv]: https://www.youtube.com/watch?v=xnDwChRYB6Q
+[repo]: https://github.com/wojciak/jam_defender
