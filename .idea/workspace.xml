@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2bf8e370-6c31-4803-aab8-34e3f1de3c91" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/about.html" afterPath="$PROJECT_DIR$/about.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" afterPath="$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown" />
     </list>
     <ignored path="Calanthe.github.io.iws" />
@@ -30,7 +28,7 @@
       <file leaf-file-name="planet-defender-circular-world-game_with_pixijs.markdown" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="18" selection-start="7836" selection-end="7836" vertical-scroll-proportion="0.6053371" vertical-offset="1969" max-vertical-offset="3795">
+            <state line="231" column="115" selection-start="11845" selection-end="11845" vertical-scroll-proportion="1.0421349" vertical-offset="2723" max-vertical-offset="3795">
               <folding />
             </state>
           </provider>
@@ -421,7 +419,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/_drafts/planet-defender-circular-world-game_with_pixijs.markdown">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="18" selection-start="7836" selection-end="7836" vertical-scroll-proportion="0.6053371" vertical-offset="1969" max-vertical-offset="3795">
+        <state line="231" column="115" selection-start="11845" selection-end="11845" vertical-scroll-proportion="1.0421349" vertical-offset="2723" max-vertical-offset="3795">
           <folding />
         </state>
       </provider>
