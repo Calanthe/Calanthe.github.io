@@ -11,7 +11,7 @@ was to stay at home and enjoy the advantages of a comfortable and warm bed ;). B
 <!--more-->
 
 [Poznań Global Game Jam][pggj] edition took place in [Politechnika Poznańska][pp]. Over forty enthusiastic participants had 48 hours to make glorious games.
-The main theme of this year's jam, was '_We don't see things as they are, we see them as we are_'. We found it out a few hours after we already started implementing our ideas, so the better solution was, to focus on delivering what we had already started.
+The main theme of this year's jam, was '_We don't see things as they are, we see them as we are_'. We found this out a few hours after we already started implementing our ideas, so the better solution was, to focus on delivering what we had already started.
 
 My team (me & [@lukaszwojciak][wojciak]) decided to learn something new and related to circle geometry, so we got the idea to implement a game called [Planet Defender][jam_defender], which is somehow similar to the classic [Space Invaders][spaceinvaders], but with a planet behind the main character, so he/she can protect it.
 We had some problems with defining the main character, but at the end we came to the conclusion, that the easiest to implement and animate would be a simple pyramid, which would imitate the Egyptian God Ra.
@@ -162,7 +162,7 @@ if (enemyDistanceFromCenter < radius + 30) {
 
 placeholder for img tutor with two situations
 
-As apparent in the situation, when the meteor is straight above the player, collision detection is very easy. All we need to do is calculate a difference between a starting point and an actual position of the meteor.
+It is apparent in the situation, when the meteor is straight above the player, collision detection is very easy. All we need to do is calculate a difference between a starting point and an actual position of the meteor.
 Calculated distance just needs to be compared with the planet's radius, which needs to be extended by the radius of single meteor.
 The only impediment in the situation where there is an added rotation, is that to calculate distance, we need to help ourselves with the mentioned [Pythagorean theorem][pyttheorem].
 
