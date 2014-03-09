@@ -1,0 +1,257 @@
+---
+layout: post
+title: "Planet Defender - a circular world game with Pixi.js"
+date:   2014-02-01 15:56:06
+---
+<p><img src="/assets/planet_defender/planet_defender.jpg" alt="Planet Defender"></p>
+
+<p>The third weekend of January was the coldest that Poland has been all winter, so far. Temperatures in Poznań hit -11°C during the day. In such conditions, the best way to spend free time
+was to stay at home and enjoy the advantages of a comfortable and warm bed ;). But this weekend was special for the game makers from all over the world. The <a href="http://globalgamejam.org/">Global Game Jam</a> was taking place and I couldn&#39;t miss it!</p>
+
+<!--more-->
+
+<p><a href="http://globalgamejam.org/2014/jam-sites/poznan-game-jam?destination=node/348">Poznań Global Game Jam</a> edition took place in <a href="http://www.put.poznan.pl/">Politechnika Poznańska</a>. Over forty enthusiastic participants had 48 hours to make glorious games.
+The main theme of this year&#39;s jam, was &#39;<em>We don&#39;t see things as they are, we see them as we are</em>&#39;. We found this out a few hours after we already started implementing our ideas, so the better solution was, to focus on delivering what we had already started.</p>
+
+<p>My team (me &amp; <a href="https://twitter.com/lukaszwojciak">@lukaszwojciak</a>) decided to learn something new and related to circle geometry, so we got the idea to implement a game called <a href="http://wojciak.com.pl/jam_defender">Planet Defender</a>, which is somehow similar to the classic <a href="https://www.youtube.com/watch?v=QObneYZIdKI">Space Invaders</a>, but with a planet behind the main character, so he/she can protect it.
+We had some problems with defining the main character, but at the end we came to the conclusion, that the easiest to implement and animate would be a simple pyramid, which would imitate the Egyptian God Ra.</p>
+
+<p>Similar to <a href="http://zofiakorcz.pl/purrfect-game/">Purrfect</a>, we used <a href="http://esotericsoftware.com">Spine</a> and <a href="http://www.pixijs.com/">Pixi.js</a> to animate and render graphic assets. In this article I would like to focus mainly on circle geometry and all of the mathematics which is necessary to understand the rotation of the planet and collision between the planet and meteors.</p>
+
+<h3>Rotation of the planet</h3>
+
+<p>Lets start with revision of standard equations of the circle. Let me help myself with a nice and clear explanation form the <a href="http://en.wikipedia.org/wiki/Circle">Wikipedia</a>. In a <a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">Cortesian coordinate system</a> circle is a set of all points (x,y) such that</p>
+
+<div class="highlight"><pre><code class="js"><span class="p">(</span><span class="nx">x</span><span class="o">-</span><span class="nx">a</span><span class="p">)</span><sup>2</sup><span class="err"> + (y-b)<sup>2</sup> = r<sup>2</sup></span>
+</code></pre></div>
+
+<p>where (a,b) are the center coordinates and r is a radius.</p>
+
+<p>The same equation can be written using the trigonometric functions as:</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">x</span> <span class="o">=</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">r</span> <span class="nx">cos</span> <span class="nx">t</span><span class="p">,</span>
+<span class="nx">y</span> <span class="o">=</span> <span class="nx">b</span> <span class="o">+</span> <span class="nx">r</span> <span class="nx">sin</span> <span class="nx">t</span>
+</code></pre></div>
+
+<p>where t is a variable in the range 0 to 2π, interpreted geometrically as the angle that the ray from (a, b) to (x, y) makes with the x-axis.</p>
+
+<h2>Circle equations</h2>
+
+<p><img src="/assets/planet_defender/circle_equation.jpg" alt="Circle equation"></p>
+
+<p>Knowing this, we can now move to the aspect of rendering and rotating our planet. Similar to the <a href="http://zofiakorcz.pl/purrfect-game/">Purrfect game</a>, we used <a href="http://www.pixijs.com/">Pixi.js</a> to help us render assets on <code>canvas</code> element.
+First we need to create a container, which will represent a collection of displayed objects. <a href="http://www.pixijs.com/">Pixi.js</a> implemented a helpful object called <a href="http://www.goodboydigital.com/pixijs/docs/classes/DisplayObjectContainer.html">DisplayObjectContainer()</a>, which allows us to simply add, remove and manage other objects which it contains.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">camera</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">DisplayObjectContainer</span><span class="p">();</span>
+<span class="c1">//place x position in the center of x axis</span>
+<span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+<span class="c1">//place the camera a little lower on the y axis so we can see only the top of the planet</span>
+<span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span> <span class="o">+</span> <span class="mi">250</span><span class="p">;</span>
+<span class="c1">//at the beginning camera is not moving</span>
+<span class="nx">camera</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+
+<p>After creating a container, we set its x and y coordinates to fit the position of our planet.
+Speaking of the planet, we can easily render it as followed:</p>
+
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">texture</span> <span class="o">=</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">Texture</span><span class="p">.</span><span class="nx">fromImage</span><span class="p">(</span><span class="s1">&#39;planet.jpg&#39;</span><span class="p">),</span>
+    <span class="nx">sprite</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">Sprite</span><span class="p">(</span><span class="nx">texture</span><span class="p">);</span>
+
+<span class="c1">//position related to the camera container</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">//anchor will be needed to calculate the axis of rotation</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+
+<span class="c1">//radius will be very important to detect the collision</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">radius</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>
+
+<span class="c1">//render sprite and add it to the camera container at a specific index</span>
+<span class="nx">camera</span><span class="p">.</span><span class="nx">addChildAt</span><span class="p">(</span><span class="nx">sprite</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div>
+
+<p>The planet is attached to the camera, so its position relates to that aforementioned container.
+Now we want to add a rotation of the planet in such a way, that its direction will be dependent on the player&#39;s actions.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;keydown&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">key</span> <span class="o">===</span> <span class="mi">37</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">camera</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">;</span>
+        <span class="nx">player</span><span class="p">.</span><span class="nx">walkLeft</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">key</span> <span class="o">===</span> <span class="mi">39</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">camera</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">;</span>
+        <span class="nx">player</span><span class="p">.</span><span class="nx">walkRight</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//in a game loop</span>
+<span class="nx">camera</span><span class="p">.</span><span class="nx">rotation</span> <span class="o">+=</span> <span class="nx">camera</span><span class="p">.</span><span class="nx">velocity</span><span class="p">;</span>
+</code></pre></div>
+
+<p>After detecting which key has been pressed, the velocity of the camera is being updated. In a main game loop, rotation of the camera will be changed according to the new velocity.
+For the sake of simplicity, I don&#39;t want to describe in detail how the player object works. In general it&#39;s just a <a href="http://esotericsoftware.com">Spine</a> object, with <code>walkLeft</code>, <code>walkRight</code>, <code>idle</code> and <code>fire</code> animation states.</p>
+
+<h3>The movement of meteors and collision with the planet</h3>
+
+<p>At the beginning of the game, we created only one meteor (enemy) which will start its movement from the position directly above the player.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">//Create a Spine animation</span>
+<span class="kd">var</span> <span class="nx">spine</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">Spine</span><span class="p">(</span><span class="s1">&#39;rock/skeleton.json&#39;</span><span class="p">);</span>
+
+<span class="c1">//position related to the camera container</span>
+<span class="nx">spine</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">spine</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">spine</span><span class="p">.</span><span class="nx">rotation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="c1">//this will be needed to calculate the pivot value</span>
+<span class="nx">spine</span><span class="p">.</span><span class="nx">radius</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>
+
+<span class="c1">//pivot will be needed to detect the collision with the planet</span>
+<span class="c1">//this is a distance from the center of the planet</span>
+<span class="nx">spine</span><span class="p">.</span><span class="nx">pivot</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">spine</span><span class="p">.</span><span class="nx">radius</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">400</span><span class="p">;</span>
+
+<span class="c1">//render sprite and add it to the camera container</span>
+<span class="nx">camera</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">spine</span><span class="p">);</span>
+
+<span class="c1">//multiplier value will be needed to calculate the next meteor&#39;s rotation</span>
+<span class="kd">var</span> <span class="nx">multiplier</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+
+<p>After destroying the first meteor, a few more are being created but with slightly different pivot and rotation values.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">//after destroying a meteor</span>
+<span class="nx">multiplier</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="p">;</span>
+
+<span class="c1">//each of the incoming meteors will have different pivot and rotation values</span>
+<span class="nx">spine</span><span class="p">.</span><span class="nx">pivot</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">spine</span><span class="p">.</span><span class="nx">radius</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">400</span><span class="p">;</span>
+<span class="nx">spine</span><span class="p">.</span><span class="nx">rotation</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">((</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)</span> <span class="o">*</span> <span class="nx">multiplier</span><span class="p">)</span>
+                                 <span class="o">-</span> <span class="p">((</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)</span> <span class="o">*</span> <span class="nx">multiplier</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</code></pre></div>
+
+<p>When the player rotates the planet, all of the existing meteors have to update their positions.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">//meteor is an enemy here</span>
+<span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">enemy</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
+<span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">-=</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">enemy</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
+<span class="c1">//update the velocity so each meteor goes faster when it is nearer to the player</span>
+<span class="nx">enemy</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">*=</span> <span class="mf">1.008</span> <span class="o">-</span> <span class="p">(</span><span class="mf">0.003</span> <span class="o">*</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">rotation</span><span class="p">)</span> <span class="o">/</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">;</span>
+</code></pre></div>
+
+<p>As you can see, there is no magic here. We just used commonly known trigonometric functions of the equations of the circle.
+When the planet will rotate, all of the meteors will change their positions according to the rotation of the planet.
+Their velocities also change a little, so they go faster when they are closer to the player.</p>
+
+<p>Now let&#39;s focus on detecting collisions between the planet and meteors. To calculate it we will use a <a href="http://en.wikipedia.org/wiki/Pythagorean_theorem">Pythagorean theorem</a>.
+This theorem will help us calculate the needed distance between the meteor and the center of the planet.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">enemyDistanceFromCenter</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">pivot</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span>
+                                             <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">enemyDistanceFromCenter</span> <span class="o">&lt;</span> <span class="nx">radius</span> <span class="o">+</span> <span class="mi">30</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//collision detected</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="tutor" data-height="160">
+	<h3>Meteors and collision with the planet</h3>
+	<div class="clearfix">
+		<div class="img-item">
+			<img src="/./assets/planet_defender/meteor_collision_1.jpg" alt="Meteor above the player" width="636" height="160"/>
+		</div>
+		<div class="img-item">
+			<img src="/./assets/planet_defender/meteor_collision_2.jpg" alt="Meteor on the left" width="636" height="160"/>
+		</div>
+		<div class="img-item">
+			<img src="/./assets/planet_defender/meteor_collision_3.jpg" alt="Collision with the planet" width="636" height="160"/>
+		</div>
+	</div>
+	<div class="li-wrapper">
+		<ul>
+			<li><a href="#" class="active">1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+		</ul>
+	</div>
+</div>
+
+<p>It is apparent in the situation, when the meteor is straight above the player, collision detection is very easy. All we need to do is calculate a difference between a starting point and an actual position of the meteor.
+Calculated distance just needs to be compared with the planet&#39;s radius, which needs to be extended by the radius of single meteor.
+The only impediment in the situation where there is an added rotation, is that to calculate distance, we need to help ourselves with the mentioned <a href="http://en.wikipedia.org/wiki/Pythagorean_theorem">Pythagorean theorem</a>.</p>
+
+<h3>Bullets and collision with meteors</h3>
+
+<p>To create a bullet we will use almost the same technique as with the meteors. The only difference is that weapons will be fired always in the same position and its initial rotation will depend on the camera&#39;s rotation.
+A meteor&#39;s position was related to the camera, bullets have to follow that camera and change their rotation in the opposite direction of that container.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">//when the user presses space bar</span>
+<span class="kd">var</span> <span class="nx">texture</span> <span class="o">=</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">Texture</span><span class="p">.</span><span class="nx">fromImage</span><span class="p">(</span><span class="s1">&#39;bullet.png&#39;</span><span class="p">),</span>
+    <span class="nx">sprite</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">Sprite</span><span class="p">(</span><span class="nx">texture</span><span class="p">);</span>
+
+<span class="c1">//position related to the camera container</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">//anchor will be needed to calculate the axis of rotation</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+
+<span class="c1">//radius will be very important to detect the collision</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">radius</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>
+
+<span class="c1">//each bullet has to follow the camera and rotate in the complete opposite direction</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">rotation</span> <span class="o">=</span> <span class="o">-</span><span class="nx">camera</span><span class="p">.</span><span class="nx">rotation</span><span class="p">;</span>
+<span class="nx">sprite</span><span class="p">.</span><span class="nx">pivot</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">sprite</span><span class="p">.</span><span class="nx">radius</span> <span class="o">+</span> <span class="mi">80</span><span class="p">;</span>
+
+<span class="c1">//render sprite and add it to the camera container at a specific index</span>
+<span class="nx">camera</span><span class="p">.</span><span class="nx">addChildAt</span><span class="p">(</span><span class="nx">sprite</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</code></pre></div>
+
+<p>When we rotate the planet, positions of the bullets will also be changed:</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">bullet</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">-=</span> <span class="nx">velocity</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">bullet</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
+<span class="nx">bullet</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">+=</span> <span class="nx">velocity</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">bullet</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Calculating collision between the weapons and meteors is rather similar to the previous example. First, we have to ensure that the bullet and the meteor have the same angle:</p>
+
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">bulletRotation</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">bullet</span><span class="p">.</span><span class="nx">rotation</span><span class="p">),</span>
+    <span class="nx">enemyRotation</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">enemy</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">((</span><span class="nx">bulletRotation</span> <span class="o">&gt;</span> <span class="nx">enemyRotation</span> <span class="o">-</span> <span class="mf">0.05</span> <span class="o">&amp;&amp;</span> <span class="nx">bulletRotation</span> <span class="o">&lt;</span> <span class="nx">enemyRotation</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//compute the distance between the meteor and the bullet</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The distance between the meteor and the bullet should be calculated as follows:</p>
+
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">bulletDistance</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">bullet</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="nx">bullet</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span>
+                                        <span class="o">+</span> <span class="nx">bullet</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">bullet</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span><span class="p">)),</span>
+    <span class="nx">enemyDistanceFromCenter</span> <span class="o">=</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">pivot</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span>
+                        <span class="o">*</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span><span class="p">),</span>
+    <span class="nx">bulletDistanceFromCenter</span> <span class="o">=</span> <span class="nx">bulletDistance</span> <span class="o">+</span> <span class="nx">planet</span><span class="p">.</span><span class="nx">radius</span> <span class="o">+</span> <span class="nx">bullet</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">bulletDistanceFromCenter</span> <span class="o">-</span> <span class="nx">enemyDistanceFromCenter</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="o">&amp;&amp;</span> <span class="nx">bulletDistanceFromCenter</span> <span class="o">-</span> <span class="nx">enemyDistanceFromCenter</span> <span class="o">&gt;</span> <span class="o">-</span><span class="nx">bullet</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//collision detected</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2>Collision with the bullet</h2>
+
+<p><img src="/assets/planet_defender/bullet_collision_1.jpg" alt="Collision with the bullet"></p>
+
+<p>We used <a href="http://en.wikipedia.org/wiki/Pythagorean_theorem">Pythagorean theorem</a> once again to calculate the positions of the bullet and meteor. When we know those values, checking the distance between those two objects is just a matter of proper subtraction and comparison with the bullet&#39;s height.</p>
+
+<h3>Conclusion</h3>
+
+<p>Learning and coding <a href="http://wojciak.com.pl/jam_defender">Planet Defender</a> game was a real joy! We managed to calculate and detect all of the necessary values without any game framework and physics engine.
+It looked a little scary at the beginning, but with a little math and ubiquitously known theorems, it wasn&#39;t that difficult.</p>
+
+<p>It was a really enjoyable and profitable weekend. This was my second hackathon in which I participated but this time, I spent much more time sleeping and I don&#39;t regret that ;). Exhaustion can heavily slow down our thinking process. It is very important to, especially during the events like this, spend some time on mental regeneration.</p>
+
+<p>Among eleven completed games, there were only two made in html5 and JavaScript. The <a href="http://wojciak.com.pl/jam_defender">Planet Defender</a> won second prize and I happily returned home with my new &#39;<em>Angry Birds</em>&#39; mascot :). The only think I regret form that weekend, is that I missed a visitation of a local TV station. What I&#39;ve seen during <a href="https://www.youtube.com/watch?v=xnDwChRYB6Q">the news clip</a>, contestants had some real fun during that time ;).</p>
+
+<p>If you are interested in our messy code, <a href="https://github.com/wojciak/jam_defender">here is the github repo</a>. Feel free to comment on or contribute to our work. Any helpful action will be appreciated.</p>
