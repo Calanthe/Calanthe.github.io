@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Planet Defender - a circular world game with Pixi.js"
-date:   2014-02-01 15:56:06
+date:   2014-03-09 13:08:18
 ---
 <p><img src="/assets/planet_defender/planet_defender.jpg" alt="Planet Defender"></p>
 
@@ -11,7 +11,7 @@ was to stay at home and enjoy the advantages of a comfortable and warm bed ;). B
 <!--more-->
 
 <p><a href="http://globalgamejam.org/2014/jam-sites/poznan-game-jam?destination=node/348">Poznań Global Game Jam</a> edition took place in <a href="http://www.put.poznan.pl/">Politechnika Poznańska</a>. Over forty enthusiastic participants had 48 hours to make glorious games.
-The main theme of this year&#39;s jam, was &#39;<em>We don&#39;t see things as they are, we see them as we are</em>&#39;. We found this out a few hours after we already started implementing our ideas, so the better solution was, to focus on delivering what we had already started.</p>
+The main theme of this year&#39;s jam, was &#39;<em>We don&#39;t see things as they are, we see them as we are</em>&#39;. We found this out a few hours after we already started implementing our ideas, so the better solution was to focus on delivering what we had already started.</p>
 
 <p>My team (me &amp; <a href="https://twitter.com/lukaszwojciak">@lukaszwojciak</a>) decided to learn something new and related to circle geometry, so we got the idea to implement a game called <a href="http://wojciak.com.pl/jam_defender">Planet Defender</a>, which is somehow similar to the classic <a href="https://www.youtube.com/watch?v=QObneYZIdKI">Space Invaders</a>, but with a planet behind the main character, so he/she can protect it.
 We had some problems with defining the main character, but at the end we came to the conclusion, that the easiest to implement and animate would be a simple pyramid, which would imitate the Egyptian God Ra.</p>
@@ -45,8 +45,10 @@ First we need to create a container, which will represent a collection of displa
 <div class="highlight"><pre><code class="js"><span class="nx">camera</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">DisplayObjectContainer</span><span class="p">();</span>
 <span class="c1">//place x position in the center of x axis</span>
 <span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
 <span class="c1">//place the camera a little lower on the y axis so we can see only the top of the planet</span>
 <span class="nx">camera</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span> <span class="o">+</span> <span class="mi">250</span><span class="p">;</span>
+
 <span class="c1">//at the beginning camera is not moving</span>
 <span class="nx">camera</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </code></pre></div>
@@ -137,6 +139,7 @@ For the sake of simplicity, I don&#39;t want to describe in detail how the playe
 <div class="highlight"><pre><code class="js"><span class="c1">//meteor is an enemy here</span>
 <span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">enemy</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
 <span class="nx">enemy</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">-=</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">enemy</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
+
 <span class="c1">//update the velocity so each meteor goes faster when it is nearer to the player</span>
 <span class="nx">enemy</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">*=</span> <span class="mf">1.008</span> <span class="o">-</span> <span class="p">(</span><span class="mf">0.003</span> <span class="o">*</span> <span class="nx">enemy</span><span class="p">.</span><span class="nx">rotation</span><span class="p">)</span> <span class="o">/</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">;</span>
 </code></pre></div>
@@ -159,13 +162,13 @@ This theorem will help us calculate the needed distance between the meteor and t
 	<h3>Meteors and collision with the planet</h3>
 	<div class="clearfix">
 		<div class="img-item">
-			<img src="/./assets/planet_defender/meteor_collision_1.jpg" alt="Meteor above the player" width="636" height="160"/>
+			<img src="/assets/planet_defender/meteor_collision_1.jpg" alt="Meteor above the player" width="636" height="160"/>
 		</div>
 		<div class="img-item">
-			<img src="/./assets/planet_defender/meteor_collision_2.jpg" alt="Meteor on the left" width="636" height="160"/>
+			<img src="/assets/planet_defender/meteor_collision_2.jpg" alt="Meteor on the left" width="636" height="160"/>
 		</div>
 		<div class="img-item">
-			<img src="/./assets/planet_defender/meteor_collision_3.jpg" alt="Collision with the planet" width="636" height="160"/>
+			<img src="/assets/planet_defender/meteor_collision_3.jpg" alt="Collision with the planet" width="636" height="160"/>
 		</div>
 	</div>
 	<div class="li-wrapper">
