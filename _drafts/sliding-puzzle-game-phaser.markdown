@@ -78,6 +78,82 @@ piecesAmount = BOARD_COLS * BOARD_ROWS;
 
 Based on the piece's size we can easily calculate the amount of pieces on the board.
 
+Now we need to create an array of shuffled indexes, so every piece will be identified by a single value from that array and therefore placed randomly on the board.
+
+{% highlight js %}
+
+shuffledIndexArray = createShuffledIndexArray();
+
+function createShuffledIndexArray() {
+  var i,
+      indexArray = [];
+
+  for (i = 0; i < piecesAmount; i++) {
+    indexArray.push(i);
+  }
+
+  return shuffle(indexArray);
+}
+
+function shuffle(array) {
+  var counter = array.length,
+      temp,
+      index;
+
+  while (counter > 0) {
+    index = Math.floor(Math.random() * counter);
+
+    counter--;
+
+    temp = array[counter];
+    array[counter] = array[index];
+    array[index] = temp;
+  }
+
+  return array;
+}
+
+{% endhighlight %}
+
+We just created a simple array which length is equal to the amount of pieces. Then in the `shuffle` function, each of the element is replaced with another randomly selected index, so as the result we get the array with shuffled indexes as values.
+
+Now, after preparing the shuffled array, we need to create a special object called a `group` with pieces and assign the shuffled index to each of them.
+
+{% highlight js %}
+
+piecesGroup = game.add.group();
+
+  for (i = 0; i < BOARD_ROWS; i++)
+  {
+    for (j = 0; j < BOARD_COLS; j++)
+    {
+      if (shuffledIndexArray[piecesIndex]) {
+          piece = piecesGroup.create(j * PIECE_WIDTH, i * PIECE_HEIGHT,
+          "background", shuffledIndexArray[piecesIndex]);
+      }
+      else { //initial position of the black piece
+          piece = piecesGroup.create(j * PIECE_WIDTH, i * PIECE_HEIGHT);
+          piece.black = true;
+      }
+      piece.name = 'piece' + i.toString() + 'x' + j.toString();
+      piece.currentIndex = piecesIndex;
+      piece.destIndex = shuffledIndexArray[piecesIndex];
+      piece.inputEnabled = true;
+      piece.events.onInputDown.add(selectPiece, this);
+      piece.posX = j;
+      piece.posY = i;
+      piecesIndex++;
+    }
+  }
+
+{% endhighlight %}
+
+The `group` in `Phaser` is a container for displaying objects like sprites, which easily allows to apply transforms to all of the children.
+After creating an empty group, we need to add each of the piece to the group. Remember, that the piece here is just a fragment of declared earlier `background` sprite.
+
+If the shuffled index is different than 0, we just create an element, by using the `piecesGroup.create()` method with a proper dimensions, sprite name, and shuffled index.
+If the shuffled index equals to 0, we can treat is as our black piece, so while creating an element, there is no need of specifying the background sprite, because we want it to be black.
+
 
 
 [phaser]: https://phaser.io/
