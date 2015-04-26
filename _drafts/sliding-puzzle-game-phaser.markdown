@@ -154,6 +154,116 @@ After creating an empty group, we need to add each of the piece to the group. Re
 If the shuffled index is different than 0, we just create an element, by using the `piecesGroup.create()` method with a proper dimensions, sprite name, and shuffled index.
 If the shuffled index equals to 0, we can treat is as our black piece, so while creating an element, there is no need of specifying the background sprite, because we want it to be black.
 
+Every piece has its unique name, index indicating current position, index indicating destinated position and current coordinates on the board.
+There is also an input enabled for every piece and a callback method called `selectPiece` when is fired when the used click on a piece.
+
+{% highlight js %}
+
+function selectPiece(piece) {
+    var blackPiece = canMove(piece);
+
+    //if there is a black piece in neighborhood
+    if (blackPiece) {
+      movePiece(piece, blackPiece);
+    }
+}
+
+{% endhighlight %}
+
+Before moving the piece, we need to be sure that there is a black piece in a close neighborhood. There is a `canMove` function which looks for a black block in every direction direction from the clicked one:
+
+{% highlight js %}
+
+function canMove(piece) {
+  var foundBlackElem = false;
+
+  piecesGroup.children.forEach(function(element) {
+    if (element.posX === (piece.posX - 1) && element.posY === piece.posY && element.black ||
+        element.posX === (piece.posX + 1) && element.posY === piece.posY && element.black ||
+        element.posY === (piece.posY - 1) && element.posX === piece.posX && element.black ||
+        element.posY === (piece.posY + 1) && element.posX === piece.posX && element.black) {
+          foundBlackElem = element;
+          return;
+    }
+  });
+
+  return foundBlackElem;
+}
+
+{% endhighlight %}
+
+Each element of the pieces' group is checked if it is black and in either left, right or up and down position of the clicked element. If there is such element, the founded black piece is returned.
+
+After detecting if there is a black element in the close neighborhood, all we need to do now is to switch positions of those two (selected and black) pieces.
+
+{% highlight js %}
+
+function movePiece(piece, blackPiece) {
+  var tmpPiece = {
+    posX: piece.posX,
+    posY: piece.posY,
+    currentIndex: piece.currentIndex
+  };
+
+  game.add.tween(piece).to({x: blackPiece.posX * PIECE_WIDTH, y: blackPiece.posY * PIECE_HEIGHT}, 300, Phaser.Easing.Linear.None, true);
+
+  //change places of piece and blackPiece
+  piece.posX = blackPiece.posX;
+  piece.posY = blackPiece.posY;
+  piece.currentIndex = blackPiece.currentIndex;
+  piece.name ='piece' + piece.posX.toString() + 'x' + piece.posY.toString();
+
+  //piece is the new black
+  blackPiece.posX = tmpPiece.posX;
+  blackPiece.posY = tmpPiece.posY;
+  blackPiece.currentIndex = tmpPiece.currentIndex;
+  blackPiece.name ='piece' + blackPiece.posX.toString() + 'x' + blackPiece.posY.toString();
+
+  //after every move check if puzzle is completed
+  checkIfFinished();
+}
+
+{% endhighlight %}
+
+The `tmpPiece` is an object which keeps clicked piece's coordinates and the current index value. The `game.add.tween(piece).to()` is a method to show tween animation. It just means that we ask a clicked piece to slightly move to the new place. In this situation, black's pieces current coordinates. You can read more about animations in the [Phaser's documentation][docs].
+
+Showing animation of the movement is not enough. Our board does not 'know' yet about the changes we've made. That's why in the next steps we need to update both clicked and black boxes' coordinates, index and unique name.
+
+Every time when the blocks move, we need to check if the board is in the completed position:
+
+{% highlight js %}
+
+function checkIfFinished() {
+  var isFinished = true;
+
+  piecesGroup.children.forEach(function(element) {
+    if (element.currentIndex !== element.destIndex) {
+      isFinished = false;
+      return;
+    }
+  });
+
+  if (isFinished) {
+    showFinishedText();
+  }
+}
+
+function showFinishedText() {
+  var style = { font: "40px Arial", fill: "#000", align: "center"},
+      text = game.add.text(game.world.centerX, game.world.centerY, "Congratulations! \nYou made it!", style);
+
+  text.anchor.set(0.5);
+}
+
+{% endhighlight %}
+
+To check if the board is finishes, we just need to go through each of the element and check if the index of the current position of all of the them is the same as the destinated position.
+
+When the game is finished, we can show a 'Congratulation' text to the user. We can achieve that by using the `game.add.text()` and `text.anchor.set()` methods.
+
+###Conclusion
+
+That's it! We just created very easy puzzle game in `Phaser`.
 
 
 [phaser]: https://phaser.io/
@@ -164,3 +274,4 @@ If the shuffled index equals to 0, we can treat is as our black piece, so while 
 [yeogen]: http://www.html5gamedevs.com/topic/5127-generator-phaser-official-yeoman-generator-for-phaser-projects/
 [github]: https://github.com/Calanthe/PhaserSlidingPuzzle
 [sliding-puzzle]: http://zofiakorcz.pl/PhaserSlidingPuzzle/
+[docs]: http://phaser.io/docs/2.3.0/Phaser.TweenManager.html
