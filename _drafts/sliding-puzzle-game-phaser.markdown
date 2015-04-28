@@ -5,18 +5,18 @@ date:   2014-05-06 21:34:04
 ---
 ![Sliding puzzle game in Phaser]({{ site.url }}/assets/duckhunt.jpg)
 
-The popularity of the [Phaser][phaser] game framework grows rapidly this days. Lets focus on the very basics of this library by creating a simple [puzzle sliding game][sliding-puzzle].
+The popularity of the [Phaser][phaser] game framework is growing rapidly. Let's focus on the basics of this library by creating a simple [puzzle sliding game][sliding-puzzle].
 
 <!--more-->
 
-As you probably already know, the `Phaser` is one of the most popular free JavaScript framework made by the [Photonstorm][photonstorm]. Its purpose is to help developers creating HTML5 games really quickly, by providing a set of tools which handle generic tasks (like loading images, game loop, inputs, physics) needed to program the game. Having that, the developer can focus on the game idea itself, not wasting a time on rewriting or copying the same code between previous projects.
+As you probably already know, `Phaser` is one of the most popular free JavaScript frameworks made by [Photonstorm][photonstorm]. Its purpose is to help developers to create HTML5 games really quickly, by providing a set of tools which handle generic tasks; like loading images, game loops, inputs, physics; needed to program the game. With these taken care of, the developer can focus on their game idea, not wasting a time on rewriting or copying the same code between previous projects.
 
-###The set up and initialization
+### Setup and initialization
 
-Because of the nature of JavaScript and browser's security features, we have to run server to load resources required by the game. There is a [few possibilities][servers] how to do that but my favourite one is [Grunt][grunt] task runner and [Yeoman][yeoman] scaffolding tool.
-A found a nice [Yeoman generator for Phaser][yeogen] and updated it with the newest `Phaser` version and amended the `gruntfile` file. You can check and use my current (still working in progress) setup in [Github][github]. If it's easier for you, you can also investigate the source code in the working [sliding puzzle game][sliding-puzzle].
+Because of the nature of JavaScript and browser security features, we have to run the server to load resources required by the game. There are a [few ways][servers] to do that but my favourite is using the [Grunt][grunt] task runner with the [Yeoman][yeoman] scaffolding tool.
+I found a nice [Yeoman generator for Phaser][yeogen] and updated it with the newest `Phaser` version and amended the `gruntfile`. You can check out and use my current (still working in progress) setup in [Github][github]. If it's easier for you, you can also take a look at the source code of the working [sliding puzzle game][sliding-puzzle].
 
-Once we have everything set up and ready, lets dive into the initialization of the `Phaser` framework. Our main folder consists only of the `index.html` file and `js`, `css` and `assets` folders.
+Once we have everything set up and ready, let's dive into the initialization of the `Phaser` framework. Our main folder consists only of the `index.html` file and `js`, `css` and `assets` folders.
 ![Folder structure for Phaser](/assets/sliding_puzzle/folder.png)
 
 In the `index.html` we need to include the aforementioned assets:
@@ -37,7 +37,7 @@ In the `index.html` we need to include the aforementioned assets:
 
 {% endhighlight %}
 
-As you can see, there is a `div` element with the `slidingpuzzle` id attribute. In our `game.js` file that id refers to the element where we want to initialize the `Phaser` framework.
+As you can see, there is a `div` element with the `slidingpuzzle` id attribute. In our `game.js` file that `id` refers to the element in which we want to initialize the `Phaser` framework.
 
 {% highlight js %}
 
@@ -46,9 +46,9 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS,
 
 {% endhighlight %}
 
-The above line shows how to initialize the `Phaser` instance, by setting a proper width and height, the method of rendering (it can be also Phaser.AUTO to detect WebGL with fallback to canvas), the aforementioned id of the parent element and the list of used states in game.
+The above line demonstrates how to initialize the `Phaser` instance, by setting a proper width and height, the method of rendering (it can be also `Phaser.AUTO` to detect WebGL with a fallback to canvas), the aforementioned id of the parent element and the list of used states in the game.
 
-We have two states in the game: `preload` and `create`. They will be fired in the same order as they are specified. The `Phaser` allows to use more than those two, eg `boot` to show a loader but in this game we will use only two basic states.
+We have two states in the game: `preload` and `create`. They will be fired in the same order as they are specified. The `Phaser` allows you to use more than those two, e.g. `boot` to show a loader but in this game we will use only two basic states.
 
 In the `preload` state we will only load the image which will be our background in the game:
 
@@ -63,9 +63,9 @@ function preload() {
 
 {% endhighlight %}
 
-Our loaded spritesheet will be named `background` and it will be divided into frames 200x200 each. The canvas size is 800x600 so it means that on that board we will have 4 pieces in each row and 3 pieces in each column. This will be quite easy game so if you need a bigger challenge, change the `PIECE_WIDTH` and `PIECE_HEIGHT` to smaller values, like 100.
+Our loaded spritesheet will be named `background` and it will be divided into frames 200x200 each. The canvas size is 800x600 so that means that on that board we will have 4 pieces in each row and 3 pieces in each column. This will be quite easy so if you need a bigger challenge, change the `PIECE_WIDTH` and `PIECE_HEIGHT` to smaller values, like 100.
 
-When the image will be loaded, `Phaser` will fire another state, `create` when we have `prepareBoard` method:
+Once the image has been loaded, `Phaser` will fire another state, `create` where we have the `prepareBoard` method:
 
 {% highlight js %}
 
@@ -115,7 +115,7 @@ function shuffle(array) {
 
 {% endhighlight %}
 
-We just created a simple array which length is equal to the amount of pieces. Then in the `shuffle` function, each of the element is replaced with another randomly selected index, so as the result we get the array with shuffled indexes as values.
+We just created a simple array in which length is equal to the amount of pieces. Then in the `shuffle` function, each of the elements are swapped with another randomly selected index, so as the result we get the array with shuffled indexes as values.
 
 Now, after preparing the shuffled array, we need to create a special object called a `group` with pieces and assign the shuffled index to each of them.
 
@@ -148,14 +148,14 @@ piecesGroup = game.add.group();
 
 {% endhighlight %}
 
-The `group` in `Phaser` is a container for displaying objects like sprites, which easily allows to apply transforms to all of the children.
-After creating an empty group, we need to add each of the piece to the group. Remember, that the piece here is just a fragment of declared earlier `background` sprite.
+The `group` in `Phaser` is a container for displaying objects like sprites, which easily allows you to apply transforms to all of the children.
+After creating an empty `group`, we need to add each of the pieces to the `group`. Remember, that the piece here is just a fragment which we declared earlier `background` sprite.
 
-If the shuffled index is different than 0, we just create an element, by using the `piecesGroup.create()` method with a proper dimensions, sprite name, and shuffled index.
-If the shuffled index equals to 0, we can treat is as our black piece, so while creating an element, there is no need of specifying the background sprite, because we want it to be black.
+If the shuffled index is not 0, we just create an element, by using the `piecesGroup.create()` method with the appropriate dimensions, sprite name, and shuffled index.
+If the shuffled index equals 0, we can treat is as our black piece, so while creating an element, there is no need to specify the background sprite, because we want it to be black.
 
-Every piece has its unique name, index indicating current position, index indicating destinated position and current coordinates on the board.
-There is also an input enabled for every piece and a callback method called `selectPiece` when is fired when the used click on a piece.
+Every piece has a unique name, an index indicating current position, an index indicating end position and current coordinates on the board.
+There is also an input enabled for every piece and a callback method called `selectPiece` when is fired when the user clicks on a piece.
 
 {% highlight js %}
 
@@ -170,7 +170,7 @@ function selectPiece(piece) {
 
 {% endhighlight %}
 
-Before moving the piece, we need to be sure that there is a black piece in a close neighborhood. There is a `canMove` function which looks for a black block in every direction direction from the clicked one:
+Before moving the piece, we need to be sure that there is a black piece in a close neighborhood. There is a `canMove` function which looks for a black block in every direction from the clicked piece:
 
 {% highlight js %}
 
@@ -192,9 +192,9 @@ function canMove(piece) {
 
 {% endhighlight %}
 
-Each element of the pieces' group is checked if it is black and in either left, right or up and down position of the clicked element. If there is such element, the founded black piece is returned.
+For each piece we check whether in its neighbourhood there is a a black piece and its position relative to the clicked element. If a black piece is found it is returned as the result of the function.
 
-After detecting if there is a black element in the close neighborhood, all we need to do now is to switch positions of those two (selected and black) pieces.
+After detecting if there is a black element in the neighborhood, all we need to do now is to switch positions of these two (selected and black) pieces.
 
 {% highlight js %}
 
@@ -225,11 +225,11 @@ function movePiece(piece, blackPiece) {
 
 {% endhighlight %}
 
-The `tmpPiece` is an object which keeps clicked piece's coordinates and the current index value. The `game.add.tween(piece).to()` is a method to show tween animation. It just means that we ask a clicked piece to slightly move to the new place. In this situation, black's pieces current coordinates. You can read more about animations in the [Phaser's documentation][docs].
+`tmpPiece` is an object which keeps the clicked piece's coordinates and the current index value. `game.add.tween(piece).to()` is a method which fires the tween animation. It just means that we ask a clicked piece to slightly move towards the new position. In this case, the black piece's current position. You can read more about animations in [Phaser's documentation][docs].
 
-Showing animation of the movement is not enough. Our board does not 'know' yet about the changes we've made. That's why in the next steps we need to update both clicked and black boxes' coordinates, index and unique name.
+Showing animation of the movement is not enough. Our board does not 'know' yet about the changes we've made. That's why in the next steps, we need to update the clicked and the black boxes' coordinates, index and unique name.
 
-Every time when the blocks move, we need to check if the board is in the completed position:
+Every time the blocks move, we need to check if the board is in the completed position:
 
 {% highlight js %}
 
@@ -257,13 +257,13 @@ function showFinishedText() {
 
 {% endhighlight %}
 
-To check if the board is finishes, we just need to go through each of the element and check if the index of the current position of all of the them is the same as the destinated position.
+To check if the game is completed, we loop through the elements and check if the index of the current position matches the end position.
 
 When the game is finished, we can show a 'Congratulation' text to the user. We can achieve that by using the `game.add.text()` and `text.anchor.set()` methods.
 
 ###Conclusion
 
-That's it! We just created very easy puzzle game in `Phaser`.
+That's it! You've created a very easy puzzle game in `Phaser` using many of the built-in capabilities of the framework. If you want to explore further you could try implementing scores, an option to change the background image or functionality to share your best score on facebook.
 
 
 [phaser]: https://phaser.io/
