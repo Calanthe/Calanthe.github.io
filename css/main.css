@@ -14,7 +14,7 @@ html, body { height: 100%; }
 
 body {
   background: url('./../assets/bg.png') repeat top left #FFF;
-  font: 16px Georgia, 'Times New Roman', Times, serif;
+  font: 18px Georgia, 'Times New Roman', Times, serif;
   text-align: center;
   color: #424141;
 }
@@ -49,7 +49,7 @@ ul.posts li {
 
 ul.posts li, 
 .post p {
-  line-height: 22px;
+  line-height: 24px;
 }
 
 ul.posts li:last-child{
@@ -126,7 +126,7 @@ div.about p:nth-child(2) {
 }
 
 .top-site {
-  max-width: 640px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 2em 0;
   font-family: 'Droid Serif', Georgia,'Times New Roman', serif;
@@ -164,7 +164,7 @@ div.about p:nth-child(2) {
 
 .site {
   text-align: justify;
-  max-width: 640px;
+  max-width: 800px;
   margin: 0 auto 2em;
   background-color: #FFF;
   padding: 20px;
@@ -207,7 +207,7 @@ footer a:hover {
 .site .menu-wrapper {
   height: 40px;
   margin: 0 0 10px 0;
-  max-width: 640px;
+  max-width: 800px;
   border-top: #1A8D7C 1px dotted;
   border-bottom: #1A8D7C 1px dotted;
   background-color: #FFF;
