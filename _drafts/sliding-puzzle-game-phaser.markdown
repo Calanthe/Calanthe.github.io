@@ -48,6 +48,8 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS,
 
 The above line demonstrates how to initialize the `Phaser` instance, by setting a proper width and height, the method of rendering (it can be also `Phaser.AUTO` to detect WebGL with a fallback to canvas), the aforementioned id of the parent element and the list of used states in the game.
 
+### Game loop
+
 We have two states in the game: `preload` and `create`. They will be fired in the same order as they are specified. The `Phaser` allows you to use more than those two, e.g. `boot` to show a loader but in this game we will use only two basic states.
 
 In the `preload` state we will only load the image which will be our background in the game:
@@ -169,6 +171,8 @@ function selectPiece(piece) {
 }
 
 {% endhighlight %}
+
+### Moving pieces
 
 Before moving the piece, we need to be sure that there is a black piece in a close neighborhood. There is a `canMove` function which looks for a black block in every direction from the clicked piece:
 

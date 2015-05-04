@@ -21,15 +21,20 @@ title: Zofia Korcz
 <div id="home">
   <ul class="posts">
     {% for post in site.posts %}
-      <li>
-      	<a class="title" href="{{ post.url }}">{{ post.title }}</a>
-      	<div class="date"><span>{{ post.date | date_to_string }}</span></div>
-      	<p>{% if post.content contains '<!--more-->' %}
-      			{{ post.content | split:'<!--more-->' | first }}
-			{% else %}
-				{{ post.excerpt }}
-			{% endif %}
-		</p> 
+      <li class="clearfix">
+        <div class="post-item-img">
+          <img src="http://www.androidstatic.com/wp-content/uploads/2011/10/ss-480-1-04-300x200.jpg">
+        </div>
+        <div class="post-item-into">
+          <a class="title" href="{{ post.url }}">{{ post.title }}</a>
+          <div class="date"><span>{{ post.date | date_to_string }}</span></div>
+          <p>{% if post.content contains '<!--more-->' %}
+            {{ post.content | split:'<!--more-->' | first }}
+            {% else %}
+            {{ post.excerpt }}
+            {% endif %}
+          </p>
+        </div>
       </li>
     {% endfor %}
   </ul>
