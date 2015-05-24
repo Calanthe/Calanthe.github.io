@@ -6,7 +6,6 @@
         <meta name="description" content="{{ site.description }}"/>
         <meta name="Keywords" content="HTML,HTML5,JavaScript,DOM,jQuery,HTML5 games,CSS 3,tutorial,programming,development,Duck Hunt,canvas,webgl,MDN,Zofia Korcz,Zosia Korcz"/>
         <meta name="viewport" content="width=device-width"/>
-        <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'/>
         <link href='http://fonts.googleapis.com/css?family=Noticia+Text:400,400italic' rel='stylesheet' type='text/css'>
         <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.url }}/feed.xml"/>
 
@@ -20,19 +19,35 @@
 
         <div class="container">
           <div class="top-stripe">
-                <div class="top-site">
-                  <div class="header">
-                      <h1><a href="{{ site.url }}">Zosia Korcz</a></h1>
-                      <h2>...a girl who wants to make games.</h2>
-                  </div>
+            <div class="top-site clearfix">
+              <div class="header left">
+                  <h1><a href="{{ site.url }}" class="menu-link">Zosia Korcz</a></h1>
+                  <h2>...a girl who wants to make games.</h2>
+              </div>
+                <div class="menu-wrapper right">
+                    <ul class="menu-elements">
+                        <li class="about menu-element">
+                            <a href="/about.html" class="menu-link">About me</a>
+                        </li>
+                        <li class="twitter menu-element">
+                            <a href="https://twitter.com/intuitio" class="menu-link">Twitter</a>
+                        </li>
+                        <li class="github menu-element">
+                            <a href="https://github.com/Calanthe" class="menu-link">Github</a>
+                        </li>
+                        <li class="rss menu-element">
+                            <a href="{{ site.url }}/feed.xml" class="menu-link">RSS</a>
+                        </li>
+                    </ul>
                 </div>
+            </div>
           </div>
 
           <div class="site">
                 {{ content }}
           </div>
-          <footer>
-            <p>&#169; 2013&#8211;present <a href="{{ site.url }}">Zofia Korcz</a> | <a href="{{ site.url }}/feed.xml">RSS feed</a></p>
+          <footer class="footer">
+            <p>&#169; 2013&#8211;present <a href="{{ site.url }}" class="footer-link">Zofia Korcz</a> | <a href="{{ site.url }}/feed.xml" class="footer-link">RSS feed</a></p>
           </footer>
         </div> <!-- /container -->
 <script type="text/javascript">

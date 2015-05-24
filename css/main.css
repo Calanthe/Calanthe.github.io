@@ -31,78 +31,83 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
 }
 
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
 /*****************************************************************************/
 /*
 /* Home
 /*
 /*****************************************************************************/
-ul.posts {
+.posts {
   list-style-type: none;
 }
 
-ul.posts li {
+.posts .posts-elem {
   margin: 0 0 1em 0;
   padding: 0 0 1em 0;
+  border-bottom: #1A8D7C 1px dotted;
 }
 
-ul.posts li, 
+.posts .posts-elem,
 .post p {
   line-height: 23px;
 }
 
-ul.posts li:last-child{
+.posts .posts-elem:last-child{
   margin: 0;
   padding: 0;
   border-bottom: none;
 }
 
-ul.posts li p { 
+.posts .posts-elem p {
   margin: 2px 0 0 0; 
 }
 
-div.post p:nth-child(2) {
+.post p:nth-child(2) {
   font-style: italic;
   color: #000000;
 }
 
-div.post p { 
+.post p {
   padding: 5px 0; 
 }
 
 .date {
   line-height: 10px;
-}
-
-.date span {
   color: #AAA;
   font-family: "Courier New", monospace;
   font-size: 80%;
+  padding: 4px 0 6px 0;
 }
 
 .menu-wrapper {
   font-size: 15px;
 }
 
-.about.post p{
+.about.post p {
   margin: 0 0 10px 0;
 }
 
-.about.post p.no-margin, .about.post {
+.about.post .no-margin, .about.post {
   margin: 0;
 }
 
-div.about p:nth-child(2) {
+.about p:nth-child(2) {
 	font-style: normal;
 	color: #424141;
 }
 
 .post-item-img {
-  float: left;
   width: 300px;
 }
 
 .post-item-into {
-  float: right;
   width: 490px;
   padding-left: 10px;
 }
@@ -111,7 +116,7 @@ div.about p:nth-child(2) {
 /* Site
 /*
 /*****************************************************************************/
-.top-stripe {
+.top-stripe, .footer {
   text-align: center;
   background: rgb(2,32,30); /* Old browsers */
   background: -moz-linear-gradient(45deg,  rgba(2,32,30,1) 0%, rgba(0,70,60,1) 25%, rgba(26,141,124,1) 80%); /* FF3.6+ */
@@ -123,17 +128,6 @@ div.about p:nth-child(2) {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#02201e', endColorstr='#1a8d7c',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
-.top-stripe img {
-  display: inline-block;
-  margin: 0 0 20px 0;
-  -webkit-border-radius: 100px;
-  -moz-border-radius: 100px;
-  border-radius: 100px;
-  -webkit-box-shadow: 0px 0px 38px 12px rgba(0,0,0,0.11);
-  -moz-box-shadow: 0px 0px 38px 12px rgba(0,0,0,0.11);
-  box-shadow: 0px 0px 38px 12px rgba(0,0,0,0.11);
-}
-
 .top-site {
   max-width: 800px;
   margin: 0 auto;
@@ -142,8 +136,8 @@ div.about p:nth-child(2) {
   text-align: left;
 }
 
-.top-site .header a,
-.top-site .header a:hover {
+.top-site .header .menu-link,
+.top-site .header .menu-link:hover {
   color: #FFF;
   font-weight: normal;
   text-decoration: none;
@@ -161,17 +155,16 @@ div.about p:nth-child(2) {
   line-height: 18px;
 }
 
-.top-site .header h2 span {
-  color: ;
+.photo-wrapper {
+  text-align: center;
 }
 
-.top-stripe .retro-stripe {
-  width: 500px;
-  height: 50px;
-  margin: 0 auto;
-  background-image: url('./../assets/retro_stripe.png');
-  background-size: 500px 50px;
-  background-repeat: no-repeat;
+.me {
+  display: inline-block;
+  margin: 0 0 20px 0;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
 }
 
 .site {
@@ -183,14 +176,12 @@ div.about p:nth-child(2) {
 
 .site a,
 .site a:visited,
-.site h2,
-footer a { 
+.site h2 {
   color: #1A8D7C;
   text-decoration: none;
 }
 
-.site a,
-footer a {
+.site a {
   border-bottom: 1px dotted #1A8D7C;
 }
 
@@ -198,8 +189,7 @@ footer a {
   line-height: 20px;
 }
 
-.site a:hover,
-footer a:hover { 
+.site a:hover {
   color: #07594D; 
   text-decoration: none;
 }
@@ -220,51 +210,63 @@ footer a:hover {
   max-width: 800px;
   border-top: #1A8D7C 1px dotted;
   border-bottom: #1A8D7C 1px dotted;
-  background-color: #FFF;
 }
 
-.menu-wrapper ul {
+.menu-wrapper .menu-elements {
   display: block;
   padding: 0px 10px;
   margin: 0 auto;
   width: 394px;
 }
 
-.menu-wrapper ul li {
+.menu-element {
   list-style: none;
   display: inline-block;
   padding: 12px 10px;
 }
 
-.menu-wrapper ul li a {
+.menu-element .menu-link {
+  color: #FFF;
+  text-decoration: none;
   border-bottom: none;
   padding: 2px 0 2px 28px;
   background: url('./../assets/sprites.png') no-repeat;
 }
 
-.menu-wrapper ul li.about a {
+.menu-element .menu-link:hover {
+  text-decoration: underline;
+}
+
+.about .menu-link {
   background-position: 0 0;
 }
 
-.menu-wrapper ul li.home a {
+.home .menu-link {
   background-position: 0 -26px;
 }
 
-.menu-wrapper ul li.twitter a {
+.twitter .menu-link {
   background-position: 0 -78px;
 }
 
-.menu-wrapper ul li.github a {
+.github .menu-link {
   background-position: 0 -104px;
 }
 
-.menu-wrapper ul li.rss a {
+.rss .menu-link {
   background-position: 0 -52px;
 }
 
-footer {
-  padding: 0 0 10px 0;
+.footer {
+  padding: 20px 0 20px 0;
   text-align: center;
+  color: #FFF;
+}
+
+.footer .footer-link {
+  color: #FFF;
+  text-decoration: none;
+  border-bottom: 1px dotted #FFF;
 }
 
 /*****************************************************************************/
@@ -294,13 +296,13 @@ pre code {
 }
 
 /* terminal */
-pre.terminal {
+.terminal {
   border: 1px solid #000;
   background-color: #333;
   color: #FFF;
 }
 
-pre.terminal code {
+.terminal code {
   background-color: #333;
 }
 
@@ -319,7 +321,6 @@ pre.terminal code {
 
 .post h3,
 .post h2 {
-	font-family: Georgia,'Times New Roman', serif;
 	font-weight: normal;
 	color: #1A8D7C;
 }

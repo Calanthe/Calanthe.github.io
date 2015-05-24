@@ -1,10 +1,12 @@
 ---
 layout: post
 title: "Sliding puzzle game in Phaser"
-date:   2014-05-06 21:34:04
+date:   2015-05-24 19:51:00
+image: <img src='http://www.androidstatic.com/wp-content/uploads/2011/10/ss-480-1-04-300x200.jpg' alt='Sliding puzzle game in Phaser'>
 ---
-![Sliding puzzle game in Phaser]({{ site.url }}/assets/duckhunt.jpg)
-
+<div class='right'>
+<img src='http://www.androidstatic.com/wp-content/uploads/2011/10/ss-480-1-04-300x200.jpg' alt='Sliding puzzle game in Phaser'>
+</div>
 The popularity of the [Phaser][phaser] game framework is growing rapidly. Let's focus on the basics of this library by creating a simple [puzzle sliding game][sliding-puzzle].
 
 <!--more-->
@@ -15,9 +17,11 @@ As you probably already know, `Phaser` is one of the most popular free JavaScrip
 
 Because of the nature of JavaScript and browser security features, we have to run the server to load resources required by the game. There are a [few ways][servers] to do that but my favourite is using the [Grunt][grunt] task runner with the [Yeoman][yeoman] scaffolding tool.
 I found a nice [Yeoman generator for Phaser][yeogen] and updated it with the newest `Phaser` version and amended the `gruntfile`. You can check out and use my current (still working in progress) setup in [Github][github]. If it's easier for you, you can also take a look at the source code of the working [sliding puzzle game][sliding-puzzle].
+<div class='left'>
+![Folder structure for Phaser](/assets/sliding_puzzle/folder.png)
+</div>
 
 Once we have everything set up and ready, let's dive into the initialization of the `Phaser` framework. Our main folder consists only of the `index.html` file and `js`, `css` and `assets` folders.
-![Folder structure for Phaser](/assets/sliding_puzzle/folder.png)
 
 In the `index.html` we need to include the aforementioned assets:
 

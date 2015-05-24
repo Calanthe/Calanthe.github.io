@@ -2,32 +2,16 @@
 layout: default
 title: Zofia Korcz
 ---
-<div class="menu-wrapper">
-  <ul>
-    <li class="about">
-      <a href="/about.html">About me</a>
-    </li>
-    <li class="twitter">
-      <a href="https://twitter.com/intuitio">Twitter</a>
-    </li>
-    <li class="github">
-      <a href="https://github.com/Calanthe">Github</a>
-    </li>
-    <li class="rss">
-      <a href="{{ site.url }}/feed.xml">RSS</a>
-    </li>
-  </ul>
-</div>
 <div id="home">
   <ul class="posts">
     {% for post in site.posts %}
-      <li class="clearfix">
-        <div class="post-item-img">
-          <img src="http://www.androidstatic.com/wp-content/uploads/2011/10/ss-480-1-04-300x200.jpg">
+      <li class="posts-elem clearfix">
+        <div class="post-item-img left">
+          {{ post.image }}
         </div>
-        <div class="post-item-into">
+        <div class="post-item-into right">
           <a class="title" href="{{ post.url }}">{{ post.title }}</a>
-          <div class="date"><span>{{ post.date | date_to_string }}</span></div>
+          <div class="date">{{ post.date | date_to_string }}</div>
           <p>{% if post.content contains '<!--more-->' %}
             {{ post.content | split:'<!--more-->' | first }}
             {% else %}
