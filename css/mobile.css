@@ -1,56 +1,44 @@
-@media only screen and (max-width: 480px) {
-  
-  body {
-    font-size: 20px;
+@media only screen and (max-width: 840px) {
+
+  .post-item-img,
+  .post-item-into,
+  .header,
+  .menu-wrapper {
+    float: none;
   }
 
-  img {
-    display: none;
+  .header {
+    text-align: center;
   }
 
-  h1 {
-    font-size: 48px;
-  }
-
-  h2 {
-    font-size: 42px;
-  }
-
-  .top-stripe img {
-    margin: 40px 0;
-  }
-
-  div.site div.menu-wrapper {
-    margin: 0 0 10px 0;
-    background-color: #FFF;
-    border-top: none;
-    border-bottom: none;
+  .menu-wrapper {
     height: auto;
+    border: none;
   }
 
-  div.site div.menu-wrapper ul {
-    padding: 0;
-    width: auto;
-    border-top: #1A8D7C 1px dotted;
+  .menu-wrapper .menu-elements {
+    padding: 20px 0 0 0;
+    width: 200px;
   }
 
-  div.site div.menu-wrapper ul li {
+  .menu-wrapper .menu-element {
     list-style: none;
     display: block;
     padding: 12px 10px;
-    border-bottom: #1A8D7C 1px dotted;
+    border-top: #1A8D7C 1px dotted;
   }
 
-  ul.posts li p, .post p {
-    line-height: 26px;
+  .menu-wrapper .menu-element:nth-child(1) {
+    border-top: none;
   }
 
-  .date {
-    line-height: 22px;
+  .post-item-img {
+    width: auto;
+    text-align: center;
   }
 
-  .post h3 {
-    font-size: 22px;
+  .post-item-into {
+    width: auto;
   }
 
   code {
@@ -59,10 +47,6 @@
   }
 
   .tutor {
-    display: none;
-  }
-
-  .top-stripe .retro-stripe {
     display: none;
   }
 }

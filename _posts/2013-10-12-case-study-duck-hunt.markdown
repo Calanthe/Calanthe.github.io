@@ -2,8 +2,12 @@
 layout: post
 title: "Case study - how does CSS only Duck Hunt work?"
 date:   2013-10-12 19:53:59
+image: <img src='/assets/duck_hunt.png' alt='CSS only Duck Hunt game'>
 ---
-![Duck Hunt  CSS only game]({{ site.url }}/assets/duckhunt.jpg)  
+<div class='image right'>
+<img src='/assets/duck_hunt.png' alt='CSS only Duck Hunt game'>
+<span class="caption">CSS only Duck Hunt game</span>
+</div>
 
 [CSS Duck Hunt][mdnduck] was the first game I submitted to 'CSS only' [Mozilla Dev Derby][mdn] over one year ago. It didn't win anything, but I was glad that I managed to develop a nostalgic game in a rather unique way. Since then, some people have asked me to explain how this game works.
 

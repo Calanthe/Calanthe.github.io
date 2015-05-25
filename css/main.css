@@ -111,6 +111,11 @@ h1, h2, h3, h4, h5, h6 {
   width: 490px;
   padding-left: 10px;
 }
+
+.post-item-into .right {
+  display: none;
+}
+
 /*****************************************************************************/
 /*
 /* Site
@@ -326,13 +331,12 @@ pre code {
 }
 
 .post h2 {
-  font-size: 12px;
+  font-size: 16px;
   padding: 3px 0 0 0;  
 }
 
-.posts li p img,
+.posts img,
 .post img {
-  border: 1px solid #E2DEDE;
   padding: 1px;
 }
 
@@ -342,4 +346,19 @@ pre code {
 
 .post ol li {
   padding: 4px 0;
+}
+
+.post .left {
+  margin-right: 14px;
+}
+
+.image,
+.posts img {
+  border: 1px solid #E2DEDE;
+}
+
+.image .caption {
+  font-size: 12px;
+  display: block;
+  padding: 0 0 4px 4px;
 }
