@@ -39,9 +39,14 @@ We had some problems with defining the main character, but at the end we came to
 
 <p>where t is a variable in the range 0 to 2π, interpreted geometrically as the angle that the ray from (a, b) to (x, y) makes with the x-axis.</p>
 
-<h2>Circle equations</h2>
+<h2 class="no-mobile">Circle equations</h2>
 
-<p><img src="/assets/planet_defender/circle_equation.jpg" alt="Circle equation"></p>
+<p>
+<div class='image no-mobile'>
+    <img src="/assets/planet_defender/circle_equation.jpg" alt="Circle equation">
+    <span class="caption">Circle equations</span>
+</div>
+</p>
 
 <p>Knowing this, we can now move to the aspect of rendering and rotating our planet. Similar to the <a href="http://zofiakorcz.pl/purrfect-game/">Purrfect game</a>, we used <a href="http://www.pixijs.com/">Pixi.js</a> to help us render assets on <code>canvas</code> element.
 First we need to create a container, which will represent a collection of displayed objects. <a href="http://www.pixijs.com/">Pixi.js</a> implemented a helpful object called <a href="http://www.goodboydigital.com/pixijs/docs/classes/DisplayObjectContainer.html">DisplayObjectContainer()</a>, which allows us to simply add, remove and manage other objects which it contains.</p>
@@ -246,9 +251,14 @@ A meteor&#39;s position was related to the camera, bullets have to follow that c
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Collision with the bullet</h2>
+<h2 class="no-mobile">Collision with the bullet</h2>
 
-<p><img src="/assets/planet_defender/bullet_collision_1.jpg" alt="Collision with the bullet"></p>
+<p>
+    <div class="image no-mobile">
+        <img src="/assets/planet_defender/bullet_collision_1.jpg" alt="Collision with the bullet"/>
+        <span class="caption">Collision with the bullet</span>
+    </div>
+</p>
 
 <p>We used <a href="http://en.wikipedia.org/wiki/Pythagorean_theorem">Pythagorean theorem</a> once again to calculate the positions of the bullet and meteor. When we know those values, checking the distance between those two objects is just a matter of proper subtraction and comparison with the bullet&#39;s height.</p>
 
