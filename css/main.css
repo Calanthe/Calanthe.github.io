@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-.about p:nth-child(2) {
+.about .site p:nth-child(2) {
 	font-style: normal;
 	color: #424141;
 }
@@ -272,6 +272,11 @@ h1, h2, h3, h4, h5, h6 {
   color: #FFF;
   text-decoration: none;
   border-bottom: 1px dotted #FFF;
+}
+
+.footer .footer-thank {
+  padding-top: 10px;
+  font-size: 14px;
 }
 
 /*****************************************************************************/
