@@ -23,18 +23,55 @@ The React's philosophy leans also to clean separation between components. One of
 <span class="caption">Folder structure of example Phaser project</span>
 </div>
 
-In order to run ES6 smoothly, we need to use [Babel][babel] which will compile JavaScript ES6 syntax into ES5 which is understandable also by older browsers. We will also use [JSX][jsx] which is a JavaScript syntax extension, very similar to well known `XML`.
-
-After init
-
-As I mentioned before, we will use `JSX` - syntax similar to XML. Example with one and without + link to tutorial
+As mentioned before, in order to run ES6 smoothly, we need to use [Babel][babel] which will compile JavaScript ES6 syntax into ES5. We will also use [JSX][jsx] which is a JavaScript syntax extension, very similar to well known `XML`. Before starting coding, we need to setup the project and configure compilers. Let's use [Webpack][webpack] to build working JS files:
 
 {% highlight js %}
-
-var game = new Phaser.Game(800, 600, Phaser.CANVAS,
-'slidingpuzzle', { preload: preload, create: create });
-
+//install webpack globally
+npm i -g webpack
+//install necessary modules locally
+npm i --save-dev webpack@^1.0.0 babel-loader babel-preset-es2015 babel-preset-react path
 {% endhighlight %}
+
+The whole Webpack configuration is specified in the `webpack.config.js` file, which defines the inputs, the outputs of the project and types of transformations we want to perform. Some of the most important fragments are:
+
+{% highlight js %}
+module.exports = {
+	entry: {
+		game: './game.js' //which file should be loaded on the page
+	},
+	output: {
+		path: path.resolve('./dist'), //where the compiled JavaScript file should be saved
+		filename: './game.js', //name of the compiled JavaScript file
+	},
+	module: {
+		loaders: [
+			{
+				test: /\.js?$/, //translate and compile on the fly ES6 with JSX into ES5
+				exclude: /node_modules/,
+				loader: 'babel',
+				query: { //query configuration passed to the loader
+					presets: ['react', 'es2015']
+				}
+			}
+		]
+	}
+};
+{% endhighlight %}
+
+If you will now run the `npm run watch` specified in the `package.json` file:
+
+{% highlight js %}
+"scripts": {
+    "watch": "webpack --progress --colors --watch --config ./webpack.config.js",
+    "build": "webpack --config ./webpack.config.js"
+}
+{% endhighlight %}
+
+You will be able to load your `file:///PATH_TO_FOLDER/dist/index.html` file in the browser.
+
+As we specified in the configuration, our entry file is `./game.js`:
+
+As I mentioned before, we will use `JSX` - syntax similar to XML. Example with one and without + link to tutorial
 
 Because React has `unidirectional data flow`, the parent component should manage the state and pass it to the sub components (?) using `props` or `state`.
 
@@ -53,5 +90,5 @@ Let's summarise what we've just learned.
 [es6support]: https://kangax.github.io/compat-table/es6/
 [babel]: https://babeljs.io/
 [react]: https://facebook.github.io/react/
-[babel]: https://babeljs.io/
 [jsx]: https://facebook.github.io/react/docs/jsx-in-depth.html
+[webpack]: http://webpack.github.io/docs/what-is-webpack.html
