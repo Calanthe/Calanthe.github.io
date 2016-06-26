@@ -12,16 +12,14 @@ The best way to learn new technologies is to make something interesting, fun, en
 
 <!--more-->
 
-The [ECMAScript 6][ecmastript6] is the newest, published in June 2015, edition of the ECMAScript Language Specification, which standardized JavaScript scripting programming language. The ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth to mention that not all of the [browsers support][es6support] those fancy features (other word?) so it's important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly also on older browsers.
+The [ECMAScript 6][ecmastript6] is the newest, published in June 2015, edition of the ECMAScript Language Specification, which standardized JavaScript scripting programming language. The ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth to mention that not all of the [browsers support][es6support] those fancy features (other word?) so it is important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly also on older browsers.
 
 [React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which allows to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with an actual DOM.
 The React's philosophy leans also to clean separation between components. One of this library's feature is a `one-way data flow` which means that child components cannot directly affect parent components.
 
+Before we start I want to let you know, that the whole repository is here:
+
 ### Setup and initialization
-<div class='image left'>
-<img src='/assets/sliding_puzzle/folder.png' alt='Folder structure'>
-<span class="caption">Folder structure of example Phaser project</span>
-</div>
 
 As mentioned before, in order to run ES6 smoothly, we need to use [Babel][babel] which will compile JavaScript ES6 syntax into ES5. We will also use [JSX][jsx] which is a JavaScript syntax extension, very similar to well known `XML`. Before starting coding, we need to setup the project and configure compilers. Let's use [Webpack][webpack] to build working JS files:
 
@@ -76,7 +74,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Mastermind from './src/mastermind';
 
-ReactDOM.render( //initialise game with specified codeLength and Map of colors
+ReactDOM.render( //initialise game with specified codeLength and Map of colors properties
 	React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
 	document.getElementById('mastermind')
 )
@@ -104,11 +102,121 @@ In the `script` tag we include `game.js` file which should be in the same `dist`
 
 ### Introduction to React components, lifecycle functions, props and states
 
-Since we have the project setup
+The project is setup so let's focus on the most interesting part - programing the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which ideally will be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible stateless. As a Facebook's developers recommend:
 
-As I mentioned before, we will use `JSX` syntax extension. It is possible, to skip it and use plan JavaScript.
+"A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way."
 
-Because React has `unidirectional data flow`, the parent component should manage the state and pass it to the sub components (?) using `props` or `state`.
+Let's look at the components I've created for the Mastermind game:
+
+{% highlight js %}
+const Rules = React.createClass({...});
+const DecodingBoard = React.createClass({...});
+const CodePegs = React.createClass({...});
+const EndGame = React.createClass({...});
+
+const Mastermind = React.createClass({
+	(...)
+	render: function() {
+    		return (
+    			<div>
+    				<Rules state={this.state} toggleRules={this.toggleRules}/>
+
+    				<div className="clearfix">
+    					<DecodingBoard state={this.state} activatePeg={this.activatePeg} submitPegs={this.submitPegs}/>
+    					<CodePegs state={this.state} colors={this.props.colors} activatePeg={this.activatePeg}/>
+    				</div>
+
+    				<EndGame state={this.state} reloadGame={this.reloadGame}/>
+    			</div>
+    		);
+    	}
+});
+{% endhighlight %}
+
+The `Mastermind` is our stateful component which passes states to its child components: `Rules`, `DecodingBoard`, `CodePegs` and `EndGame` via props. Of course those sub components can also encapsulate another child components, like `DecodingBoard` and `Row` in this example:
+
+{% highlight js %}
+const SubmitButton = React.createClass({
+	render: function() {
+		return (
+			<button></button>
+		);
+	}
+});
+
+const Row = React.createClass({
+	render: function() {
+		(...)
+		return (
+			<div>
+				<div className='left'>
+					<DecodeRow (...)/>
+				</div>
+				<div className='left'>
+					<SubmitButton (...)/>
+				</div>
+				<div className='right'>
+					<HintsRow (...)/>
+				</div>
+			</div>
+		);
+	}
+});
+
+const DecodingBoard = React.createClass({
+	render: function() {
+		(...)
+		rows.push(<Row (...)/>);
+        (...)
+		return (
+			<div className="decoding-board left">
+				{rows}
+			</div>
+		);
+	}
+});
+{% endhighlight %}
+
+The whole components' hierarchy is more readable on the following diagram:
+
+<div class='image'>
+<img src='/assets/sliding_puzzle/folder.png' alt='Folder structure'>
+<span class="caption">Folder structure of example Phaser project</span>
+</div>
+
+As you probably noticed, each of the components have `render` method. It is a required method responsible only for returning the single child element. As you can see it always returns either `HTML` tags or another child component which will eventually render to HTML.
+
+As mentioned before, I used the `JSX` syntax extension. It is possible, to skip it and use just plan JavaScript. Instead of:
+
+{% highlight js %}
+return (
+	<div className="decoding-board left">
+		{rows}
+	</div>
+);
+{% endhighlight %}
+
+I could write:
+
+{% highlight js %}
+return (
+	React.createElement('div', {className: "decoding-board left"}, rows)
+);
+{% endhighlight %}
+
+I prefer to use the `JSX`, because it is more familiar syntax for defining tree structures with attributes.
+
+Components in React are state machines, which means that the `DOM` is updated only based on the new state.
+Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle (???).
+There is no point of reviewing [all of them][lifecycle] but it is worth keeping in mind that there is: a `componentWillMount`, invoked just before rendering; a `componentDidMount` invoked just after rendering; and a `shouldComponentUpdate` where we can specify if there is a need to render particular component.
+
+I think that I covered all of the most important basics of React library. It will be easier now to understand how I wrote the Mastermind game.
+
+###Building the decoding board and pegs
+
+###Let's take a guess!
+
+###Toggling rules and cheat?
 
 ###Summary
 
@@ -121,3 +229,4 @@ Let's summarise what we've just learned.
 [react]: https://facebook.github.io/react/
 [jsx]: https://facebook.github.io/react/docs/jsx-in-depth.html
 [webpack]: http://webpack.github.io/docs/what-is-webpack.html
+[lifecycle]: https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods
