@@ -71,15 +71,44 @@ You will be able to load your `file:///PATH_TO_FOLDER/dist/index.html` file in t
 
 As we specified in the configuration, our entry file is `./game.js`:
 
-As I mentioned before, we will use `JSX` - syntax similar to XML. Example with one and without + link to tutorial
+{% highlight js %}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Mastermind from './src/mastermind';
+
+ReactDOM.render( //initialise game with specified codeLength and Map of colors
+	React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
+	document.getElementById('mastermind')
+)
+{% endhighlight %}
+
+As you can see in the top of the file, there are imported three modules: `react`, `react-dom` which serves as the entry point of the DOM-related rendering paths and our Mastermind code.
+After importing modules, the Mastermind code is initialised and rendered in `DOM` within the element which `ID` is `mastermind`, defined in the `./dist/index.html` file:
+
+{% highlight js %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="./styles.css">
+	<title>Mastermind in React and ES6</title>
+</head>
+<body>
+<div id="mastermind"></div>
+<script src="game.js"></script>
+</body>
+</html>
+{% endhighlight %}
+
+In the `script` tag we include `game.js` file which should be in the same `dist` folder as `index.html`. If the Webpack's entry and output points are configured correctly, the `./dist/game.js` file should be compiled based on the aforementioned `./game.js`.
+
+### Introduction to React components, lifecycle functions, props and states
+
+Since we have the project setup
+
+As I mentioned before, we will use `JSX` syntax extension. It is possible, to skip it and use plan JavaScript.
 
 Because React has `unidirectional data flow`, the parent component should manage the state and pass it to the sub components (?) using `props` or `state`.
-
-### Game loop
-
-We have two states in the game: `preload` and `create`. They will be fired in the same order as they are specified. The `Phaser` allows you to use more than those two, e.g. `boot` to show a loader but in this game we will use only two basic states.
-
-In the `preload` state we will only load the image which will be our background in the game:
 
 ###Summary
 
