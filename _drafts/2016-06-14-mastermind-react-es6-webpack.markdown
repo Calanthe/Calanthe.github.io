@@ -106,7 +106,7 @@ The project is setup so let's focus on the most interesting part - programing th
 
 "A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way."
 
-Let's look at the components I've created for the Mastermind game:
+Let's look at the top components I've created for the Mastermind game:
 
 {% highlight js %}
 const Rules = React.createClass({...});
@@ -214,11 +214,24 @@ I think that I covered all of the most important basics of React library. It wil
 
 ###Building the decoding board and pegs
 
+One of the first new feature of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules on the top of that file:
+
+{% highlight js %}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Mastermind from './src/mastermind';
+{% endhighlight %}
+
+Modules are already known to the front-end community. There were implemented via different libraries like [RequireJS][requirejs] or [Browserify][browserify] but likely now we can use the native solution built in ES6.
+One of the principal of modules is that they have to be specified in one dedicated file (in this case, `./src/mastermind`). Every module is a singleton, there exist maximum one instance independently? of how may times particular module was imported. The whole module is executed once it is loaded
+
+
+
 ###Let's take a guess!
 
-###Toggling rules and cheat?
-
 ###Summary
+
+I barely touched the subject of ES6. I would highly? recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] if you
 
 Let's summarise what we've just learned.
 
@@ -230,3 +243,8 @@ Let's summarise what we've just learned.
 [jsx]: https://facebook.github.io/react/docs/jsx-in-depth.html
 [webpack]: http://webpack.github.io/docs/what-is-webpack.html
 [lifecycle]: https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods
+[requirejs]: http://requirejs.org
+[browserify]: http://browserify.org/
+[es6book]: http://exploringjs.com/es6/
+[modules]: http://exploringjs.com/es6/ch_modules.html
+[axel]: http://www.2ality.com
