@@ -110,7 +110,7 @@ After importing modules, the Mastermind code is initialised and rendered in `DOM
 
 In the `script` tag we include `game.js` file which should be in the same `dist` folder as `index.html`. If the Webpack's entry and output points are configured correctly, the `./dist/game.js` file should be compiled based on the aforementioned `./game.js`.
 
-### Introduction to React components, lifecycle functions, props and states
+### Introduction to the React components
 
 The project is setup so let's focus on the most interesting part - programing the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which ideally will be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible `stateless`. As a Facebook's developers recommend:
 
@@ -128,19 +128,19 @@ const EndGame = React.createClass({...});
 const Mastermind = React.createClass({
     (...)
     render: function() {
-            return (
-                <div>
-                    <Rules state={this.state} toggleRules={this.toggleRules}/>
+		return (
+			<div>
+				<Rules state={this.state} toggleRules={this.toggleRules}/>
 
-                    <div className="clearfix">
-                        <DecodingBoard state={this.state} activatePeg={this.activatePeg} submitPegs={this.submitPegs}/>
-                        <CodePegs state={this.state} colors={this.props.colors} activatePeg={this.activatePeg}/>
-                    </div>
+				<div className="clearfix">
+					<DecodingBoard state={this.state} activatePeg={this.activatePeg} submitPegs={this.submitPegs}/>
+					<CodePegs state={this.state} colors={this.props.colors} activatePeg={this.activatePeg}/>
+				</div>
 
-                    <EndGame state={this.state} reloadGame={this.reloadGame}/>
-                </div>
-            );
-        }
+				<EndGame state={this.state} reloadGame={this.reloadGame}/>
+			</div>
+		);
+	}
 });
 
 ~~~
@@ -198,40 +198,6 @@ The whole components' hierarchy is more readable on the following diagram:
 <span class="caption">Folder structure of example Phaser project</span>
 </div>
 
-As you probably noticed, each of the components have `render` method. It is a required method responsible only for returning the single child element. As you can see it always returns either `HTML` tags or another child component which will eventually render to HTML.
-
-As mentioned before, I used the `JSX` syntax extension. It is possible, to skip it and use just plan JavaScript. Instead of:
-
-~~~js
-
-return (
-    <div className="decoding-board left">
-        {rows}
-    </div>
-);
-
-~~~
-
-I could write:
-
-{% highlight js %}
-
-return (
-    React.createElement('div', {className: "decoding-board left"}, rows)
-);
-
-{% endhighlight %}
-
-I prefer to use the `JSX`, because it is more familiar syntax for defining tree structures with attributes.
-
-Components in React are state machines, which means that the `DOM` is updated only based on the new state.
-Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle (???).
-There is no point of reviewing [all of them][lifecycle] but it is worth keeping in mind that there is: a `componentWillMount`, invoked just before rendering; a `componentDidMount` invoked just after rendering; and a `shouldComponentUpdate` where we can specify if there is a need to render particular component.
-
-I think that I covered all of the most important basics of React library. It will be easier now to understand how the Mastermind works.
-
-###Building the decoding board and pegs
-
 One of the first new feature of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules on the top of that file:
 
 {% highlight js %}
@@ -254,6 +220,12 @@ export default Mastermind
 {% endhighlight %}
 
 We have a few React classes defined in the `./src/mastermind` file but we want to exposure only one value. The `default export` syntax means that the other ES6 modules can pick only that one particular class, which can be ony read without any modifications. The `./src/mastermind` module exports the `Mastermind` class because it is its child module and can't export modules that have been defined elsewhere.
+
+###Props versus states
+
+Components in React are state machines, which means that the `DOM` is updated only based on the new state.
+Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle (???).
+There is no point of reviewing [all of them][lifecycle] but it is worth keeping in mind that there is: a `componentWillMount`, invoked just before rendering; a `componentDidMount` invoked just after rendering; and a `shouldComponentUpdate` where we can specify if there is a need to render particular component.
 
 Let's take a deeper look at the `Mastermind` class itself. As mentioned before, it is the main React class which encapsulates sub classes and pass data to them. In React there are two kind of properties: `props` and `states` and the difference between them is crucial to understand the whole philosophy behind React.
 Both of them are plain JS objects and their changes trigger `render()` update. `Props` are passed to the child within the render method of the parent and are immutable in the child components. The child components should be as `stateless` as possible and just render those `props` values. The best example of such `stateless` component in the Mastermind game is the `SubmitButton`:
@@ -295,12 +267,12 @@ The `codeLength` and `colors` are passed to the `Mastermind` module and accessed
 
 //fragment of the render() method in the Mastermind module
 render: function() {
-		return (
-			<div>
-				<CodePegs selectedPeg={this.state.selectedPeg} colors={this.props.colors} activatePeg={this.activatePeg}/>
-			</div>
-		);
-	}
+	return (
+		<div>
+			<CodePegs selectedPeg={this.state.selectedPeg} colors={this.props.colors} activatePeg={this.activatePeg}/>
+		</div>
+	);
+}
 
 {% endhighlight %}
 
@@ -310,20 +282,20 @@ The `selectedPeg` `state` is initialised in the predefined `getInitialState()` f
 
 //in the Mastermind module
 getInitialState: function() {
-		return {
-			code: this.getCode(), //the main code to be decoded
-			selectedPeg: this.props.colors.get(0),
-			currentRow: 0,
-			currentGuess: new Map(),
-			exactMatches: 0,
-			valueMatches: 0,
-			pegsInRow: 4,
-			attempts: 10,
-			rules: false,
-			success: false,
-			endGame: false
-		};
-	},
+	return {
+		code: this.getCode(), //the main code to be decoded
+		selectedPeg: this.props.colors.get(0),
+		currentRow: 0,
+		currentGuess: new Map(),
+		exactMatches: 0,
+		valueMatches: 0,
+		pegsInRow: 4,
+		attempts: 10,
+		rules: false,
+		success: false,
+		endGame: false
+	};
+},
 
 {% endhighlight %}
 
@@ -349,8 +321,63 @@ const Mastermind = React.createClass({
 
 This is considered to be a good practice, because the `stateful` `Mastermind` component has all of the callback functions and pass them down through `props`.
 When the callback functions call `this.setState()` method and mutate `states`, React takes care of re-rendering components.
+As you probably noticed, each of the components have `render` method. It is a required method responsible only for returning the single child element. As you can see it always returns either `HTML` tags or another child component which will eventually render to HTML.
 
-let and const
+###JSX
+
+As mentioned before, I used the `JSX` syntax extension. It is possible, to skip it and use just plan JavaScript. Instead of:
+
+~~~js
+
+return (
+    <div className="decoding-board left">
+        {rows}
+    </div>
+);
+
+~~~
+
+I could write:
+
+{% highlight js %}
+
+return (
+    React.createElement('div', {className: "decoding-board left"}, rows)
+);
+
+{% endhighlight %}
+
+I prefer to use the `JSX`, because it is more familiar syntax for defining tree structures with attributes.
+
+I think that I covered all of the most important basics of React library. It will be easier now to understand how the Mastermind works.
+
+###Building the decoding board and pegs
+
+I assume that you already are familiar with the rules of the Mastermind game. If not, take a look at this useful [Wikipedia description][wiki].
+
+The first thing that needs to be done at the beginning of the game is the auto generated code that the user will have to guess. We do that in the `getCode` method:
+
+{% highlight js %}
+
+getCode: function() {
+	const code = new Map();
+
+	let generateCode = (i) => {
+		code.set(i, this.props.colors.get(this.getRandomArbitrary(0, 5)));
+	};
+
+	times(this.props.codeLength)(generateCode);
+
+	return code;
+},
+
+getRandomArbitrary: function(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+},
+
+{% endhighlight %}
+
+let and const, => functions,
 
 ###Let's take a guess!
 
@@ -373,3 +400,4 @@ Let's summarise what we've just learned.
 [es6book]: http://exploringjs.com/es6/
 [modules]: http://exploringjs.com/es6/ch_modules.html
 [axel]: http://www.2ality.com
+[wiki]: https://en.wikipedia.org/wiki/Mastermind_(board_game)
