@@ -377,7 +377,26 @@ getRandomArbitrary: function(min, max) {
 
 {% endhighlight %}
 
-let and const, => functions,
+The above code is straightforward once you understand the new ES6 `arrow functions`. The `generateCode = (i) => {i};` is a shorter syntax expression than `generateCode = function (i) { return i };`. It not only looks much better but also have lexically binded `this`, so there is no need to use `.bind()` or `that = this`, anymore.
+
+I also started using `const` and `let` to declare a variable. One of the biggest drawback of ES5 is that `var` creates a variable scoped within its nearest parent function. This leads to [hoisting issues][hoisting] which sometimes requires using `closures` to fix this. `Let` scopes the variable to the nearest block, which includes also loops and conditional statements. The main difference between `let` and `const` is that the `const` declaration creates a read-only `reference` to a value so once defined I am not able to change it.
+
+Despite not being fully supported by React I used [Map][map] to store data about code and current guess made by the user. The `Map` is the new data structure in ES 6, which itself is just an object with a simple key-value map. There can be any values for?? the keys, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
+I ust declare the `code` as a `new Map()` object
+
+{% highlight js %}
+
+let times = (n) => {
+	return (f) => {
+		Array(n).fill().map((_, i) => f(i));
+	};
+};
+
+{% endhighlight %}
+
+The `times` method is a [functional-ish][times] method created to prevent me from using `for var` to iterate over loops. I found that solution really clean and useful.
+
+
 
 ###Let's take a guess!
 
@@ -401,3 +420,6 @@ Let's summarise what we've just learned.
 [modules]: http://exploringjs.com/es6/ch_modules.html
 [axel]: http://www.2ality.com
 [wiki]: https://en.wikipedia.org/wiki/Mastermind_(board_game)
+[hoisting]: http://ignaciothayer.com/post/a-dangerous-example-of-javascript-hoisting/
+[maps]: http://www.2ality.com/2015/01/es6-maps-sets.html
+[times]: http://stackoverflow.com/a/34175903
