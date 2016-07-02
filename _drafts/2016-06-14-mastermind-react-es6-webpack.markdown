@@ -2,10 +2,10 @@
 layout: post
 title: "Mastermind game in React and ECMAScript 6"
 date:   2016-06-14 16:38:00
-image: <img src='/assets/mastermind.png' alt='Mastermind game in React and ES6'>
+image: <img src='/assets/mastermind/mastermind.png' alt='Mastermind game in React and ES6'>
 ---
 <div class='image right'>
-<img src='/assets/mastermind.png' alt='Mastermind game in React and ES6'>
+<img src='/assets/mastermind/mastermind.png' alt='Mastermind game in React and ES6'>
 <span class="caption">Mastermind game in React and ES6</span>
 </div>
 The best way to learn new technologies is to make something interesting, fun, engaging and unconventional. In this tutorial I will walk you through a [Mastermind game][mastermind] I've build to show some of the most fundamental ideas behind React library, the newest ECMAScript 6 specification and Webpack module bundler.
@@ -351,7 +351,7 @@ I prefer to use the `JSX`, because it is more familiar syntax for defining tree 
 
 I think that I covered all of the most important basics of React library. It will be easier now to understand how the Mastermind works.
 
-###Building the decoding board and pegs
+###Generating the code to guess
 
 I assume that you already are familiar with the rules of the Mastermind game. If not, take a look at this useful [Wikipedia description][wiki].
 
@@ -379,10 +379,10 @@ getRandomArbitrary: function(min, max) {
 
 The above code is straightforward once you understand the new ES6 `arrow functions`. The `generateCode = (i) => {i};` is a shorter syntax expression than `generateCode = function (i) { return i };`. It not only looks much better but also have lexically binded `this`, so there is no need to use `.bind()` or `that = this`, anymore.
 
-I also started using `const` and `let` to declare a variable. One of the biggest drawback of ES5 is that `var` creates a variable scoped within its nearest parent function. This leads to [hoisting issues][hoisting] which sometimes requires using `closures` to fix this. `Let` scopes the variable to the nearest block, which includes also loops and conditional statements. The main difference between `let` and `const` is that the `const` declaration creates a read-only `reference` to a value so once defined I am not able to change it.
+I also started using `const` and `let` to declare a variable. One of the biggest drawback of ES5 is that `var` creates a variable scoped within its nearest parent function. This leads to [hoisting issues][hoisting] which sometimes requires using `closures` to fix this. `Let` scopes the variable to the nearest block, which includes also loops and conditional statements. The main difference between `let` and `const` is that the `const` declaration creates a read-only `reference` to a value so once defined I don't want to change it.
 
-Despite not being fully supported by React I used [Map][map] to store data about code and current guess made by the user. The `Map` is the new data structure in ES 6, which itself is just an object with a simple key-value map. There can be any values for?? the keys, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
-I ust declare the `code` as a `new Map()` object
+Despite not being fully supported by React I used [Map][maps] to store data about code and current guess made by the user. The `Map` is the new data structure in ES 6, which itself is just an object with a simple key-value map. There can be any values for?? the keys, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
+I just declare code as a `new Map()` object and four times (the amount of perks to guess) generate a random number from 0-5 which is later on represented as a particular color. The generated values are stored in the `Map` object by using a `code.set()` method.
 
 {% highlight js %}
 
@@ -394,8 +394,184 @@ let times = (n) => {
 
 {% endhighlight %}
 
-The `times` method is a [functional-ish][times] method created to prevent me from using `for var` to iterate over loops. I found that solution really clean and useful.
+The `times` method is a [functional-ish][times] method created to prevent me from using `for var` to iterate n times. I found that solution really clean and useful.
 
+###Building the decoding board and pegs
+
+The decoding board located on the left consists of ten rows, where each of them includes: `DecodeRow`, where the user makes his/hers attempts; `SubmitButton`, which verify the selected value and `HintsRow` to indicate which perks are chosen correctly.
+The `key` value passed down to each child component is a necessary value which helps React handle `DOM` changes in a minimal way.
+
+{% highlight js %}
+
+const DecodingBoard = React.createClass({
+	render: function() {
+		let rows = [];
+		let rowName;
+
+		let generateRow = (i) => {
+			rowName = 'decodeRow-' + i + 1;
+			rows.push(<Row name={rowName} key={i + 1} rowId={i} state={this.props.state} activatePeg={this.props.activatePeg} submitPegs={this.props.submitPegs}/>);
+		};
+
+		times(this.props.state.attempts)(generateRow);
+
+		return (
+			<div className="decoding-board left">
+				{rows}
+			</div>
+		);
+	}
+});
+
+const Row = React.createClass({
+	render: function() {
+		const isCurrentRow = this.props.state.currentRow === this.props.rowId;
+		const rowClassName = classNames({
+				'row': true,
+				'clearfix': true,
+				'current': isCurrentRow
+			});
+		const hintsRowName = 'hintsRow-' + this.props.rowId;
+		const rowName ='decodeRow-' + this.props.rowId;
+
+		return (
+			<div className={rowClassName}>
+				<div className='left'>
+					<DecodeRow name={rowName} key={this.props.rowId} rowId={this.props.rowId} state={this.props.state} isCurrentRow={isCurrentRow} activatePeg={this.props.activatePeg}/>
+				</div>
+				<div className='left'>
+					<SubmitButton rowId={this.props.rowId} state={this.props.state} submitPegs={this.props.submitPegs}/>
+				</div>
+				<div className='right'>
+					<HintsRow name={hintsRowName} key={this.props.rowId} rowId={this.props.rowId} state={this.props.state}/>
+				</div>
+			</div>
+		);
+	}
+});
+
+{% endhighlight %}
+
+The [classNames][classnames] module originally was part of React, but now it stands up as an additional utility library. It is a really useful module which helps joining `classNames` together.
+Instead of:
+
+{% highlight js %}
+
+const rowClassName = isCurrentRow ? 'row clearfix current' : 'row clearfix';
+
+{% endhighlight %}
+
+I have now definitely more readable solution:
+
+{% highlight js %}
+
+const rowClassName = classNames({
+	'row': true,
+	'clearfix': true,
+	'current': isCurrentRow
+});
+
+{% endhighlight %}
+
+Some interesting staff is happening in the `DecodeRow` class. First of all, I didn't want to update all of the already guessed rows. In such situations, the `shouldComponentUpdate` method comes in handy:
+
+{% highlight js %}
+
+//do not update already submitted row
+shouldComponentUpdate: function(nextProps) {
+	return nextProps.state.currentRow <= nextProps.rowId;
+}
+
+{% endhighlight %}
+
+The [shouldComponentUpdate][advanced] is very effective in situation when we are sure that the re-rendering of the component is redundant.
+The `nextProps` has access to the properties passed to this component and based on that we can calculate if there is a need to proceed with re-rendering.
+
+The `render` method of the `DecodeRow` component looks like this:
+
+{% highlight js %}
+
+//the `DecodeRow` component
+render: function() {
+	let pegs = [];
+	let idVal;
+	let pegClass;
+
+	let generatePeg = (i) => {
+		idVal = this.props.name + '-' + i + 1;
+		//update current row
+		if (this.props.state.currentRow === this.props.rowId) {
+			pegClass = this.props.state.currentGuess.get(i) ? 'peg ' + this.props.state.currentGuess.get(i) : 'peg';
+		} else { //clear all of the next pegs - from the previous game
+			pegClass = 'peg';
+		}
+
+		pegs.push(<Peg idVal={idVal} name={this.props.name} value={i + 1} key={idVal} pegClass={pegClass} isCurrentRow={this.props.isCurrentRow} activatePeg={this.props.activatePeg}/>);
+	}
+
+	times(this.props.state.pegsInRow)(generatePeg);
+
+	return (
+		<div className='decode-row'>
+			{pegs}
+		</div>
+	);
+}
+
+{% endhighlight %}
+
+The peg's css class depends on the preselected pegs located on the right hand side, which I just called `CodePegs`. This is the place where the user can select colors he/she want to use on the decoding board on the left.
+Those selected values are stored in a `Map` called `currentGuess` and they can equals to any of the predefined in the `./game.js` values: zero, one, two, three, four, five. It is important at this point to pass the correct value so the styles will be applied accordingly to the chosen perks from the right.
+
+The `Peg` component is responsible for displaying markup based on the passed `props`. This is another example of the `stateless` component:
+
+{% highlight js %}
+
+const Peg = React.createClass({
+	render: function() {
+		return (
+			<span className={this.props.pegClass}>
+				<input type='radio' name={this.props.name} value={this.props.value} id={this.props.idVal} onClick={this.props.isCurrentRow ? this.props.activatePeg : null}/>
+				<label htmlFor={this.props.idVal}></label>
+			</span>
+		);
+	}
+});
+
+{% endhighlight %}
+
+Every peg in the game (on both left and right sides) are represented as `<input type='radio'/>` which is responsible for storing necessary values and corresponded?? `<label>` element which has only styling purpose. This is how pegs are styled:
+
+{% highlight css %}
+
+/*input only stores values, we don't need to show it*/
+input[type="radio"] {
+	display: none;
+}
+
+/*the label is the rounded colored element*/
+.peg input[type="radio"] + label {
+	display: inline-block;
+	border: #EAEBE9 2px solid;
+	border-radius: 50%;
+	(...)
+}
+
+/*selected peg has little darker border*/
+.selected input[type="radio"] + label {
+	border-color: #525554;
+}
+
+/*the first peg has orange background color*/
+.zero input[type="radio"] + label {
+	background: #FFB400;
+}
+
+{% endhighlight %}
+
+As you probably already figured out, the `className` value sets the css class attribute.
+
+HintsRow to provide a feedback about selected perks
 
 
 ###Let's take a guess!
@@ -423,3 +599,5 @@ Let's summarise what we've just learned.
 [hoisting]: http://ignaciothayer.com/post/a-dangerous-example-of-javascript-hoisting/
 [maps]: http://www.2ality.com/2015/01/es6-maps-sets.html
 [times]: http://stackoverflow.com/a/34175903
+[classnames]: https://github.com/JedWatson/classnames
+[advanced]: https://facebook.github.io/react/docs/advanced-performance.html#avoiding-reconciling-the-dom
