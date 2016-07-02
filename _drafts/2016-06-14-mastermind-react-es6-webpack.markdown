@@ -23,80 +23,90 @@ Before we start I want to let you know, that the whole repository is here:
 
 As mentioned before, in order to run ES6 smoothly, we need to use [Babel][babel] which will compile JavaScript ES6 syntax into ES5. We will also use [JSX][jsx] which is a JavaScript syntax extension, very similar to well known `XML`. Before starting coding, we need to setup the project and configure compilers. Let's use [Webpack][webpack] to build working JS files:
 
-{% highlight js %}
+~~~js
+
 //install webpack globally
 npm i -g webpack
 //install necessary modules locally
 npm i --save-dev webpack@^1.0.0 babel-loader babel-preset-es2015 babel-preset-react path
-{% endhighlight %}
+
+~~~
 
 The whole Webpack configuration is specified in the `webpack.config.js` file, which defines the inputs, the outputs of the project and types of transformations we want to perform. Some of the most important fragments are:
 
-{% highlight js %}
+~~~js
+
 module.exports = {
-	entry: {
-		game: './game.js' //which file should be loaded on the page
-	},
-	output: {
-		path: path.resolve('./dist'), //where the compiled JavaScript file should be saved
-		filename: './game.js', //name of the compiled JavaScript file
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.js?$/, //translate and compile on the fly ES6 with JSX into ES5
-				exclude: /node_modules/,
-				loader: 'babel',
-				query: { //query configuration passed to the loader
-					presets: ['react', 'es2015']
-				}
-			}
-		]
-	}
+    entry: {
+        game: './game.js' //which file should be loaded on the page
+    },
+    output: {
+        path: path.resolve('./dist'), //where the compiled JavaScript file should be saved
+        filename: './game.js', //name of the compiled JavaScript file
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js?$/, //translate and compile on the fly ES6 with JSX into ES5
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: { //query configuration passed to the loader
+                    presets: ['react', 'es2015']
+                }
+            }
+        ]
+    }
 };
-{% endhighlight %}
+
+~~~
 
 If you will now run the `npm run watch` specified in the `package.json` file:
 
-{% highlight js %}
+~~~js
+
 "scripts": {
     "watch": "webpack --progress --colors --watch --config ./webpack.config.js",
     "build": "webpack --config ./webpack.config.js"
 }
-{% endhighlight %}
+
+~~~
 
 You will be able to load your `file:///PATH_TO_FOLDER/dist/index.html` file in the browser.
 
 As we specified in the configuration, our entry file is `./game.js`:
 
-{% highlight js %}
+~~~js
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Mastermind from './src/mastermind';
 
 ReactDOM.render( //initialise game with specified codeLength and Map of colors properties
-	React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
-	document.getElementById('mastermind')
+    React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
+    document.getElementById('mastermind')
 )
-{% endhighlight %}
+
+~~~
 
 As you can see in the top of the file, there are imported three modules: `react`, `react-dom` which serves as the entry point of the DOM-related rendering paths and our Mastermind code.
 After importing modules, the Mastermind code is initialised and rendered in `DOM` within the element which `ID` is `mastermind`, defined in the `./dist/index.html` file:
 
-{% highlight js %}
+~~~html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="./styles.css">
-	<title>Mastermind in React and ES6</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+    <title>Mastermind in React and ES6</title>
 </head>
 <body>
 <div id="mastermind"></div>
 <script src="game.js"></script>
 </body>
 </html>
-{% endhighlight %}
+
+~~~
 
 In the `script` tag we include `game.js` file which should be in the same `dist` folder as `index.html`. If the Webpack's entry and output points are configured correctly, the `./dist/game.js` file should be compiled based on the aforementioned `./game.js`.
 
@@ -108,74 +118,78 @@ The project is setup so let's focus on the most interesting part - programing th
 
 Let's look at the top components I've created for the Mastermind game:
 
-{% highlight js %}
+~~~js
+
 const Rules = React.createClass({...});
 const DecodingBoard = React.createClass({...});
 const CodePegs = React.createClass({...});
 const EndGame = React.createClass({...});
 
 const Mastermind = React.createClass({
-	(...)
-	render: function() {
-    		return (
-    			<div>
-    				<Rules state={this.state} toggleRules={this.toggleRules}/>
+    (...)
+    render: function() {
+            return (
+                <div>
+                    <Rules state={this.state} toggleRules={this.toggleRules}/>
 
-    				<div className="clearfix">
-    					<DecodingBoard state={this.state} activatePeg={this.activatePeg} submitPegs={this.submitPegs}/>
-    					<CodePegs state={this.state} colors={this.props.colors} activatePeg={this.activatePeg}/>
-    				</div>
+                    <div className="clearfix">
+                        <DecodingBoard state={this.state} activatePeg={this.activatePeg} submitPegs={this.submitPegs}/>
+                        <CodePegs state={this.state} colors={this.props.colors} activatePeg={this.activatePeg}/>
+                    </div>
 
-    				<EndGame state={this.state} reloadGame={this.reloadGame}/>
-    			</div>
-    		);
-    	}
+                    <EndGame state={this.state} reloadGame={this.reloadGame}/>
+                </div>
+            );
+        }
 });
-{% endhighlight %}
+
+~~~
 
 The `Mastermind` is our stateful component which passes states to its child components: `Rules`, `DecodingBoard`, `CodePegs` and `EndGame` via props. Of course those sub components can also encapsulate another child components, like `DecodingBoard` and `Row` in this example:
 
-{% highlight js %}
+~~~js
+
 const SubmitButton = React.createClass({
-	render: function() {
-		return (
-			<button></button>
-		);
-	}
+    render: function() {
+        return (
+            <button></button>
+        );
+    }
 });
 
 const Row = React.createClass({
-	render: function() {
-		(...)
-		return (
-			<div>
-				<div className='left'>
-					<DecodeRow (...)/>
-				</div>
-				<div className='left'>
-					<SubmitButton (...)/>
-				</div>
-				<div className='right'>
-					<HintsRow (...)/>
-				</div>
-			</div>
-		);
-	}
+    render: function() {
+        (...)
+        return (
+            <div>
+                <div className='left'>
+                    <DecodeRow (...)/>
+                </div>
+                <div className='left'>
+                    <SubmitButton (...)/>
+                </div>
+                <div className='right'>
+                    <HintsRow (...)/>
+                </div>
+            </div>
+        );
+    }
 });
 
 const DecodingBoard = React.createClass({
-	render: function() {
-		(...)
-		rows.push(<Row (...)/>);
+    render: function() {
         (...)
-		return (
-			<div className="decoding-board left">
-				{rows}
-			</div>
-		);
-	}
+        rows.push(<Row (...)/>);
+        (...)
+        return (
+            <div className="decoding-board left">
+                {rows}
+            </div>
+        );
+    }
 });
-{% endhighlight %}
+
+~~~
 
 The whole components' hierarchy is more readable on the following diagram:
 
@@ -188,20 +202,24 @@ As you probably noticed, each of the components have `render` method. It is a re
 
 As mentioned before, I used the `JSX` syntax extension. It is possible, to skip it and use just plan JavaScript. Instead of:
 
-{% highlight js %}
+~~~js
+
 return (
-	<div className="decoding-board left">
-		{rows}
-	</div>
+    <div className="decoding-board left">
+        {rows}
+    </div>
 );
-{% endhighlight %}
+
+~~~
 
 I could write:
 
 {% highlight js %}
+
 return (
-	React.createElement('div', {className: "decoding-board left"}, rows)
+    React.createElement('div', {className: "decoding-board left"}, rows)
 );
+
 {% endhighlight %}
 
 I prefer to use the `JSX`, because it is more familiar syntax for defining tree structures with attributes.
@@ -210,22 +228,32 @@ Components in React are state machines, which means that the `DOM` is updated on
 Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle (???).
 There is no point of reviewing [all of them][lifecycle] but it is worth keeping in mind that there is: a `componentWillMount`, invoked just before rendering; a `componentDidMount` invoked just after rendering; and a `shouldComponentUpdate` where we can specify if there is a need to render particular component.
 
-I think that I covered all of the most important basics of React library. It will be easier now to understand how I wrote the Mastermind game.
+I think that I covered all of the most important basics of React library. It will be easier now to understand how the Mastermind works.
 
 ###Building the decoding board and pegs
 
 One of the first new feature of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules on the top of that file:
 
 {% highlight js %}
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Mastermind from './src/mastermind';
+
 {% endhighlight %}
 
-Modules are already known to the front-end community. There were implemented via different libraries like [RequireJS][requirejs] or [Browserify][browserify] but likely now we can use the native solution built in ES6.
-One of the principal of modules is that they have to be specified in one dedicated file (in this case, `./src/mastermind`). Every module is a singleton, there exist maximum one instance independently? of how may times particular module was imported. The whole module is executed once it is loaded
+Modules are already known to the front-end community. There were implemented via different libraries like [RequireJS][requirejs] or [Browserify][browserify] but fortunately now we can use the native solution built in ES6.
+One of the principal of modules is that they have to be specified in one dedicated file. Every module is a singleton, which means that there should exist maximum one instance independently? of how may times particular module was imported. The whole module is executed once it is loaded and it's content is encapsulated, preventing from the pollution of the global namespace.
 
+Exporting modules in ES6 is very easy and straightforward:
 
+{% highlight js %}
+
+export default Mastermind
+
+{% endhighlight %}
+
+We have a few React classes defined in the `./src/mastermind` file but we want to exposure only one value. The `default export` syntax means that the other ES6 modules can pick only that one particular class, which can be ony read without any modifications. The `./src/mastermind` module exports the `Mastermind` class because it is its child module and can't export modules that have been defined elsewhere.
 
 ###Let's take a guess!
 
