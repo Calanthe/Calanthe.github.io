@@ -112,7 +112,7 @@ In the `script` tag we include `game.js` file which should be in the same `dist`
 
 ### Introduction to React components, lifecycle functions, props and states
 
-The project is setup so let's focus on the most interesting part - programing the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which ideally will be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible stateless. As a Facebook's developers recommend:
+The project is setup so let's focus on the most interesting part - programing the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which ideally will be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible `stateless`. As a Facebook's developers recommend:
 
 "A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way."
 
@@ -145,7 +145,7 @@ const Mastermind = React.createClass({
 
 ~~~
 
-The `Mastermind` is our stateful component which passes states to its child components: `Rules`, `DecodingBoard`, `CodePegs` and `EndGame` via props. Of course those sub components can also encapsulate another child components, like `DecodingBoard` and `Row` in this example:
+The `Mastermind` is our `stateful` component which passes states to its child components: `Rules`, `DecodingBoard`, `CodePegs` and `EndGame`. Of course those sub components can also encapsulate another child components, like `DecodingBoard` and `Row` in this example:
 
 ~~~js
 
@@ -254,6 +254,103 @@ export default Mastermind
 {% endhighlight %}
 
 We have a few React classes defined in the `./src/mastermind` file but we want to exposure only one value. The `default export` syntax means that the other ES6 modules can pick only that one particular class, which can be ony read without any modifications. The `./src/mastermind` module exports the `Mastermind` class because it is its child module and can't export modules that have been defined elsewhere.
+
+Let's take a deeper look at the `Mastermind` class itself. As mentioned before, it is the main React class which encapsulates sub classes and pass data to them. In React there are two kind of properties: `props` and `states` and the difference between them is crucial to understand the whole philosophy behind React.
+Both of them are plain JS objects and their changes trigger `render()` update. `Props` are passed to the child within the render method of the parent and are immutable in the child components. The child components should be as `stateless` as possible and just render those `props` values. The best example of such `stateless` component in the Mastermind game is the `SubmitButton`:
+
+{% highlight js %}
+
+const SubmitButton = React.createClass({
+	render: function() {
+		const className = classNames({
+			'submit': true,
+			'hidden': !(this.props.state.currentGuess.size >= this.props.state.pegsInRow && this.props.state.currentRow === this.props.rowId)
+		});
+
+		return (
+			<button className={className} onClick={this.props.submitPegs}></button>
+		);
+	}
+});
+
+{% endhighlight %}
+
+Based on `props` passed by it's parent module, it renders a `<button>` element with a proper attributes like class name and `onClick` method. As you can see, those `props` values are accessible here via `this.props` object.
+
+But how can we change those passed values? This is what `states` are for. In contrary to child components, their parents are `stateful`, which means that usually based on the user's action, they can mutate the `states` values and pass them down. That's why `props` and `state` are related. The `state` of one component will often become the `props` of a child component. Like here:
+
+{% highlight js %}
+
+//./game.js
+ReactDOM.render(
+	React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
+	document.getElementById('mastermind')
+)
+
+{% endhighlight %}
+
+The `codeLength` and `colors` are passed to the `Mastermind` module and accessed there by `this.props.colors` and `this.props.codeLength` values:
+
+{% highlight js %}
+
+//fragment of the render() method in the Mastermind module
+render: function() {
+		return (
+			<div>
+				<CodePegs selectedPeg={this.state.selectedPeg} colors={this.props.colors} activatePeg={this.activatePeg}/>
+			</div>
+		);
+	}
+
+{% endhighlight %}
+
+The `selectedPeg` `state` is initialised in the predefined `getInitialState()` function which is executed exactly once during the lifecycle of the component and sets up all of the states:
+
+{% highlight js %}
+
+//in the Mastermind module
+getInitialState: function() {
+		return {
+			code: this.getCode(), //the main code to be decoded
+			selectedPeg: this.props.colors.get(0),
+			currentRow: 0,
+			currentGuess: new Map(),
+			exactMatches: 0,
+			valueMatches: 0,
+			pegsInRow: 4,
+			attempts: 10,
+			rules: false,
+			success: false,
+			endGame: false
+		};
+	},
+
+{% endhighlight %}
+
+Despite the `getInitialState` method, the `Mastermind` module contains also other functions:
+
+{% highlight js %}
+
+const Mastermind = React.createClass({
+	getInitialState: function() {},
+	reloadGame: function() {},
+	toggleRules: function() {},
+	getCode: function() {},
+	activatePeg: function(event) {},
+	submitPegs: function() {},
+	render: function() {
+		return (
+			<div>(...)</div>
+		);
+	}
+});
+
+{% endhighlight %}
+
+This is considered to be a good practice, because the `stateful` `Mastermind` component has all of the callback functions and pass them down through `props`.
+When the callback functions call `this.setState()` method and mutate `states`, React takes care of re-rendering components.
+
+let and const
 
 ###Let's take a guess!
 
