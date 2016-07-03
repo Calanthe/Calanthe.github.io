@@ -396,7 +396,7 @@ let times = (n) => {
 
 The `times` method is a [functional-ish][times] method created to prevent me from using `for var` to iterate n times. I found that solution really clean and useful.
 
-###Building the decoding board and pegs
+###Building the board and pegs
 
 The decoding board located on the left consists of ten rows, where each of them includes: `DecodeRow`, where the user makes his/hers attempts; `SubmitButton`, which verify the selected value and `HintsRow` to indicate which perks are chosen correctly.
 The `key` value passed down to each child component is a necessary value which helps React handle `DOM` changes in a minimal way.
@@ -569,12 +569,45 @@ input[type="radio"] {
 
 {% endhighlight %}
 
-As you probably already figured out, the `className` value sets the css class attribute.
+As you probably already figured out, the `className` value sets the css class attribute. It is called `className` instead of just `class`, because JSX gets translated to JS, where `class` is already in use.
+
+###User actions and peg selection
+
+Pegs on the decoding board located on the left change their state (which is represented as colors) based on the selected peg on the right. By default the first peg (orange one) is selected, which is marked with a darker border.
+As mentioned before, the `Peg` is the lowest module in the hierarchy. The user actions are trigered (?) by the onClick attribute `onClick={this.props.activatePeg}`.
+
+The `activatePeg` method is defined in the `Mastermind` module:
+
+{% highlight css %}
+
+activatePeg: function(event) {
+	//if one of the peg on the right was selected
+	if (event.target.name.startsWith('peg')) {
+		this.setState({ selectedPeg: event.target.value });
+	} else {
+		//else if one of the pegs on the decoding board was selected
+		if (this.state.selectedPeg) { //if peg on the right was selected
+			this.setState({ currentGuess: this.state.currentGuess.set(event.target.value - 1, this.state.selectedPeg) });
+		}
+	}
+}
+
+{% endhighlight %}
+
+The new `selectedPeg` state is set when one of the right pegs was selected `this.setState({ selectedPeg: event.target.value });`. Every peg in the game is represented as an `<input>` so its value is really easy to get.
+After changing the `selectedPeg` state, React takes care of the re-rendering and the just selected peg is set as active.
+
+In the situation when the peg on the decoding board is selected, the `currentGuess` state is updated: `this.setState({ currentGuess: this.state.currentGuess.set(event.target.value - 1, this.state.selectedPeg) });`.
+The `currentGuess` is a `Map` structure, where a proper element identified by a `event.target.value - 1` key, has to be changed to the preselected peg: `this.state.selectedPeg`.
+
+Once again, after changing the `state`, React renders the updated board.
+
+image of selected pegs and how they render?
+
+###Let's take a guess!
 
 HintsRow to provide a feedback about selected perks
 
-
-###Let's take a guess!
 
 ###Summary
 
