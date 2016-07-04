@@ -606,6 +606,76 @@ image of selected pegs and how they render?
 
 ###Let's take a guess!
 
+After choosing four pegs, user can submit them to check if they are correct. The submit button is visible only when all of the four pegs in one row are selected (link with a hash?).
+On select, the `this.props.submitPegs` is called:
+
+{% highlight js %}
+
+submitPegs: function() {
+	let code = new Map(this.state.code);
+	let pegs = this.state.currentGuess;
+	let foundKey;
+	let exactMatches = 0;
+	let valueMatches = 0;
+
+	// First pass: Look for value & position matches
+	// Safely remove items if they match
+	for (let [key, value] of pegs) {
+		if (value === code.get(key)) {
+			exactMatches++;
+			pegs.delete(key);
+			code.delete(key);
+		}
+	}
+
+	// Second pass: Look for value matches anywhere in the code
+	for (let [key, value] of pegs) {
+		// attempt to find the peg in the remaining code
+		foundKey = this.keyOf(code, value);
+		if (foundKey !== -1) {
+			valueMatches++;
+			// remove the matched code peg, since it's been matched
+			code.delete(foundKey);
+		}
+	}
+}
+
+keyOf: function(map, valueToFind) {
+	for (let [key, value] of map) {
+		if (valueToFind === value) {
+			return key;
+		}
+	}
+
+	return -1;
+}
+
+{% endhighlight %}
+
+First we need to copy the `Map` object which represents randomly generated code (which - as a reminder - consists of 4 pegs). It is important to make a clone of the object, because later on we are going to delete some of its values and we don't want to alter the main code.
+After initializing values, we are doing (present continues?) two important steps. At first, we want to go through the selected pegs and compare their values and positions with the generate code. If there are any, we need to remove them from `Maps` because we don't want them in the next step of calculations. We also need to count those pegs which position and values are the same, in order to show the hints circles as a matching values (styled as black pegs).
+Notice, that in order to loop through `Map` objects, we need to use the `for (let [key, value] of pegs) {}` syntax.
+
+In the second pass, we need to find all of the selected pegs which are anywhere in the code and mark them later on with a white color. To do that I used the simple implementation of the `keyOf` function, which returns either `-1` or a key of a found item.
+
+
+
+{% highlight js %}
+
+if (exactMatches === this.state.pegsInRow) {
+	this.setState({ endGame: true });
+	this.setState({ success: true });
+} else if (this.state.attempts === this.state.currentRow + 1) {
+	this.setState({ endGame: true });
+}
+
+this.setState({exactMatches: exactMatches});
+this.setState({valueMatches: valueMatches});
+this.setState({currentRow: this.state.currentRow + 1});
+this.setState({currentGuess: new Map()});
+
+{% endhighlight %}
+
 HintsRow to provide a feedback about selected perks
 
 
