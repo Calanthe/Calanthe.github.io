@@ -656,9 +656,9 @@ First we need to copy the `Map` object which represents randomly generated code 
 After initializing values, we are doing (present continues?) two important steps. At first, we want to go through the selected pegs and compare their values and positions with the generate code. If there are any, we need to remove them from `Maps` because we don't want them in the next step of calculations. We also need to count those pegs which position and values are the same, in order to show the hints circles as a matching values (styled as black pegs).
 Notice, that in order to loop through `Map` objects, we need to use the `for (let [key, value] of pegs) {}` syntax.
 
-In the second pass, we need to find all of the selected pegs which are anywhere in the code and mark them later on with a white color. To do that I used the simple implementation of the `keyOf` function, which returns either `-1` or a key of a found item.
+In the second pass, we need to find all of the selected pegs which are anywhere in the code and mark them later with a white color. To do that I used the simple implementation of the `keyOf` function, which returns either `-1` or a key of a found item.
 
-
+I have to admit that the above algorithm wasn't invented(?) by me. I found this [really interesting discussion][stack] and applied those findings to my game.
 
 {% highlight js %}
 
@@ -676,8 +676,83 @@ this.setState({currentGuess: new Map()});
 
 {% endhighlight %}
 
-HintsRow to provide a feedback about selected perks
+After the pegs' validation, we need to increment the `currentRow` value, reset the `currentGuess` `Map`, so the user can take another guess and update the `exactMatches` and `valueMatches` needed by the `HintsRow` component.
 
+`HintsRow` to provide a feedback about selected perks
+
+{% highlight js %}
+
+const HintsRow = React.createClass({
+	render: function() {
+		const hints = [];
+
+		let idVal;
+		let hintClass = '';
+		let exactMatches = this.props.state.exactMatches;
+		let valueMatches = this.props.state.valueMatches;
+
+		let generateHint = (i) => {
+			hintClass = 'hint';
+			idVal = this.props.name + '-' + i + 1;
+
+			//update current row
+			if (this.props.state.currentRow - 1 === this.props.rowId) {
+				if (exactMatches > 0) {
+					hintClass = hintClass + ' exact-matches';
+					exactMatches--;
+				} else if (valueMatches > 0) {
+					hintClass = hintClass + ' value-matches';
+					valueMatches--;
+				} else {
+					hintClass = hintClass + ' none-matches';
+				}
+			}
+
+			hints.push(<Hint key={idVal} hintClass={hintClass} rowId={this.props.rowId} state={this.props.state}/>);
+		};
+
+		times(this.props.state.pegsInRow)(generateHint);
+
+		return (
+			<div className="hints-row">
+				{hints}
+			</div>
+		);
+	}
+});
+
+{% endhighlight %}
+
+If all of the pegs selected by the user are in the correct location, we have to update the `endGame` status and inform the user about the success. Or about the failure, if the current row is the last one and he user still didn't guess the pattern.
+
+{% highlight js %}
+
+const EndGame = React.createClass({
+	render: function() {
+		const endGameInfoClass = classNames({
+				'endgame': true,
+				'hidden': !this.props.endGame
+			});
+		const endGameStatusClass = classNames({
+				'endgame-relative': true,
+				'success': this.props.success,
+				'failure': !this.props.success
+			});
+		const infoText = this.props.success ? 'Congratulations!' : 'GAME OVER!';
+
+		return (
+			<div className={endGameInfoClass}>
+				<div className={endGameStatusClass}>
+					<h2 className="endgame-header">{infoText}</h2>
+					<button className="endgame-btn" onClick={this.props.reloadGame}>PLAY AGAIN</button>
+				</div>
+				<div className="endgame-relative endgame-overlay"></div>
+			</div>
+		);
+	}
+});
+
+{% endhighlight %}
 
 ###Summary
 
@@ -704,3 +779,4 @@ Let's summarise what we've just learned.
 [times]: http://stackoverflow.com/a/34175903
 [classnames]: https://github.com/JedWatson/classnames
 [advanced]: https://facebook.github.io/react/docs/advanced-performance.html#avoiding-reconciling-the-dom
+[stack]: http://codereview.stackexchange.com/questions/27710/how-can-i-improve-this-version-of-the-board-game-mastermind
