@@ -678,7 +678,7 @@ this.setState({currentGuess: new Map()});
 
 After the pegs' validation, we need to increment the `currentRow` value, reset the `currentGuess` `Map`, so the user can take another guess and update the `exactMatches` and `valueMatches` needed by the `HintsRow` component.
 
-`HintsRow` to provide a feedback about selected perks
+`HintsRow` provides a feedback about selected perks. The small black peg is placed for each code peg which is correct in both color and position. So there should be `exactMatches` black and `valueMatches` white hint pegs:
 
 {% highlight js %}
 
@@ -698,13 +698,13 @@ const HintsRow = React.createClass({
 			//update current row
 			if (this.props.state.currentRow - 1 === this.props.rowId) {
 				if (exactMatches > 0) {
-					hintClass = hintClass + ' exact-matches';
+					hintClass = hintClass + ' exact-matches'; //black peg
 					exactMatches--;
 				} else if (valueMatches > 0) {
-					hintClass = hintClass + ' value-matches';
+					hintClass = hintClass + ' value-matches'; //white peg
 					valueMatches--;
 				} else {
-					hintClass = hintClass + ' none-matches';
+					hintClass = hintClass + ' none-matches'; //cross - no guess
 				}
 			}
 
@@ -723,7 +723,7 @@ const HintsRow = React.createClass({
 
 {% endhighlight %}
 
-If all of the pegs selected by the user are in the correct location, we have to update the `endGame` status and inform the user about the success. Or about the failure, if the current row is the last one and he user still didn't guess the pattern.
+If all of the pegs selected by the user are in the correct location, we have to update the `endGame` status and inform the user about the success. Or about the failure, if the current row is the last one and the user still didn't guess the pattern.
 
 {% highlight js %}
 
@@ -756,9 +756,34 @@ const EndGame = React.createClass({
 
 ###Summary
 
-I barely touched the subject of ES6. I would highly? recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] if you
+I know that this is a rather long post and I really appreciate that you stayed with me that long :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave to your ??
 
-Let's summarise what we've just learned.
+Let's summarise what we've just learned about ECMAScript 6 and React library.
+
+ES6:
+
+- let and const https://strongloop.com/strongblog/es6-variable-declarations/, to avoid hoisting
+- str.startsWith
+- class Mastermind extends React.Component
+- for (var value of myArray) https://hacks.mozilla.org/2015/04/es6-in-depth-iterators-and-the-for-of-loop/
+- Maps http://www.2ality.com/2015/01/es6-maps-sets.html and for of to iterate
+- Why maps? because its easier to calculate size and compare pegs with code + wanted to try sth new
+- Array.map and => functions
+- In ES6 summary mention about importing modules
+- default parameter
+
+React:
+
+- In React.js, you write event handlers which modify the state. And you write render() to reflect the current state.
+- className because class is taken, also htmlFor instead of for
+- always return one element with sth inside
+- states vs props (http://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html)
+- components in react
+- variables in {}
+- rerender components as little as possible, remember about should update method https://facebook.github.io/react/docs/advanced-performance.html
+
+I barely touched the subject of ES6. I would highly? recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] if you are interested in going deeper into this topic.
+n this example React may not be faster. I wouldn't recommend using it for small games like this. Maybe standard DOM operations will be faster. Why React at all?
 
 [mastermind]: http://zofiakorcz.pl/mastermind
 [ecmastript6]: http://www.ecma-international.org/ecma-262/6.0
