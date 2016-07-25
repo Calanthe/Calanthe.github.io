@@ -17,7 +17,7 @@ The [ECMAScript 6][ecmastript6] is the newest, published in June 2015, edition o
 [React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which allows to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with an actual DOM.
 The React's philosophy leans also to clean separation between components. One of this library's feature is a `one-way data flow` which means that child components cannot directly affect parent components.
 
-Before we start I want to let you know, that the whole repository is here:
+Before we start I want to let you know, that the whole repository is available on [github][TODO].
 
 ### Setup and initialization
 
@@ -112,7 +112,7 @@ In the `script` tag we include `game.js` file which should be in the same `dist`
 
 ### Introduction to the React components
 
-The project is setup so let's focus on the most interesting part - programing the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which ideally will be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible `stateless`. As a Facebook's developers recommend:
+The project is setup so let's focus on the most interesting part - programing the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which should be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible `stateless`. As a Facebook's developers recommend:
 
 "A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way."
 
@@ -363,17 +363,13 @@ getCode: function() {
 	const code = new Map();
 
 	let generateCode = (i) => {
-		code.set(i, this.props.colors.get(this.getRandomArbitrary(0, 5)));
+		code.set(i, this.props.colors.get(this.getRandomArbitrary()));
 	};
 
 	times(this.props.codeLength)(generateCode);
 
 	return code;
-},
-
-getRandomArbitrary: function(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-},
+}
 
 {% endhighlight %}
 
@@ -383,6 +379,16 @@ I also started using `const` and `let` to declare a variable. One of the biggest
 
 Despite not being fully supported by React I used [Map][maps] to store data about code and current guess made by the user. The `Map` is the new data structure in ES 6, which itself is just an object with a simple key-value map. There can be any values for?? the keys, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
 I just declare code as a `new Map()` object and four times (the amount of perks to guess) generate a random number from 0-5 which is later on represented as a particular color. The generated values are stored in the `Map` object by using a `code.set()` method.
+
+{% highlight js %}
+
+getRandomArbitrary: function(min = 0, max = 5) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+},
+
+{% endhighlight %}
+
+The `getRandomArbitrary` is an example of an ES6 function with a default parameter. This means that if no value is passed to the method `this.getRandomArbitrary()`, the parameters `min` and `max` are initialized with default values `function(min = 0, max = 5)`.
 
 {% highlight js %}
 
@@ -398,7 +404,12 @@ The `times` method is a [functional-ish][times] method created to prevent me fro
 
 ###Building the board and pegs
 
-The decoding board located on the left consists of ten rows, where each of them includes: `DecodeRow`, where the user makes his/hers attempts; `SubmitButton`, which verify the selected value and `HintsRow` to indicate which perks are chosen correctly.
+The decoding board located on the left consists of ten rows, where each of them includes:
+
+- `DecodeRow`, where the user makes his/hers attempts,
+- `SubmitButton`, which verify the selected value,
+- `HintsRow` to indicate which perks are chosen correctly.
+
 The `key` value passed down to each child component is a necessary value which helps React handle `DOM` changes in a minimal way.
 
 {% highlight js %}
@@ -597,6 +608,8 @@ activatePeg: function(event) {
 The new `selectedPeg` state is set when one of the right pegs was selected `this.setState({ selectedPeg: event.target.value });`. Every peg in the game is represented as an `<input>` so its value is really easy to get.
 After changing the `selectedPeg` state, React takes care of the re-rendering and the just selected peg is set as active.
 
+You can see here the `startsWith` ES6 method, which determines whether a string 'peg' begins with the characters of another string, in this example - name of the input on the `CodePegs` board.
+
 In the situation when the peg on the decoding board is selected, the `currentGuess` state is updated: `this.setState({ currentGuess: this.state.currentGuess.set(event.target.value - 1, this.state.selectedPeg) });`.
 The `currentGuess` is a `Map` structure, where a proper element identified by a `event.target.value - 1` key, has to be changed to the preselected peg: `this.state.selectedPeg`.
 
@@ -606,7 +619,7 @@ image of selected pegs and how they render?
 
 ###Let's take a guess!
 
-After choosing four pegs, user can submit them to check if they are correct. The submit button is visible only when all of the four pegs in one row are selected (link with a hash?).
+After choosing four pegs, user can submit them to check if they are correct. The submit button is visible only when all of the four pegs in one row are selected.
 On select, the `this.props.submitPegs` is called:
 
 {% highlight js %}
@@ -756,34 +769,34 @@ const EndGame = React.createClass({
 
 ###Summary
 
-I know that this is a rather long post and I really appreciate that you stayed with me that long :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave to your ??
+I know that this is a rather long post and I really appreciate that you stayed with me that far(??) :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave to you?.
 
 Let's summarise what we've just learned about ECMAScript 6 and React library.
 
 ES6:
 
-- let and const https://strongloop.com/strongblog/es6-variable-declarations/, to avoid hoisting
-- str.startsWith
-- class Mastermind extends React.Component
-- for (var value of myArray) https://hacks.mozilla.org/2015/04/es6-in-depth-iterators-and-the-for-of-loop/
-- Maps http://www.2ality.com/2015/01/es6-maps-sets.html and for of to iterate
-- Why maps? because its easier to calculate size and compare pegs with code + wanted to try sth new
-- Array.map and => functions
-- In ES6 summary mention about importing modules
-- default parameter
+- There are new `let` and `const` variable declaration, mostly to avoid hoisting.
+- The `str.startsWith()` is one of the newest string method, which determines whether a string begins with the characters of another string.
+- Maps are one the new data structures which support a few handful methods like: `set`, `get`, `has`, `delete`.
+- Use `for (var value of myArray) {}` to iterate through Maps.
+- Arrow functions `=>` are useful when you don't want to care much about manually binding `this`.
+- It is possible to create and import modules.
+- The `default parameter` of the function allow parameters to be initialized with default values if no value is passed.
 
 React:
 
-- In React.js, you write event handlers which modify the state. And you write render() to reflect the current state.
-- className because class is taken, also htmlFor instead of for
-- always return one element with sth inside
-- states vs props (http://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html)
-- components in react
-- variables in {}
-- rerender components as little as possible, remember about should update method https://facebook.github.io/react/docs/advanced-performance.html
+- A component is a React class, which ideally is responsible for one thing only.
+- Always return one DOM element which wraps child components or markup inside.
+- Event handlers modify the state and `render()` reflects the current state.
+- The `className` keyword is used because `class` is taken in ES6. As well `htmlFor` instead of `for`.
+- `Props` are immutable in the child components.
+- `States` are mutable. After altering them, React takes care of re-rendering components.
+- Variables in `JSX` are passed in `{}`.
+- Rerender components as little as possible, remember about the `shouldComponentUpdate` method.
 
-I barely touched the subject of ES6. I would highly? recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] if you are interested in going deeper into this topic.
-n this example React may not be faster. I wouldn't recommend using it for small games like this. Maybe standard DOM operations will be faster. Why React at all?
+I am aware that I barely touched the subject of ES6. I would highly? recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] or just look into [the Mozilla JavaScript documents][mozilla] if you are interested in going deeper into this topic.
+
+In this particular example React may not be faster than standard native DOM operations. There are [various][react-comparison] [discussions][react-hacker] about the performance of that library. Despite that I would recommend to use it even for small games like this. At least to get know the newest technology better in a funny, nonstandard way.
 
 [mastermind]: http://zofiakorcz.pl/mastermind
 [ecmastript6]: http://www.ecma-international.org/ecma-262/6.0
@@ -805,3 +818,6 @@ n this example React may not be faster. I wouldn't recommend using it for small 
 [classnames]: https://github.com/JedWatson/classnames
 [advanced]: https://facebook.github.io/react/docs/advanced-performance.html#avoiding-reconciling-the-dom
 [stack]: http://codereview.stackexchange.com/questions/27710/how-can-i-improve-this-version-of-the-board-game-mastermind
+[mozilla]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[react-comparison]: https://objectpartners.com/2015/11/19/comparing-react-js-performance-vs-native-dom/
+[react-hacker]: https://news.ycombinator.com/item?id=9638305
