@@ -114,7 +114,7 @@ In the `script` tag we include `game.js` file which should be in the same `dist`
 
 The project is setup so let's focus on the most interesting part - programming the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which should be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible `stateless`. As Facebook's developers recommend:
 
-"A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way."
+> A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way.
 
 Let's look at the top components I've created for the Mastermind game:
 

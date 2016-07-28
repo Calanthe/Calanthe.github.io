@@ -305,6 +305,24 @@ pre code {
   border: none;
 }
 
+blockquote {
+  padding: 14px 14px 14px 34px;
+  font-style: italic;
+  color: #42474a;
+  position: relative;
+  background-color: #FCFCFC;
+  border-left: 1px solid #E2DEDE;
+}
+
+blockquote::before {
+  content: "\201C";
+  font-size: 70px;
+  color: #009999;
+  position: absolute;
+  top: -12px;
+  left: 0;
+}
+
 /* terminal */
 .terminal {
   border: 1px solid #000;
