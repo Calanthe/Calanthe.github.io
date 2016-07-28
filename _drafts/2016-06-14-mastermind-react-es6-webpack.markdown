@@ -8,14 +8,14 @@ image: <img src='/assets/mastermind/mastermind.png' alt='Mastermind game in Reac
 <img src='/assets/mastermind/mastermind.png' alt='Mastermind game in React and ES6'>
 <span class="caption">Mastermind game in React and ES6</span>
 </div>
-The best way to learn new technologies is to make something interesting, fun, engaging and unconventional. In this tutorial I will walk you through a [Mastermind game][mastermind] I've build to show some of the most fundamental ideas behind React library, the newest ECMAScript 6 specification and Webpack module bundler.
+The best way to learn new technologies is to make something interesting, fun, engaging and unconventional. In this tutorial I will walk you through a [Mastermind game][mastermind] I built to show some of the most fundamental ideas behind the React library, ECMAScript 6 specification and Webpack module bundler.
 
 <!--more-->
 
-The [ECMAScript 6][ecmastript6] is the newest, published in June 2015, edition of the ECMAScript Language Specification, which standardized JavaScript scripting programming language. The ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth to mention that not all of the [browsers support][es6support] those fancy features (other word?) so it is important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly also on older browsers.
+[ECMAScript 6][ecmastript6] is the newest edition of the ECMAScript Language Specification, which standardized JavaScript scripting programming language. ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth to mention that not all of the [browsers support][es6support] those fancy features so it is important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly on older browsers.
 
-[React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which allows to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with an actual DOM.
-The React's philosophy leans also to clean separation between components. One of this library's feature is a `one-way data flow` which means that child components cannot directly affect parent components.
+[React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which allows to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with the actual DOM.
+React's philosophy leans also to clean separation between components. One of the library's features is a `one-way data flow` which means that child components cannot directly affect parent components.
 
 Before we start I want to let you know, that the whole repository is available on [github][TODO].
 
@@ -60,7 +60,7 @@ module.exports = {
 
 ~~~
 
-If you will now run the `npm run watch` specified in the `package.json` file:
+If you run the `npm run watch` specified in the `package.json` file:
 
 ~~~js
 
@@ -88,8 +88,8 @@ ReactDOM.render( //initialise game with specified codeLength and Map of colors p
 
 ~~~
 
-As you can see in the top of the file, there are imported three modules: `react`, `react-dom` which serves as the entry point of the DOM-related rendering paths and our Mastermind code.
-After importing modules, the Mastermind code is initialised and rendered in `DOM` within the element which `ID` is `mastermind`, defined in the `./dist/index.html` file:
+As you can see at the top of the file, there are imported three modules: `react`, `react-dom` which serves as the entry point of the DOM-related rendering paths and our Mastermind code.
+After importing modules, the Mastermind code is initialised and rendered in `DOM` within the element whose `ID` is `mastermind`, defined in the `./dist/index.html` file:
 
 ~~~html
 
@@ -112,13 +112,13 @@ In the `script` tag we include `game.js` file which should be in the same `dist`
 
 ### Introduction to the React components
 
-The project is setup so let's focus on the most interesting part - programing the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which should be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible `stateless`. As a Facebook's developers recommend:
+The project is setup so let's focus on the most interesting part - programming the Mastermind game itself. The whole game module will be divided into a few components. A component is a React class, which should be responsible for one thing only. As mentioned before, React has `unidirectional data flow` so it is important to keep as many of components as possible `stateless`. As Facebook's developers recommend:
 
 "A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way."
 
 Let's look at the top components I've created for the Mastermind game:
 
-~~~js
+~~~xml
 
 const Rules = React.createClass({...});
 const DecodingBoard = React.createClass({...});
@@ -145,9 +145,9 @@ const Mastermind = React.createClass({
 
 ~~~
 
-The `Mastermind` is our `stateful` component which passes states to its child components: `Rules`, `DecodingBoard`, `CodePegs` and `EndGame`. Of course those sub components can also encapsulate another child components, like `DecodingBoard` and `Row` in this example:
+`Mastermind` is our `stateful` component which passes state to its child components: `Rules`, `DecodingBoard`, `CodePegs` and `EndGame`. Of course those sub components can also encapsulate other child components, like `DecodingBoard` and `Row` in this example:
 
-~~~js
+~~~xml
 
 const SubmitButton = React.createClass({
     render: function() {
@@ -198,7 +198,7 @@ The whole components' hierarchy is more readable on the following diagram:
 <span class="caption">Folder structure of example Phaser project</span>
 </div>
 
-One of the first new feature of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules on the top of that file:
+One of the first new features of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules on the top of that file:
 
 {% highlight js %}
 
@@ -209,7 +209,7 @@ import Mastermind from './src/mastermind';
 {% endhighlight %}
 
 Modules are already known to the front-end community. There were implemented via different libraries like [RequireJS][requirejs] or [Browserify][browserify] but fortunately now we can use the native solution built in ES6.
-One of the principal of modules is that they have to be specified in one dedicated file. Every module is a singleton, which means that there should exist maximum one instance independently? of how may times particular module was imported. The whole module is executed once it is loaded and it's content is encapsulated, preventing from the pollution of the global namespace.
+One of the principal of modules is that they have to be specified in one dedicated file. Every module is a singleton, which means that there exists at most one instance of the module regardless of how many times it was imported. The whole module is executed once it is loaded and it's content is encapsulated, preventing the pollution of the global namespace.
 
 Exporting modules in ES6 is very easy and straightforward:
 
@@ -230,7 +230,7 @@ There is no point of reviewing [all of them][lifecycle] but it is worth keeping 
 Let's take a deeper look at the `Mastermind` class itself. As mentioned before, it is the main React class which encapsulates sub classes and pass data to them. In React there are two kind of properties: `props` and `states` and the difference between them is crucial to understand the whole philosophy behind React.
 Both of them are plain JS objects and their changes trigger `render()` update. `Props` are passed to the child within the render method of the parent and are immutable in the child components. The child components should be as `stateless` as possible and just render those `props` values. The best example of such `stateless` component in the Mastermind game is the `SubmitButton`:
 
-{% highlight js %}
+{% highlight xml %}
 
 const SubmitButton = React.createClass({
 	render: function() {
@@ -263,7 +263,7 @@ ReactDOM.render(
 
 The `codeLength` and `colors` are passed to the `Mastermind` module and accessed there by `this.props.colors` and `this.props.codeLength` values:
 
-{% highlight js %}
+{% highlight xml %}
 
 //fragment of the render() method in the Mastermind module
 render: function() {
@@ -327,7 +327,7 @@ As you probably noticed, each of the components have `render` method. It is a re
 
 As mentioned before, I used the `JSX` syntax extension. It is possible, to skip it and use just plan JavaScript. Instead of:
 
-~~~js
+~~~xml
 
 return (
     <div className="decoding-board left">
@@ -412,7 +412,7 @@ The decoding board located on the left consists of ten rows, where each of them 
 
 The `key` value passed down to each child component is a necessary value which helps React handle `DOM` changes in a minimal way.
 
-{% highlight js %}
+{% highlight xml %}
 
 const DecodingBoard = React.createClass({
 	render: function() {
@@ -536,7 +536,7 @@ Those selected values are stored in a `Map` called `currentGuess` and they can e
 
 The `Peg` component is responsible for displaying markup based on the passed `props`. This is another example of the `stateless` component:
 
-{% highlight js %}
+{% highlight xml %}
 
 const Peg = React.createClass({
 	render: function() {
@@ -589,7 +589,7 @@ As mentioned before, the `Peg` is the lowest module in the hierarchy. The user a
 
 The `activatePeg` method is defined in the `Mastermind` module:
 
-{% highlight css %}
+{% highlight js %}
 
 activatePeg: function(event) {
 	//if one of the peg on the right was selected
