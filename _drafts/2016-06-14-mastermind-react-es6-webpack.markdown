@@ -12,12 +12,12 @@ The best way to learn new technologies is to make something interesting, fun, en
 
 <!--more-->
 
-[ECMAScript 6][ecmastript6] is the newest edition of the ECMAScript Language Specification, which standardized JavaScript scripting programming language. ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth to mention that not all of the [browsers support][es6support] those fancy features so it is important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly on older browsers.
+[ECMAScript 6][ecmastript6] is the newest edition of the ECMAScript Language Specification, which standardized JavaScript programming language. ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth mentioning that not all of the [browsers support][es6support] those fancy features so it is important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly on older browsers.
 
-[React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which allows to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with the actual DOM.
-React's philosophy leans also to clean separation between components. One of the library's features is a `one-way data flow` which means that child components cannot directly affect parent components.
+[React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which aims to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with the actual DOM.
+React's philosophy also leans towards clean separation between components. One of the library's features is a `one-way data flow` which means that child components cannot directly affect parent components.
 
-Before we start I want to let you know, that the whole repository is available on [github][TODO].
+Before we start I want to let you know that the whole repository is available on [github][TODO].
 
 ### Setup and initialization
 
@@ -89,7 +89,7 @@ ReactDOM.render( //initialise game with specified codeLength and Map of colors p
 ~~~
 
 As you can see at the top of the file, there are imported three modules: `react`, `react-dom` which serves as the entry point of the DOM-related rendering paths and our Mastermind code.
-After importing modules, the Mastermind code is initialised and rendered in `DOM` within the element whose `ID` is `mastermind`, defined in the `./dist/index.html` file:
+After importing modules, the Mastermind code is initialised and rendered into the `DOM` within the element whose `ID` is `mastermind`, defined in the `./dist/index.html` file:
 
 ~~~html
 
@@ -108,7 +108,7 @@ After importing modules, the Mastermind code is initialised and rendered in `DOM
 
 ~~~
 
-In the `script` tag we include `game.js` file which should be in the same `dist` folder as `index.html`. If the Webpack's entry and output points are configured correctly, the `./dist/game.js` file should be compiled based on the aforementioned `./game.js`.
+In the `script` tag we include the `game.js` file which should be in the same `dist` folder as `index.html`. If the Webpack's entry and output points are configured correctly, the `./dist/game.js` file should be compiled based on the aforementioned `./game.js` source file.
 
 ### Introduction to the React components
 
@@ -198,7 +198,7 @@ The whole components' hierarchy is more readable on the following diagram:
 <span class="caption">Folder structure of example Phaser project</span>
 </div>
 
-One of the first new features of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules on the top of that file:
+One of the first new features of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules at the top of that file:
 
 {% highlight js %}
 
@@ -219,7 +219,7 @@ export default Mastermind
 
 {% endhighlight %}
 
-We have a few React classes defined in the `./src/mastermind` file but we want to exposure only one value. The `default export` syntax means that the other ES6 modules can pick only that one particular class, which can be ony read without any modifications. The `./src/mastermind` module exports the `Mastermind` class because it is its child module and can't export modules that have been defined elsewhere.
+We have a few React classes defined in the `./src/mastermind` file but we want to expose only one value. The `default export` syntax means that the other ES6 modules can only access that one particular class, and it can only be read without any modifications. The `./src/mastermind` module exports the `Mastermind` class because it is a child module and can't export modules that have been defined elsewhere.
 
 ###Props versus states
 
@@ -227,7 +227,7 @@ Components in React are state machines, which means that the `DOM` is updated on
 Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle (???).
 There is no point of reviewing [all of them][lifecycle] but it is worth keeping in mind that there is: a `componentWillMount`, invoked just before rendering; a `componentDidMount` invoked just after rendering; and a `shouldComponentUpdate` where we can specify if there is a need to render particular component.
 
-Let's take a deeper look at the `Mastermind` class itself. As mentioned before, it is the main React class which encapsulates sub classes and pass data to them. In React there are two kind of properties: `props` and `states` and the difference between them is crucial to understand the whole philosophy behind React.
+Let's take a deeper look at the `Mastermind` class itself. As mentioned before, it is the main React class which encapsulates sub classes and pass data to them. In React there are two kinds of properties: `props` and `states` and the difference between them is crucial to understand the whole philosophy behind React.
 Both of them are plain JS objects and their changes trigger `render()` update. `Props` are passed to the child within the render method of the parent and are immutable in the child components. The child components should be as `stateless` as possible and just render those `props` values. The best example of such `stateless` component in the Mastermind game is the `SubmitButton`:
 
 {% highlight xml %}
@@ -247,9 +247,9 @@ const SubmitButton = React.createClass({
 
 {% endhighlight %}
 
-Based on `props` passed by it's parent module, it renders a `<button>` element with a proper attributes like class name and `onClick` method. As you can see, those `props` values are accessible here via `this.props` object.
+Based on `props` passed by it's parent module, it renders a `<button>` element with proper attributes like class name and `onClick` method. As you can see, those `props` values are accessible here via `this.props` object.
 
-But how can we change those passed values? This is what `states` are for. In contrary to child components, their parents are `stateful`, which means that usually based on the user's action, they can mutate the `states` values and pass them down. That's why `props` and `state` are related. The `state` of one component will often become the `props` of a child component. Like here:
+But how can we change those passed values? This is what `states` are for. Contrary to child components, parent components are `stateful`, which means that usually based on the user's action, they can mutate the `states` values and pass them down. That's why `props` and `state` are related. The `state` of one component will often become the `props` of a child component. Like here:
 
 {% highlight js %}
 
@@ -276,7 +276,7 @@ render: function() {
 
 {% endhighlight %}
 
-The `selectedPeg` `state` is initialised in the predefined `getInitialState()` function which is executed exactly once during the lifecycle of the component and sets up all of the states:
+The `selectedPeg` `state` is initialised in the predefined `getInitialState()` function which is executed exactly once during the lifecycle of the component and sets up all state:
 
 {% highlight js %}
 
@@ -299,7 +299,7 @@ getInitialState: function() {
 
 {% endhighlight %}
 
-Despite the `getInitialState` method, the `Mastermind` module contains also other functions:
+Despite the `getInitialState` method, the `Mastermind` module also contains other functions:
 
 {% highlight js %}
 
@@ -319,13 +319,13 @@ const Mastermind = React.createClass({
 
 {% endhighlight %}
 
-This is considered to be a good practice, because the `stateful` `Mastermind` component has all of the callback functions and pass them down through `props`.
+This is considered to be a good practice, because the `stateful` `Mastermind` component has all of the callback functions and pass the state down through `props`.
 When the callback functions call `this.setState()` method and mutate `states`, React takes care of re-rendering components.
-As you probably noticed, each of the components have `render` method. It is a required method responsible only for returning the single child element. As you can see it always returns either `HTML` tags or another child component which will eventually render to HTML.
+As you probably noticed, each of the components have a `render` method. It is a required method responsible only for returning the single child element. As you can see it always returns either `HTML` tags or another child component which will eventually render to HTML.
 
 ###JSX
 
-As mentioned before, I used the `JSX` syntax extension. It is possible, to skip it and use just plan JavaScript. Instead of:
+As mentioned before, I used the `JSX` syntax extension. It is possible to skip JSX and use plain Javascript. Instead of:
 
 ~~~xml
 
@@ -347,15 +347,15 @@ return (
 
 {% endhighlight %}
 
-I prefer to use the `JSX`, because it is more familiar syntax for defining tree structures with attributes.
+I prefer to use the `JSX` extension, because it is more familiar syntax for defining tree structures with attributes.
 
-I think that I covered all of the most important basics of React library. It will be easier now to understand how the Mastermind works.
+I think that I covered all of the most important basics of React library. It will be easier now to understand how the Mastermind game works.
 
-###Generating the code to guess
+###Generating the code to guess the peg colors
 
 I assume that you already are familiar with the rules of the Mastermind game. If not, take a look at this useful [Wikipedia description][wiki].
 
-The first thing that needs to be done at the beginning of the game is the auto generated code that the user will have to guess. We do that in the `getCode` method:
+The first thing that needs to be done at the beginning of the game is create the auto generated code that the user will have to guess. We do that in the `getCode` method:
 
 {% highlight js %}
 
@@ -373,12 +373,12 @@ getCode: function() {
 
 {% endhighlight %}
 
-The above code is straightforward once you understand the new ES6 `arrow functions`. The `generateCode = (i) => {i};` is a shorter syntax expression than `generateCode = function (i) { return i };`. It not only looks much better but also have lexically binded `this`, so there is no need to use `.bind()` or `that = this`, anymore.
+The above code is straightforward once you understand the new ES6 `arrow functions`. The expression `generateCode = (i) => {i};` is a shorter syntax than `generateCode = function (i) { return i };`. It not only looks much better but it also lexically binds `this`, so there is no need to use `.bind()` or `var that = this`, anymore.
 
-I also started using `const` and `let` to declare a variable. One of the biggest drawback of ES5 is that `var` creates a variable scoped within its nearest parent function. This leads to [hoisting issues][hoisting] which sometimes requires using `closures` to fix this. `Let` scopes the variable to the nearest block, which includes also loops and conditional statements. The main difference between `let` and `const` is that the `const` declaration creates a read-only `reference` to a value so once defined I don't want to change it.
+I also started using the keywords `const` and `let` to declare a variable. One of the biggest drawbacks of ES5 is that `var` creates a variable scoped within its nearest parent function. This leads to [hoisting issues][hoisting] which sometimes requires using `closures` to fix. `Let` scopes the variable to the nearest block, which includes also loops and conditional statements. The main difference between `let` and `const` is that the `const` declaration creates a read-only `reference` to a value so once defined it cannot be re-assigned.
 
-Despite not being fully supported by React I used [Map][maps] to store data about code and current guess made by the user. The `Map` is the new data structure in ES 6, which itself is just an object with a simple key-value map. There can be any values for?? the keys, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
-I just declare code as a `new Map()` object and four times (the amount of perks to guess) generate a random number from 0-5 which is later on represented as a particular color. The generated values are stored in the `Map` object by using a `code.set()` method.
+Despite not being fully supported by React I used [Map][maps] to store data about code pegs and current guess made by the user. The `Map` is a new data structure in ES 6, which itself is just an object with a simple key-value map. The keys can be any type, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
+I just declare code as a `new Map()` object and for each of the four code pegs, I generate a random number from 0-5 which is later on represented as a particular color. The generated values are stored in the `Map` object by using a `code.set()` method.
 
 {% highlight js %}
 
@@ -388,7 +388,7 @@ getRandomArbitrary: function(min = 0, max = 5) {
 
 {% endhighlight %}
 
-The `getRandomArbitrary` is an example of an ES6 function with a default parameter. This means that if no value is passed to the method `this.getRandomArbitrary()`, the parameters `min` and `max` are initialized with default values `function(min = 0, max = 5)`.
+The `getRandomArbitrary` function is an example of an ES6 function with a default parameter. This means that if no value is passed to the method `this.getRandomArbitrary()`, the parameters `min` and `max` are initialized with default values `function(min = 0, max = 5)`.
 
 {% highlight js %}
 
@@ -484,7 +484,7 @@ const rowClassName = classNames({
 
 {% endhighlight %}
 
-Some interesting staff is happening in the `DecodeRow` class. First of all, I didn't want to update all of the already guessed rows. In such situations, the `shouldComponentUpdate` method comes in handy:
+Some interesting stuff is happening in the `DecodeRow` class. First of all, I didn't want to update all of the already guessed rows. In such situations, the `shouldComponentUpdate` method comes in handy:
 
 {% highlight js %}
 
@@ -496,7 +496,7 @@ shouldComponentUpdate: function(nextProps) {
 {% endhighlight %}
 
 The [shouldComponentUpdate][advanced] is very effective in situation when we are sure that the re-rendering of the component is redundant.
-The `nextProps` has access to the properties passed to this component and based on that we can calculate if there is a need to proceed with re-rendering.
+The `nextProps` variable has access to the properties passed to this component and based on that we can calculate if there is a need to proceed with re-rendering.
 
 The `render` method of the `DecodeRow` component looks like this:
 
