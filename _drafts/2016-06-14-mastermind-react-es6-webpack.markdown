@@ -12,7 +12,7 @@ The best way to learn new technologies is to make something interesting, fun, en
 
 <!--more-->
 
-[ECMAScript 6][ecmastript6] is the newest edition of the ECMAScript Language Specification, which standardized JavaScript programming language. ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth mentioning that not all of the [browsers support][es6support] those fancy features so it is important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly on older browsers.
+[ECMAScript 6][ecmastript6] is the newest edition of the ECMAScript Language Specification, which standardises the JavaScript programming language. ES6 introduces a new syntax and features which we will take a closer look at later in this article. It's worth mentioning that not all of the [browsers support][es6support] those fancy features so it is important to use a special compiler like [Babel][babel] to make sure that our code written in ES6 will run correctly on older browsers.
 
 [React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which aims to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with the actual DOM.
 React's philosophy also leans towards clean separation between components. One of the library's features is a `one-way data flow` which means that child components cannot directly affect parent components.
@@ -495,7 +495,7 @@ shouldComponentUpdate: function(nextProps) {
 
 {% endhighlight %}
 
-The [shouldComponentUpdate][advanced] is very effective in situation when we are sure that the re-rendering of the component is redundant.
+The [shouldComponentUpdate][advanced] is very effective in situations when we are sure that the re-rendering of the component is redundant.
 The `nextProps` variable has access to the properties passed to this component and based on that we can calculate if there is a need to proceed with re-rendering.
 
 The `render` method of the `DecodeRow` component looks like this:
@@ -532,9 +532,9 @@ render: function() {
 {% endhighlight %}
 
 The peg's css class depends on the preselected pegs located on the right hand side, which I just called `CodePegs`. This is the place where the user can select colors he/she want to use on the decoding board on the left.
-Those selected values are stored in a `Map` called `currentGuess` and they can equals to any of the predefined in the `./game.js` values: zero, one, two, three, four, five. It is important at this point to pass the correct value so the styles will be applied accordingly to the chosen perks from the right.
+Those selected values are stored in a `Map` called `currentGuess` and they can take any value predefined in the `./game.js` values: zero, one, two, three, four, five. It is important at this point to pass the correct value so the styles will be applied accordingly to the chosen pegs from the right.
 
-The `Peg` component is responsible for displaying markup based on the passed `props`. This is another example of the `stateless` component:
+The `Peg` component is responsible for displaying markup based on the passed `props`. This is another example of a `stateless` component:
 
 {% highlight xml %}
 
@@ -551,7 +551,7 @@ const Peg = React.createClass({
 
 {% endhighlight %}
 
-Every peg in the game (on both left and right sides) are represented as `<input type='radio'/>` which is responsible for storing necessary values and corresponded?? `<label>` element which has only styling purpose. This is how pegs are styled:
+Every peg in the game (on both left and right sides) is represented as `<input type='radio'/>` which is responsible for storing necessary values and corresponding `<label>` element which is used for styling purposes only. This is how pegs are styled:
 
 {% highlight css %}
 
@@ -585,7 +585,7 @@ As you probably already figured out, the `className` value sets the css class at
 ###User actions and peg selection
 
 Pegs on the decoding board located on the left change their state (which is represented as colors) based on the selected peg on the right. By default the first peg (orange one) is selected, which is marked with a darker border.
-As mentioned before, the `Peg` is the lowest module in the hierarchy. The user actions are trigered (?) by the onClick attribute `onClick={this.props.activatePeg}`.
+As mentioned before, the `Peg` is the lowest module in the hierarchy. The user actions are handled by the onClick attribute `onClick={this.props.activatePeg}`.
 
 The `activatePeg` method is defined in the `Mastermind` module:
 
@@ -606,12 +606,12 @@ activatePeg: function(event) {
 {% endhighlight %}
 
 The new `selectedPeg` state is set when one of the right pegs was selected `this.setState({ selectedPeg: event.target.value });`. Every peg in the game is represented as an `<input>` so its value is really easy to get.
-After changing the `selectedPeg` state, React takes care of the re-rendering and the just selected peg is set as active.
+After changing the `selectedPeg` state, React takes care of the re-rendering and the selected peg is set as active.
 
 You can see here the `startsWith` ES6 method, which determines whether a string 'peg' begins with the characters of another string, in this example - name of the input on the `CodePegs` board.
 
 In the situation when the peg on the decoding board is selected, the `currentGuess` state is updated: `this.setState({ currentGuess: this.state.currentGuess.set(event.target.value - 1, this.state.selectedPeg) });`.
-The `currentGuess` is a `Map` structure, where a proper element identified by a `event.target.value - 1` key, has to be changed to the preselected peg: `this.state.selectedPeg`.
+The `currentGuess` is a `Map` structure, where a proper value identified by a `event.target.value - 1` key, has to be changed to the preselected peg: `this.state.selectedPeg`.
 
 Once again, after changing the `state`, React renders the updated board.
 
@@ -619,8 +619,8 @@ image of selected pegs and how they render?
 
 ###Let's take a guess!
 
-After choosing four pegs, user can submit them to check if they are correct. The submit button is visible only when all of the four pegs in one row are selected.
-On select, the `this.props.submitPegs` is called:
+After choosing four pegs, the user can submit a guess to check if they are correct. The submit button is visible only when all of the four pegs in one row are selected.
+On selection, the `this.props.submitPegs` is called:
 
 {% highlight js %}
 
@@ -665,11 +665,11 @@ keyOf: function(map, valueToFind) {
 
 {% endhighlight %}
 
-First we need to copy the `Map` object which represents randomly generated code (which - as a reminder - consists of 4 pegs). It is important to make a clone of the object, because later on we are going to delete some of its values and we don't want to alter the main code.
-After initializing values, we are doing (present continues?) two important steps. At first, we want to go through the selected pegs and compare their values and positions with the generate code. If there are any, we need to remove them from `Maps` because we don't want them in the next step of calculations. We also need to count those pegs which position and values are the same, in order to show the hints circles as a matching values (styled as black pegs).
+First we need to copy the `Map` object which represents a randomly generated colour code (which - as a reminder - consists of 4 pegs). It is important to make a clone of the object, because later on we are going to delete some of its values and we don't want to alter the main colour code.
+After initializing values, we do two important steps. First, we want to go through the selected pegs and compare their values and positions with the generated colour code. If there are any pegs with the same position and colour, we need to remove them from `Maps` because we don't want them in the next step of calculations. We also need to count those pegs whose position and values are the same, in order to show the hints circles as matching values (styled as black pegs).
 Notice, that in order to loop through `Map` objects, we need to use the `for (let [key, value] of pegs) {}` syntax.
 
-In the second pass, we need to find all of the selected pegs which are anywhere in the code and mark them later with a white color. To do that I used the simple implementation of the `keyOf` function, which returns either `-1` or a key of a found item.
+In the second pass, we need to find all of the selected pegs which are anywhere in the code and mark them later with a white color. To do that I used the simple implementation of the `keyOf` function, which returns either `-1` or the key of the item found.
 
 I have to admit that the above algorithm wasn't invented(?) by me. I found this [really interesting discussion][stack] and applied those findings to my game.
 
@@ -691,7 +691,7 @@ this.setState({currentGuess: new Map()});
 
 After the pegs' validation, we need to increment the `currentRow` value, reset the `currentGuess` `Map`, so the user can take another guess and update the `exactMatches` and `valueMatches` needed by the `HintsRow` component.
 
-`HintsRow` provides a feedback about selected perks. The small black peg is placed for each code peg which is correct in both color and position. So there should be `exactMatches` black and `valueMatches` white hint pegs:
+`HintsRow` provides feedback about selected pegs. The small black peg is placed for each code peg which is correct in both color and position. So there should be `exactMatches` black pegs and `valueMatches` white hint pegs:
 
 {% highlight js %}
 
@@ -736,7 +736,7 @@ const HintsRow = React.createClass({
 
 {% endhighlight %}
 
-If all of the pegs selected by the user are in the correct location, we have to update the `endGame` status and inform the user about the success. Or about the failure, if the current row is the last one and the user still didn't guess the pattern.
+If all of the pegs selected by the user are in the correct location, we have to update the `endGame` status and inform the user about the success. If the current row is the last one and the user still didn't guess the pattern, then the game is over.
 
 {% highlight js %}
 
@@ -769,17 +769,17 @@ const EndGame = React.createClass({
 
 ###Summary
 
-I know that this is a rather long post and I really appreciate that you stayed with me that far(??) :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave to you?.
+I know that this is a rather long post and I really appreciate that you stayed with me this far :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave as an exercise for you!.
 
 Let's summarise what we've just learned about ECMAScript 6 and React library.
 
 ES6:
 
-- There are new `let` and `const` variable declaration, mostly to avoid hoisting.
+- There are new `let` and `const` variable declarations, mostly to avoid hoisting.
 - The `str.startsWith()` is one of the newest string method, which determines whether a string begins with the characters of another string.
-- Maps are one the new data structures which support a few handful methods like: `set`, `get`, `has`, `delete`.
+- Maps are one of the new data structures which support a few handful methods like: `set`, `get`, `has`, `delete`.
 - Use `for (var value of myArray) {}` to iterate through Maps.
-- Arrow functions `=>` are useful when you don't want to care much about manually binding `this`.
+- Arrow functions `=>` are useful when you want to automatically bind `this`.
 - It is possible to create and import modules.
 - The `default parameter` of the function allow parameters to be initialized with default values if no value is passed.
 
@@ -794,9 +794,9 @@ React:
 - Variables in `JSX` are passed in `{}`.
 - Rerender components as little as possible, remember about the `shouldComponentUpdate` method.
 
-I am aware that I barely touched the subject of ES6. I would highly? recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] or just look into [the Mozilla JavaScript documents][mozilla] if you are interested in going deeper into this topic.
+I am aware that I barely touched the subject of ES6. I would highly recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] or just look into [the Mozilla JavaScript documents][mozilla] if you are interested in going deeper into this topic.
 
-In this particular example React may not be faster than standard native DOM operations. There are [various][react-comparison] [discussions][react-hacker] about the performance of that library. Despite that I would recommend to use it even for small games like this. At least to get know the newest technology better in a funny, nonstandard way.
+In this particular example React may not be faster than standard native DOM operations. There are [various][react-comparison] [discussions][react-hacker] about the performance of that library. Despite that I would recommend to use it even for small games like this. At least you to get know the newest technology better in a fun, interesting way.
 
 [mastermind]: http://zofiakorcz.pl/mastermind
 [ecmastript6]: http://www.ecma-international.org/ecma-262/6.0
