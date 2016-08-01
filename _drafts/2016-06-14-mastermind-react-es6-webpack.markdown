@@ -17,7 +17,7 @@ The best way to learn new technologies is to make something interesting, fun, en
 [React][react] is a library made by Facebook which uses a concept of `Virtual DOM`, which aims to apply as few mutations as possible. When the element's state changes, React decides whether an actual DOM update is necessary by comparing changes in his `Virtual DOM` with the actual DOM.
 React's philosophy also leans towards clean separation between components. One of the library's features is a `one-way data flow` which means that child components cannot directly affect parent components.
 
-Before we start I want to let you know that the whole repository is available on [github][TODO].
+Before we start I want to let you know that the whole repository is available on [Calanthe/mastermind][github].
 
 ### Setup and initialization
 
@@ -224,7 +224,7 @@ We have a few React classes defined in the `./src/mastermind` file but we want t
 ###Props versus states
 
 Components in React are state machines, which means that the `DOM` is updated only based on the new state.
-Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle (???).
+Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle.
 There is no point of reviewing [all of them][lifecycle] but it is worth keeping in mind that there is: a `componentWillMount`, invoked just before rendering; a `componentDidMount` invoked just after rendering; and a `shouldComponentUpdate` where we can specify if there is a need to render particular component.
 
 Let's take a deeper look at the `Mastermind` class itself. As mentioned before, it is the main React class which encapsulates sub classes and pass data to them. In React there are two kinds of properties: `props` and `states` and the difference between them is crucial to understand the whole philosophy behind React.
@@ -325,7 +325,7 @@ As you probably noticed, each of the components have a `render` method. It is a 
 
 ###JSX
 
-As mentioned before, I used the `JSX` syntax extension. It is possible to skip JSX and use plain Javascript. Instead of:
+As mentioned before, I used the `JSX` syntax extension. It is possible to skip `JSX` and use plain Javascript. Instead of:
 
 ~~~xml
 
@@ -373,11 +373,12 @@ getCode: function() {
 
 {% endhighlight %}
 
-The above code is straightforward once you understand the new ES6 `arrow functions`. The expression `generateCode = (i) => {i};` is a shorter syntax than `generateCode = function (i) { return i };`. It not only looks much better but it also lexically binds `this`, so there is no need to use `.bind()` or `var that = this`, anymore.
+The above code is straightforward once you understand the new ES6 `arrow functions`. The expression `generateCode = (i) => {i};` is a shorter syntax than `generateCode = function (i) { return i };`.
+<br/>It not only looks much better but it also lexically binds `this`, so there is no need to use `.bind()`<br/> or `var that = this`, anymore.
 
 I also started using the keywords `const` and `let` to declare a variable. One of the biggest drawbacks of ES5 is that `var` creates a variable scoped within its nearest parent function. This leads to [hoisting issues][hoisting] which sometimes requires using `closures` to fix. `Let` scopes the variable to the nearest block, which includes also loops and conditional statements. The main difference between `let` and `const` is that the `const` declaration creates a read-only `reference` to a value so once defined it cannot be re-assigned.
 
-Despite not being fully supported by React I used [Map][maps] to store data about code pegs and current guess made by the user. The `Map` is a new data structure in ES 6, which itself is just an object with a simple key-value map. The keys can be any type, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
+Despite not being fully supported by React I used [Map][maps] to store data about code pegs and current guess made by the user. The `Map` is a new data structure in ES6, which itself is just an object with a simple key-value map. The keys can be any type, including strings and objects. It is very easy to compare two `Maps`, get its size and alter its values.
 I just declare code as a `new Map()` object and for each of the four code pegs, I generate a random number from 0-5 which is later on represented as a particular color. The generated values are stored in the `Map` object by using a `code.set()` method.
 
 {% highlight js %}
@@ -580,12 +581,12 @@ input[type="radio"] {
 
 {% endhighlight %}
 
-As you probably already figured out, the `className` value sets the css class attribute. It is called `className` instead of just `class`, because JSX gets translated to JS, where `class` is already in use.
+As you probably already figured out, the `className` value sets the css class attribute. It is called `className` instead of just `class`, because `JSX` gets translated to JS, where `class` is already in use.
 
 ###User actions and peg selection
 
 Pegs on the decoding board located on the left change their state (which is represented as colors) based on the selected peg on the right. By default the first peg (orange one) is selected, which is marked with a darker border.
-As mentioned before, the `Peg` is the lowest module in the hierarchy. The user actions are handled by the onClick attribute `onClick={this.props.activatePeg}`.
+As mentioned before, the `Peg` is the lowest module in the hierarchy. The user actions are handled by the `onClick` attribute `onClick={this.props.activatePeg}`.
 
 The `activatePeg` method is defined in the `Mastermind` module:
 
@@ -605,7 +606,7 @@ activatePeg: function(event) {
 
 {% endhighlight %}
 
-The new `selectedPeg` state is set when one of the right pegs was selected `this.setState({ selectedPeg: event.target.value });`. Every peg in the game is represented as an `<input>` so its value is really easy to get.
+The new `selectedPeg` `state` is set when one of the right pegs was selected. Every peg in the game is represented as an `<input>` so its value is really easy to get.
 After changing the `selectedPeg` state, React takes care of the re-rendering and the selected peg is set as active.
 
 You can see here the `startsWith` ES6 method, which determines whether a string 'peg' begins with the characters of another string, in this example - name of the input on the `CodePegs` board.
@@ -665,13 +666,13 @@ keyOf: function(map, valueToFind) {
 
 {% endhighlight %}
 
-First we need to copy the `Map` object which represents a randomly generated colour code (which - as a reminder - consists of 4 pegs). It is important to make a clone of the object, because later on we are going to delete some of its values and we don't want to alter the main colour code.
-After initializing values, we do two important steps. First, we want to go through the selected pegs and compare their values and positions with the generated colour code. If there are any pegs with the same position and colour, we need to remove them from `Maps` because we don't want them in the next step of calculations. We also need to count those pegs whose position and values are the same, in order to show the hints circles as matching values (styled as black pegs).
+First we need to copy the `Map` object which represents a randomly generated color code (which - as a reminder - consists of 4 pegs). It is important to make a clone of the object, because later on we are going to delete some of its values and we don't want to alter the main color code.
+After initializing values, we do two important steps. First, we want to go through the selected pegs and compare their values and positions with the generated color code. If there are any pegs with the same position and color, we need to remove them from `Maps` because we don't want them in the next step of calculations. We also need to count those pegs whose position and values are the same, in order to show the hints circles as matching values (styled as black pegs).
 Notice, that in order to loop through `Map` objects, we need to use the `for (let [key, value] of pegs) {}` syntax.
 
 In the second pass, we need to find all of the selected pegs which are anywhere in the code and mark them later with a white color. To do that I used the simple implementation of the `keyOf` function, which returns either `-1` or the key of the item found.
 
-I have to admit that the above algorithm wasn't invented(?) by me. I found this [really interesting discussion][stack] and applied those findings to my game.
+I have to admit that the above algorithm wasn't invented by me. I found this [really interesting discussion][stack] and applied those findings to my game.
 
 {% highlight js %}
 
@@ -773,17 +774,17 @@ I know that this is a rather long post and I really appreciate that you stayed w
 
 Let's summarise what we've just learned about ECMAScript 6 and React library.
 
-ES6:
+###ES6:
 
 - There are new `let` and `const` variable declarations, mostly to avoid hoisting.
 - The `str.startsWith()` is one of the newest string method, which determines whether a string begins with the characters of another string.
 - Maps are one of the new data structures which support a few handful methods like: `set`, `get`, `has`, `delete`.
-- Use `for (var value of myArray) {}` to iterate through Maps.
+- Use `for (var value of myArray) {}` to iterate through `Maps`.
 - Arrow functions `=>` are useful when you want to automatically bind `this`.
 - It is possible to create and import modules.
 - The `default parameter` of the function allow parameters to be initialized with default values if no value is passed.
 
-React:
+###React:
 
 - A component is a React class, which ideally is responsible for one thing only.
 - Always return one DOM element which wraps child components or markup inside.
@@ -797,6 +798,8 @@ React:
 I am aware that I barely touched the subject of ES6. I would highly recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] or just look into [the Mozilla JavaScript documents][mozilla] if you are interested in going deeper into this topic.
 
 In this particular example React may not be faster than standard native DOM operations. There are [various][react-comparison] [discussions][react-hacker] about the performance of that library. Despite that I would recommend to use it even for small games like this. At least you to get know the newest technology better in a fun, interesting way.
+
+Big thanks to [Rob Berry][robjamesberry] and [Richard Nguyen][richard] for mentoring me while writing this game and article.
 
 [mastermind]: http://zofiakorcz.pl/mastermind
 [ecmastript6]: http://www.ecma-international.org/ecma-262/6.0
@@ -821,3 +824,6 @@ In this particular example React may not be faster than standard native DOM oper
 [mozilla]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 [react-comparison]: https://objectpartners.com/2015/11/19/comparing-react-js-performance-vs-native-dom/
 [react-hacker]: https://news.ycombinator.com/item?id=9638305
+[github]: https://github.com/Calanthe/mastermind
+[robjamesberry]: https://twitter.com/robjamesberry
+[richard]: https://twitter.com/sherbet_noin
