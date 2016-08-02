@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Mastermind game in React and ECMAScript 6"
-date:   2016-06-14 16:38:00
+date:   2016-08-02 20:49:00
 image: <img src='/assets/mastermind/mastermind.png' alt='Mastermind game in React and ES6'>
 ---
 <div class='image right'>
