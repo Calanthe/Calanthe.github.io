@@ -384,6 +384,11 @@ ul {
   border: 1px solid #E2DEDE;
 }
 
+.center {
+  margin: 0 auto;
+  width: 440px;
+}
+
 .image .caption {
   font-size: 12px;
   display: block;

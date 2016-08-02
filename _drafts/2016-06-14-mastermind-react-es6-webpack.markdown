@@ -37,25 +37,25 @@ The whole Webpack configuration is specified in the `webpack.config.js` file, wh
 ~~~js
 
 module.exports = {
-    entry: {
-        game: './game.js' //which file should be loaded on the page
-    },
-    output: {
-        path: path.resolve('./dist'), //where the compiled JavaScript file should be saved
-        filename: './game.js', //name of the compiled JavaScript file
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.js?$/, //translate and compile on the fly ES6 with JSX into ES5
-                exclude: /node_modules/,
-                loader: 'babel',
-                query: { //query configuration passed to the loader
-                    presets: ['react', 'es2015']
-                }
-            }
-        ]
-    }
+  entry: {
+    game: './game.js' //which file should be loaded on the page
+  },
+  output: {
+    path: path.resolve('./dist'), //where the compiled JavaScript file should be saved
+    filename: './game.js', //name of the compiled JavaScript file
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js?$/, //translate and compile on the fly ES6 with JSX into ES5
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: { //query configuration passed to the loader
+          presets: ['react', 'es2015']
+        }
+      }
+    ]
+  }
 };
 
 ~~~
@@ -65,8 +65,8 @@ If you run the `npm run watch` specified in the `package.json` file:
 ~~~js
 
 "scripts": {
-    "watch": "webpack --progress --colors --watch --config ./webpack.config.js",
-    "build": "webpack --config ./webpack.config.js"
+  "watch": "webpack --progress --colors --watch --config ./webpack.config.js",
+  "build": "webpack --config ./webpack.config.js"
 }
 
 ~~~
@@ -82,8 +82,8 @@ import ReactDOM from 'react-dom';
 import Mastermind from './src/mastermind';
 
 ReactDOM.render( //initialise game with specified codeLength and Map of colors properties
-    React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
-    document.getElementById('mastermind')
+  React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
+  document.getElementById('mastermind')
 )
 
 ~~~
@@ -96,9 +96,9 @@ After importing modules, the Mastermind code is initialised and rendered into th
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="./styles.css">
-    <title>Mastermind in React and ES6</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+  <title>Mastermind in React and ES6</title>
 </head>
 <body>
 <div id="mastermind"></div>
@@ -126,21 +126,21 @@ const CodePegs = React.createClass({...});
 const EndGame = React.createClass({...});
 
 const Mastermind = React.createClass({
-    (...)
-    render: function() {
-		return (
-			<div>
-				<Rules state={this.state} toggleRules={this.toggleRules}/>
+  (...)
+  render: function() {
+    return (
+      <div>
+        <Rules state={this.state} toggleRules={this.toggleRules}/>
 
-				<div className="clearfix">
-					<DecodingBoard state={this.state} activatePeg={this.activatePeg} submitPegs={this.submitPegs}/>
-					<CodePegs state={this.state} colors={this.props.colors} activatePeg={this.activatePeg}/>
-				</div>
+        <div className="clearfix">
+          <DecodingBoard state={this.state} activatePeg={this.activatePeg} submitPegs={this.submitPegs}/>
+          <CodePegs state={this.state} colors={this.props.colors} activatePeg={this.activatePeg}/>
+        </div>
 
-				<EndGame state={this.state} reloadGame={this.reloadGame}/>
-			</div>
-		);
-	}
+        <EndGame state={this.state} reloadGame={this.reloadGame}/>
+      </div>
+    );
+  }
 });
 
 ~~~
@@ -150,52 +150,59 @@ const Mastermind = React.createClass({
 ~~~xml
 
 const SubmitButton = React.createClass({
-    render: function() {
-        return (
-            <button></button>
-        );
-    }
+  render: function() {
+    return (
+      <button></button>
+    );
+  }
 });
 
 const Row = React.createClass({
-    render: function() {
-        (...)
-        return (
-            <div>
-                <div className='left'>
-                    <DecodeRow (...)/>
-                </div>
-                <div className='left'>
-                    <SubmitButton (...)/>
-                </div>
-                <div className='right'>
-                    <HintsRow (...)/>
-                </div>
-            </div>
-        );
-    }
+  render: function() {
+    (...)
+    return (
+      <div>
+        <div className='left'>
+          <DecodeRow (...)/>
+        </div>
+        <div className='left'>
+          <SubmitButton (...)/>
+        </div>
+        <div className='right'>
+          <HintsRow (...)/>
+        </div>
+      </div>
+    );
+  }
 });
 
 const DecodingBoard = React.createClass({
-    render: function() {
-        (...)
-        rows.push(<Row (...)/>);
-        (...)
-        return (
-            <div className="decoding-board left">
-                {rows}
-            </div>
-        );
-    }
+  render: function() {
+    (...)
+    rows.push(<Row (...)/>);
+    (...)
+    return (
+      <div className="decoding-board left">
+        {rows}
+      </div>
+    );
+  }
 });
 
 ~~~
 
 The whole components' hierarchy is more readable on the following diagram:
 
-<div class='image'>
-<img src='/assets/sliding_puzzle/folder.png' alt='Folder structure'>
-<span class="caption">Folder structure of example Phaser project</span>
+<div class='image center'>
+<img src='/assets/mastermind/hierarchy.png' alt='React components'>
+<span class="caption">The React components' hierarchy</span>
+</div>
+
+This is how those components look like in the Chrome's React extension:
+
+<div class='image no-mobile'>
+<img src='/assets/mastermind/react_extension.png' alt='DecodingBoard in the Chrome's React extension'>
+<span class="caption">DecodingBoard in the Chrome's React extension</span>
 </div>
 
 One of the first new features of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules at the top of that file:
@@ -233,16 +240,16 @@ Both of them are plain JS objects and their changes trigger `render()` update. `
 {% highlight xml %}
 
 const SubmitButton = React.createClass({
-	render: function() {
-		const className = classNames({
-			'submit': true,
-			'hidden': !(this.props.state.currentGuess.size >= this.props.state.pegsInRow && this.props.state.currentRow === this.props.rowId)
-		});
+  render: function() {
+    const className = classNames({
+      'submit': true,
+      'hidden': !(this.props.state.currentGuess.size >= this.props.state.pegsInRow && this.props.state.currentRow === this.props.rowId)
+    });
 
-		return (
-			<button className={className} onClick={this.props.submitPegs}></button>
-		);
-	}
+    return (
+      <button className={className} onClick={this.props.submitPegs}></button>
+    );
+  }
 });
 
 {% endhighlight %}
@@ -255,8 +262,8 @@ But how can we change those passed values? This is what `states` are for. Contra
 
 //./game.js
 ReactDOM.render(
-	React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
-	document.getElementById('mastermind')
+  React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
+  document.getElementById('mastermind')
 )
 
 {% endhighlight %}
@@ -267,11 +274,11 @@ The `codeLength` and `colors` are passed to the `Mastermind` module and accessed
 
 //fragment of the render() method in the Mastermind module
 render: function() {
-	return (
-		<div>
-			<CodePegs selectedPeg={this.state.selectedPeg} colors={this.props.colors} activatePeg={this.activatePeg}/>
-		</div>
-	);
+  return (
+    <div>
+      <CodePegs selectedPeg={this.state.selectedPeg} colors={this.props.colors} activatePeg={this.activatePeg}/>
+    </div>
+  );
 }
 
 {% endhighlight %}
@@ -282,19 +289,19 @@ The `selectedPeg` `state` is initialised in the predefined `getInitialState()` f
 
 //in the Mastermind module
 getInitialState: function() {
-	return {
-		code: this.getCode(), //the main code to be decoded
-		selectedPeg: this.props.colors.get(0),
-		currentRow: 0,
-		currentGuess: new Map(),
-		exactMatches: 0,
-		valueMatches: 0,
-		pegsInRow: 4,
-		attempts: 10,
-		rules: false,
-		success: false,
-		endGame: false
-	};
+  return {
+    code: this.getCode(), //the main code to be decoded
+    selectedPeg: this.props.colors.get(0),
+    currentRow: 0,
+    currentGuess: new Map(),
+    exactMatches: 0,
+    valueMatches: 0,
+    pegsInRow: 4,
+    attempts: 10,
+    rules: false,
+    success: false,
+    endGame: false
+  };
 },
 
 {% endhighlight %}
@@ -304,17 +311,17 @@ Despite the `getInitialState` method, the `Mastermind` module also contains othe
 {% highlight js %}
 
 const Mastermind = React.createClass({
-	getInitialState: function() {},
-	reloadGame: function() {},
-	toggleRules: function() {},
-	getCode: function() {},
-	activatePeg: function(event) {},
-	submitPegs: function() {},
-	render: function() {
-		return (
-			<div>(...)</div>
-		);
-	}
+  getInitialState: function() {},
+  reloadGame: function() {},
+  toggleRules: function() {},
+  getCode: function() {},
+  activatePeg: function(event) {},
+  submitPegs: function() {},
+  render: function() {
+    return (
+      <div>(...)</div>
+    );
+  }
 });
 
 {% endhighlight %}
@@ -330,9 +337,9 @@ As mentioned before, I used the `JSX` syntax extension. It is possible to skip `
 ~~~xml
 
 return (
-    <div className="decoding-board left">
-        {rows}
-    </div>
+  <div className="decoding-board left">
+    {rows}
+  </div>
 );
 
 ~~~
@@ -342,7 +349,7 @@ I could write:
 {% highlight js %}
 
 return (
-    React.createElement('div', {className: "decoding-board left"}, rows)
+  React.createElement('div', {className: "decoding-board left"}, rows)
 );
 
 {% endhighlight %}
@@ -360,15 +367,15 @@ The first thing that needs to be done at the beginning of the game is create the
 {% highlight js %}
 
 getCode: function() {
-	const code = new Map();
+  const code = new Map();
 
-	let generateCode = (i) => {
-		code.set(i, this.props.colors.get(this.getRandomArbitrary()));
-	};
+  let generateCode = (i) => {
+    code.set(i, this.props.colors.get(this.getRandomArbitrary()));
+  };
 
-	times(this.props.codeLength)(generateCode);
+  times(this.props.codeLength)(generateCode);
 
-	return code;
+  return code;
 }
 
 {% endhighlight %}
@@ -384,7 +391,7 @@ I just declare code as a `new Map()` object and for each of the four code pegs, 
 {% highlight js %}
 
 getRandomArbitrary: function(min = 0, max = 5) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 },
 
 {% endhighlight %}
@@ -394,9 +401,9 @@ The `getRandomArbitrary` function is an example of an ES6 function with a defaul
 {% highlight js %}
 
 let times = (n) => {
-	return (f) => {
-		Array(n).fill().map((_, i) => f(i));
-	};
+  return (f) => {
+    Array(n).fill().map((_, i) => f(i));
+  };
 };
 
 {% endhighlight %}
@@ -409,57 +416,57 @@ The decoding board located on the left consists of ten rows, where each of them 
 
 - `DecodeRow`, where the user makes his/hers attempts,
 - `SubmitButton`, which verify the selected value,
-- `HintsRow` to indicate which perks are chosen correctly.
+- `HintsRow` to indicate which pegs are chosen correctly.
 
 The `key` value passed down to each child component is a necessary value which helps React handle `DOM` changes in a minimal way.
 
 {% highlight xml %}
 
 const DecodingBoard = React.createClass({
-	render: function() {
-		let rows = [];
-		let rowName;
+  render: function() {
+    let rows = [];
+    let rowName;
 
-		let generateRow = (i) => {
-			rowName = 'decodeRow-' + i + 1;
-			rows.push(<Row name={rowName} key={i + 1} rowId={i} state={this.props.state} activatePeg={this.props.activatePeg} submitPegs={this.props.submitPegs}/>);
-		};
+    let generateRow = (i) => {
+      rowName = 'decodeRow-' + i + 1;
+      rows.push(<Row name={rowName} key={i + 1} rowId={i} state={this.props.state} activatePeg={this.props.activatePeg} submitPegs={this.props.submitPegs}/>);
+    };
 
-		times(this.props.state.attempts)(generateRow);
+    times(this.props.state.attempts)(generateRow);
 
-		return (
-			<div className="decoding-board left">
-				{rows}
-			</div>
-		);
-	}
+    return (
+      <div className="decoding-board left">
+        {rows}
+      </div>
+    );
+  }
 });
 
 const Row = React.createClass({
-	render: function() {
-		const isCurrentRow = this.props.state.currentRow === this.props.rowId;
-		const rowClassName = classNames({
-				'row': true,
-				'clearfix': true,
-				'current': isCurrentRow
-			});
-		const hintsRowName = 'hintsRow-' + this.props.rowId;
-		const rowName ='decodeRow-' + this.props.rowId;
+  render: function() {
+    const isCurrentRow = this.props.state.currentRow === this.props.rowId;
+    const rowClassName = classNames({
+        'row': true,
+        'clearfix': true,
+        'current': isCurrentRow
+      });
+    const hintsRowName = 'hintsRow-' + this.props.rowId;
+    const rowName ='decodeRow-' + this.props.rowId;
 
-		return (
-			<div className={rowClassName}>
-				<div className='left'>
-					<DecodeRow name={rowName} key={this.props.rowId} rowId={this.props.rowId} state={this.props.state} isCurrentRow={isCurrentRow} activatePeg={this.props.activatePeg}/>
-				</div>
-				<div className='left'>
-					<SubmitButton rowId={this.props.rowId} state={this.props.state} submitPegs={this.props.submitPegs}/>
-				</div>
-				<div className='right'>
-					<HintsRow name={hintsRowName} key={this.props.rowId} rowId={this.props.rowId} state={this.props.state}/>
-				</div>
-			</div>
-		);
-	}
+    return (
+      <div className={rowClassName}>
+        <div className='left'>
+          <DecodeRow name={rowName} key={this.props.rowId} rowId={this.props.rowId} state={this.props.state} isCurrentRow={isCurrentRow} activatePeg={this.props.activatePeg}/>
+        </div>
+        <div className='left'>
+          <SubmitButton rowId={this.props.rowId} state={this.props.state} submitPegs={this.props.submitPegs}/>
+        </div>
+        <div className='right'>
+          <HintsRow name={hintsRowName} key={this.props.rowId} rowId={this.props.rowId} state={this.props.state}/>
+        </div>
+      </div>
+    );
+  }
 });
 
 {% endhighlight %}
@@ -478,9 +485,9 @@ I have now definitely more readable solution:
 {% highlight js %}
 
 const rowClassName = classNames({
-	'row': true,
-	'clearfix': true,
-	'current': isCurrentRow
+  'row': true,
+  'clearfix': true,
+  'current': isCurrentRow
 });
 
 {% endhighlight %}
@@ -491,7 +498,7 @@ Some interesting stuff is happening in the `DecodeRow` class. First of all, I di
 
 //do not update already submitted row
 shouldComponentUpdate: function(nextProps) {
-	return nextProps.state.currentRow <= nextProps.rowId;
+  return nextProps.state.currentRow <= nextProps.rowId;
 }
 
 {% endhighlight %}
@@ -505,29 +512,29 @@ The `render` method of the `DecodeRow` component looks like this:
 
 //the `DecodeRow` component
 render: function() {
-	let pegs = [];
-	let idVal;
-	let pegClass;
+  let pegs = [];
+  let idVal;
+  let pegClass;
 
-	let generatePeg = (i) => {
-		idVal = this.props.name + '-' + i + 1;
-		//update current row
-		if (this.props.state.currentRow === this.props.rowId) {
-			pegClass = this.props.state.currentGuess.get(i) ? 'peg ' + this.props.state.currentGuess.get(i) : 'peg';
-		} else { //clear all of the next pegs - from the previous game
-			pegClass = 'peg';
-		}
+  let generatePeg = (i) => {
+    idVal = this.props.name + '-' + i + 1;
+    //update current row
+    if (this.props.state.currentRow === this.props.rowId) {
+      pegClass = this.props.state.currentGuess.get(i) ? 'peg ' + this.props.state.currentGuess.get(i) : 'peg';
+    } else { //clear all of the next pegs - from the previous game
+      pegClass = 'peg';
+    }
 
-		pegs.push(<Peg idVal={idVal} name={this.props.name} value={i + 1} key={idVal} pegClass={pegClass} isCurrentRow={this.props.isCurrentRow} activatePeg={this.props.activatePeg}/>);
-	}
+    pegs.push(<Peg idVal={idVal} name={this.props.name} value={i + 1} key={idVal} pegClass={pegClass} isCurrentRow={this.props.isCurrentRow} activatePeg={this.props.activatePeg}/>);
+  }
 
-	times(this.props.state.pegsInRow)(generatePeg);
+  times(this.props.state.pegsInRow)(generatePeg);
 
-	return (
-		<div className='decode-row'>
-			{pegs}
-		</div>
-	);
+  return (
+    <div className='decode-row'>
+      {pegs}
+    </div>
+  );
 }
 
 {% endhighlight %}
@@ -540,14 +547,14 @@ The `Peg` component is responsible for displaying markup based on the passed `pr
 {% highlight xml %}
 
 const Peg = React.createClass({
-	render: function() {
-		return (
-			<span className={this.props.pegClass}>
-				<input type='radio' name={this.props.name} value={this.props.value} id={this.props.idVal} onClick={this.props.isCurrentRow ? this.props.activatePeg : null}/>
-				<label htmlFor={this.props.idVal}></label>
-			</span>
-		);
-	}
+  render: function() {
+    return (
+      <span className={this.props.pegClass}>
+        <input type='radio' name={this.props.name} value={this.props.value} id={this.props.idVal} onClick={this.props.isCurrentRow ? this.props.activatePeg : null}/>
+        <label htmlFor={this.props.idVal}></label>
+      </span>
+    );
+  }
 });
 
 {% endhighlight %}
@@ -558,25 +565,25 @@ Every peg in the game (on both left and right sides) is represented as `<input t
 
 /*input only stores values, we don't need to show it*/
 input[type="radio"] {
-	display: none;
+  display: none;
 }
 
 /*the label is the rounded colored element*/
 .peg input[type="radio"] + label {
-	display: inline-block;
-	border: #EAEBE9 2px solid;
-	border-radius: 50%;
-	(...)
+  display: inline-block;
+  border: #EAEBE9 2px solid;
+  border-radius: 50%;
+  (...)
 }
 
 /*selected peg has little darker border*/
 .selected input[type="radio"] + label {
-	border-color: #525554;
+  border-color: #525554;
 }
 
 /*the first peg has orange background color*/
 .zero input[type="radio"] + label {
-	background: #FFB400;
+  background: #FFB400;
 }
 
 {% endhighlight %}
@@ -593,15 +600,15 @@ The `activatePeg` method is defined in the `Mastermind` module:
 {% highlight js %}
 
 activatePeg: function(event) {
-	//if one of the peg on the right was selected
-	if (event.target.name.startsWith('peg')) {
-		this.setState({ selectedPeg: event.target.value });
-	} else {
-		//else if one of the pegs on the decoding board was selected
-		if (this.state.selectedPeg) { //if peg on the right was selected
-			this.setState({ currentGuess: this.state.currentGuess.set(event.target.value - 1, this.state.selectedPeg) });
-		}
-	}
+  //if one of the peg on the right was selected
+  if (event.target.name.startsWith('peg')) {
+    this.setState({ selectedPeg: event.target.value });
+  } else {
+    //else if one of the pegs on the decoding board was selected
+    if (this.state.selectedPeg) { //if peg on the right was selected
+      this.setState({ currentGuess: this.state.currentGuess.set(event.target.value - 1, this.state.selectedPeg) });
+    }
+  }
 }
 
 {% endhighlight %}
@@ -616,8 +623,6 @@ The `currentGuess` is a `Map` structure, where a proper value identified by a `e
 
 Once again, after changing the `state`, React renders the updated board.
 
-image of selected pegs and how they render?
-
 ###Let's take a guess!
 
 After choosing four pegs, the user can submit a guess to check if they are correct. The submit button is visible only when all of the four pegs in one row are selected.
@@ -626,42 +631,42 @@ On selection, the `this.props.submitPegs` is called:
 {% highlight js %}
 
 submitPegs: function() {
-	let code = new Map(this.state.code);
-	let pegs = this.state.currentGuess;
-	let foundKey;
-	let exactMatches = 0;
-	let valueMatches = 0;
+  let code = new Map(this.state.code);
+  let pegs = this.state.currentGuess;
+  let foundKey;
+  let exactMatches = 0;
+  let valueMatches = 0;
 
-	// First pass: Look for value & position matches
-	// Safely remove items if they match
-	for (let [key, value] of pegs) {
-		if (value === code.get(key)) {
-			exactMatches++;
-			pegs.delete(key);
-			code.delete(key);
-		}
-	}
+  // First pass: Look for value & position matches
+  // Safely remove items if they match
+  for (let [key, value] of pegs) {
+    if (value === code.get(key)) {
+      exactMatches++;
+      pegs.delete(key);
+      code.delete(key);
+    }
+  }
 
-	// Second pass: Look for value matches anywhere in the code
-	for (let [key, value] of pegs) {
-		// attempt to find the peg in the remaining code
-		foundKey = this.keyOf(code, value);
-		if (foundKey !== -1) {
-			valueMatches++;
-			// remove the matched code peg, since it's been matched
-			code.delete(foundKey);
-		}
-	}
+  // Second pass: Look for value matches anywhere in the code
+  for (let [key, value] of pegs) {
+    // attempt to find the peg in the remaining code
+    foundKey = this.keyOf(code, value);
+    if (foundKey !== -1) {
+      valueMatches++;
+      // remove the matched code peg, since it's been matched
+      code.delete(foundKey);
+    }
+  }
 }
 
 keyOf: function(map, valueToFind) {
-	for (let [key, value] of map) {
-		if (valueToFind === value) {
-			return key;
-		}
-	}
+  for (let [key, value] of map) {
+    if (valueToFind === value) {
+      return key;
+    }
+  }
 
-	return -1;
+  return -1;
 }
 
 {% endhighlight %}
@@ -677,10 +682,10 @@ I have to admit that the above algorithm wasn't invented by me. I found this [re
 {% highlight js %}
 
 if (exactMatches === this.state.pegsInRow) {
-	this.setState({ endGame: true });
-	this.setState({ success: true });
+  this.setState({ endGame: true });
+  this.setState({ success: true });
 } else if (this.state.attempts === this.state.currentRow + 1) {
-	this.setState({ endGame: true });
+  this.setState({ endGame: true });
 }
 
 this.setState({exactMatches: exactMatches});
@@ -697,42 +702,42 @@ After the pegs' validation, we need to increment the `currentRow` value, reset t
 {% highlight js %}
 
 const HintsRow = React.createClass({
-	render: function() {
-		const hints = [];
+  render: function() {
+    const hints = [];
 
-		let idVal;
-		let hintClass = '';
-		let exactMatches = this.props.state.exactMatches;
-		let valueMatches = this.props.state.valueMatches;
+    let idVal;
+    let hintClass = '';
+    let exactMatches = this.props.state.exactMatches;
+    let valueMatches = this.props.state.valueMatches;
 
-		let generateHint = (i) => {
-			hintClass = 'hint';
-			idVal = this.props.name + '-' + i + 1;
+    let generateHint = (i) => {
+      hintClass = 'hint';
+      idVal = this.props.name + '-' + i + 1;
 
-			//update current row
-			if (this.props.state.currentRow - 1 === this.props.rowId) {
-				if (exactMatches > 0) {
-					hintClass = hintClass + ' exact-matches'; //black peg
-					exactMatches--;
-				} else if (valueMatches > 0) {
-					hintClass = hintClass + ' value-matches'; //white peg
-					valueMatches--;
-				} else {
-					hintClass = hintClass + ' none-matches'; //cross - no guess
-				}
-			}
+      //update current row
+      if (this.props.state.currentRow - 1 === this.props.rowId) {
+        if (exactMatches > 0) {
+          hintClass = hintClass + ' exact-matches'; //black peg
+          exactMatches--;
+        } else if (valueMatches > 0) {
+          hintClass = hintClass + ' value-matches'; //white peg
+          valueMatches--;
+        } else {
+          hintClass = hintClass + ' none-matches'; //cross - no guess
+        }
+      }
 
-			hints.push(<Hint key={idVal} hintClass={hintClass} rowId={this.props.rowId} state={this.props.state}/>);
-		};
+      hints.push(<Hint key={idVal} hintClass={hintClass} rowId={this.props.rowId} state={this.props.state}/>);
+    };
 
-		times(this.props.state.pegsInRow)(generateHint);
+    times(this.props.state.pegsInRow)(generateHint);
 
-		return (
-			<div className="hints-row">
-				{hints}
-			</div>
-		);
-	}
+    return (
+      <div className="hints-row">
+        {hints}
+      </div>
+    );
+  }
 });
 
 {% endhighlight %}
@@ -742,35 +747,35 @@ If all of the pegs selected by the user are in the correct location, we have to 
 {% highlight js %}
 
 const EndGame = React.createClass({
-	render: function() {
-		const endGameInfoClass = classNames({
-				'endgame': true,
-				'hidden': !this.props.endGame
-			});
-		const endGameStatusClass = classNames({
-				'endgame-relative': true,
-				'success': this.props.success,
-				'failure': !this.props.success
-			});
-		const infoText = this.props.success ? 'Congratulations!' : 'GAME OVER!';
+  render: function() {
+    const endGameInfoClass = classNames({
+        'endgame': true,
+        'hidden': !this.props.endGame
+      });
+    const endGameStatusClass = classNames({
+        'endgame-relative': true,
+        'success': this.props.success,
+        'failure': !this.props.success
+      });
+    const infoText = this.props.success ? 'Congratulations!' : 'GAME OVER!';
 
-		return (
-			<div className={endGameInfoClass}>
-				<div className={endGameStatusClass}>
-					<h2 className="endgame-header">{infoText}</h2>
-					<button className="endgame-btn" onClick={this.props.reloadGame}>PLAY AGAIN</button>
-				</div>
-				<div className="endgame-relative endgame-overlay"></div>
-			</div>
-		);
-	}
+    return (
+      <div className={endGameInfoClass}>
+        <div className={endGameStatusClass}>
+          <h2 className="endgame-header">{infoText}</h2>
+          <button className="endgame-btn" onClick={this.props.reloadGame}>PLAY AGAIN</button>
+        </div>
+        <div className="endgame-relative endgame-overlay"></div>
+      </div>
+    );
+  }
 });
 
 {% endhighlight %}
 
 ###Summary
 
-I know that this is a rather long post and I really appreciate that you stayed with me this far :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave as an exercise for you!.
+I know that this is a rather long post and I really appreciate that you stayed with me this far :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave as an exercise for you!
 
 Let's summarise what we've just learned about ECMAScript 6 and React library.
 
@@ -793,7 +798,7 @@ Let's summarise what we've just learned about ECMAScript 6 and React library.
 - `Props` are immutable in the child components.
 - `States` are mutable. After altering them, React takes care of re-rendering components.
 - Variables in `JSX` are passed in `{}`.
-- Rerender components as little as possible, remember about the `shouldComponentUpdate` method.
+- Re-render components as little as possible, remember about the `shouldComponentUpdate` method.
 
 I am aware that I barely touched the subject of ES6. I would highly recommend reading this well written online book about [EcmaScript 6][es6book] by [Dr. Axel Rauschmayer][axel] or just look into [the Mozilla JavaScript documents][mozilla] if you are interested in going deeper into this topic.
 

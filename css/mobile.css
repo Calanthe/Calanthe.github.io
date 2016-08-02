@@ -46,6 +46,7 @@
     font-size: 14px;
   }
 
+  .image,
   .tutor,
   .no-mobile {
     display: none;
