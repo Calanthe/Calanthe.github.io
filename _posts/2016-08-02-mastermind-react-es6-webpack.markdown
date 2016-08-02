@@ -24,18 +24,15 @@ Before we start I want to let you know that the whole repository is available on
 As mentioned before, in order to run ES6 smoothly, we need to use [Babel][babel] which will compile JavaScript ES6 syntax into ES5. We will also use [JSX][jsx] which is a JavaScript syntax extension, very similar to well known `XML`. Before starting coding, we need to setup the project and configure compilers. Let's use [Webpack][webpack] to build working JS files:
 
 ~~~js
-
 //install webpack globally
 npm i -g webpack
 //install necessary modules locally
 npm i --save-dev webpack@^1.0.0 babel-loader babel-preset-es2015 babel-preset-react path
-
 ~~~
 
 The whole Webpack configuration is specified in the `webpack.config.js` file, which defines the inputs, the outputs of the project and types of transformations we want to perform. Some of the most important fragments are:
 
 ~~~js
-
 module.exports = {
   entry: {
     game: './game.js' //which file should be loaded on the page
@@ -57,18 +54,15 @@ module.exports = {
     ]
   }
 };
-
 ~~~
 
 If you run the `npm run watch` specified in the `package.json` file:
 
 ~~~js
-
 "scripts": {
   "watch": "webpack --progress --colors --watch --config ./webpack.config.js",
   "build": "webpack --config ./webpack.config.js"
 }
-
 ~~~
 
 You will be able to load your `file:///PATH_TO_FOLDER/dist/index.html` file in the browser.
@@ -76,7 +70,6 @@ You will be able to load your `file:///PATH_TO_FOLDER/dist/index.html` file in t
 As we specified in the configuration, our entry file is `./game.js`:
 
 ~~~js
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Mastermind from './src/mastermind';
@@ -85,14 +78,12 @@ ReactDOM.render( //initialise game with specified codeLength and Map of colors p
   React.createElement(Mastermind, {codeLength: 4, colors: new Map([[0, 'zero'], [1, 'one'], [2, 'two'], [3, 'three'], [4, 'four'], [5, 'five']])}),
   document.getElementById('mastermind')
 )
-
 ~~~
 
 As you can see at the top of the file, there are imported three modules: `react`, `react-dom` which serves as the entry point of the DOM-related rendering paths and our Mastermind code.
 After importing modules, the Mastermind code is initialised and rendered into the `DOM` within the element whose `ID` is `mastermind`, defined in the `./dist/index.html` file:
 
 ~~~html
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,7 +96,6 @@ After importing modules, the Mastermind code is initialised and rendered into th
 <script src="game.js"></script>
 </body>
 </html>
-
 ~~~
 
 In the `script` tag we include the `game.js` file which should be in the same `dist` folder as `index.html`. If the Webpack's entry and output points are configured correctly, the `./dist/game.js` file should be compiled based on the aforementioned `./game.js` source file.
@@ -119,7 +109,6 @@ The project is setup so let's focus on the most interesting part - programming t
 Let's look at the top components I've created for the Mastermind game:
 
 ~~~xml
-
 const Rules = React.createClass({...});
 const DecodingBoard = React.createClass({...});
 const CodePegs = React.createClass({...});
@@ -142,13 +131,11 @@ const Mastermind = React.createClass({
     );
   }
 });
-
 ~~~
 
 `Mastermind` is our `stateful` component which passes state to its child components: `Rules`, `DecodingBoard`, `CodePegs` and `EndGame`. Of course those sub components can also encapsulate other child components, like `DecodingBoard` and `Row` in this example:
 
 ~~~xml
-
 const SubmitButton = React.createClass({
   render: function() {
     return (
@@ -188,7 +175,6 @@ const DecodingBoard = React.createClass({
     );
   }
 });
-
 ~~~
 
 The whole components' hierarchy is more readable on the following diagram:
@@ -208,11 +194,9 @@ This is how those components look like in the Chrome's React extension:
 One of the first new features of ES6 I want to introduce to you are `modules`. If you noticed earlier in the `./game.js` file, I imported three modules at the top of that file:
 
 {% highlight js %}
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Mastermind from './src/mastermind';
-
 {% endhighlight %}
 
 Modules are already known to the front-end community. There were implemented via different libraries like [RequireJS][requirejs] or [Browserify][browserify] but fortunately now we can use the native solution built in ES6.
