@@ -9,16 +9,15 @@ image: <img src='/assets/sliding_puzzle/sliding_puzzle.png' alt='Buggy SnAkE for
 <span class="caption">Buggy SnAkE for the Js13kGames</span>
 </div>
 After 4 years of slacking off I finally had time, energy and idea to do [another][swift] game for the [Js13kGames][Js13kGames] contest. With help from [Bartek][bartaz] we created a glitched version of the classic Snake game.
-In this article I want to talk about the most interesting programming challenges and ideas we came of during development of the [buggy SnAkE game][buggySnake].
+In this article I want to show you(??) the most interesting programming challenges and ideas we came of during development of the [buggy SnAkE game][buggySnake].
 
 <!--more-->
 
 This year's theme of the [Js13kGames][Js13kGames] competition is `Glitch`. We had an idea to create a well known classic game and add some glitches to it. We choose Snake because it is one of the easiest game to do in canvas. And also because I loved the Snake 2 game originally released on Nokia 3310 phone. I used to spend lot's of time mastering it when I was younger, mostly while commuting to school.
 It was also important to do something that people know and recognise. I am aware (also from my own experience) that sometimes people are too lazy to read rules of a new game. It is not very practical to do complicated entry for contests like [Js13kGames][Js13kGames], where people want to play and test as many different games as possible.
 
-I think that there is no need to explain the rules of classic Snake in much details. Simply as that: player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls**. The glitched graphic feature's purpose is only to make game little harder. The amount of glitches increases during the play
-
-I will describe later on in more details how those glitches were implemented. ??
+I think that there is no need to explain the rules of classic Snake in much details. Simply as that: player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls**.
+We wanted the game to have a retro graphic style, the more similar to the classic Nokia Snake the best. We ended up showing (???) the snake just as a line as it was in the old Nokia's 3210 'Snake 1' game. The graphical inspiration for bugs was obviously my favourite Nokia's 3310 'Snake 2' version. Because of the limited *4 x 8* cells' sizes we were forced to alter a little those original bugs. Hopefully they still remind you the original ones!
 
 ### How to program the standard Snake game?
 
@@ -89,7 +88,7 @@ This is how to implement the basic Snake game. But in order to introduce glitche
 
 ### Introducing graphical glitches (??)
 
-In order to easily implement glitched and retro like graphic, we had to divide the whole canvas into `20 x 20 px` cells. The whole board (including score points, HI score and bug's timeout at the top) is represented as a `two dimensional Array` (2d Array??):
+In order to easily implement glitched and retro like graphic, we had to divide the whole canvas into *20 x 20 px* cells. The whole board (including score points, HI score and bug's timeout at the top) is represented as a `two dimensional Array` (2d array??):
 
 ~~~js
 Snake.Game.initStateValues = function() {
@@ -136,11 +135,10 @@ Snake.Board.initBoard = function(state) {
 
 During the initialisation, the whole board is saved into `board` 2d array, where each cell is represented as an object with `type` and `isGlitched` properties. After creating the empty `board` array, we have to mark proper horizontal and vertical lines as walls, by setting it's cells `type` to `wall`.
 
-Now the painting algorithm is quite straightforward:
+Now the painting algorithm is quite straightforward. We just have to go through the main `board` array and paint the elements (wall pieces, food and bugs) in a proper place, with given graphic style and defined color:
 
 ~~~js
 Snake.UI.paint = function(state) {
-(...)
 //paint the board
 	for (var x = 0; x < state.boardWidth; x++) {
 		for (var y = 0; y < state.boardHeight; y++) {
@@ -160,7 +158,7 @@ Snake.UI.paint = function(state) {
 this.paintPixels();
 ~~~
 
-We just have to go through the main `board` array and paint the elements (wall pieces, food and bugs) in a proper place, with given graphic style and defined color:
+Each *20 x 20 px* cell is drawn as *4 x (4 + 1px spacing)* pixels. All of those pixels are saved in the `pixel` array:
 
 ~~~js
 Snake.UI = {
@@ -170,6 +168,8 @@ Snake.UI = {
 
 Snake.UI.initPixels = function(state) {
 	this.pixels = [];
+
+	//initialise array of empty pixels
 	for (var x = 0; x < state.boardWidth * this.pixelsPerCell; x++) {
 		this.pixels.push(new Array(state.boardHeight * this.pixelsPerCell));
 	}
@@ -190,14 +190,19 @@ Snake.UI.paintCell = function(x, y, color, cellPixels, isGlitched) {
 };
 ~~~
 
-For example food is represented as:
+In the `paintCell` method we just have to go through all of the pixels in given cell and set a proper color. Except in the situation when we want to glitch one cell, eg to show wall's piece as a portal. In that situation (??), there is no point of drawing all of the cell's pixels. That's why there is a random number generated in the condition before setting the color. If that number is bigger than `0.9`, which happens in 10% of situations, than current pixel is not drawn. This gives us nice and little flickering effect.
+
+As mentioned before, each of the cells are represented as a *4 x 4* pixels. This is how food looks like:
+
 ~~~js
-food: [
-			[       ],
-			[ , ,1  ],
-			[ ,1, ,1],
-			[ , ,1  ]
-		],
+Snake.UI = {
+    food: [
+       [       ],
+       [ , ,1  ],
+       [ ,1, ,1],
+       [ , ,1  ]
+    ]
+};
 ~~~
 
 The `paintPixels` method looks like this:
@@ -222,6 +227,10 @@ Snake.UI.paintPixels = function() {
 };
 ~~~
 
+
+The glitched graphic feature's purpose is only to make game little harder. The amount of glitches increases during the play
+
+The same method was used to draw pixel like fonts.
 
 How collision checking improved with the 2dim array and paintCell? glitchy walls, fonts, whole board glitched
 it was also easy to draw a flickering portal which allows snake to go through.
