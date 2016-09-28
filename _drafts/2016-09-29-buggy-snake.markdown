@@ -265,20 +265,26 @@ Snake.UI.glitchPixels = function() {
 	var state = Snake.Game.state;
 
 	for (var g = 0; g < state.level - 1; g++) {
-		// glitch columns (simple shifting/pushing pixels around)
-		var glitchOffset = Snake.Game.random(0, state.level - 1); // move by how many pixels
-		var glitchWidth = Snake.Game.random(1, state.boardWidth * this.pixelsPerCell / 2);  // group of how many columns/rows to move
-		var rand = Math.random(); // direction of move
 
-		var column = Snake.Game.random(0, state.boardWidth * this.pixelsPerCell - 1 - glitchWidth); // which column to move
+		//how far move the pixels
+		var glitchOffset = Snake.Game.random(0, state.level - 1);
+
+		//group of how many columns to move
+		var glitchWidth = Snake.Game.random(1, state.boardWidth * this.pixelsPerCell / 2);
+
+		//direction of move
+		var rand = Math.random();
+
+        //which column to move
+		var column = Snake.Game.random(0, state.boardWidth * this.pixelsPerCell - 1 - glitchWidth);
 
 		for (var w = 0; w < glitchWidth; w++) {
 			var x = column + w;
 			for (var o = 0; o < glitchOffset; o++) {
-				if (rand < 0.01) {
+				if (rand < 0.01) { //move column to the left
 					var pixel = this.pixels[x].shift();
 					this.pixels[x].push(pixel);
-				} else if (rand > 0.99) {
+				} else if (rand > 0.99) { //move column to the right
 					pixel = this.pixels[x][state.boardHeight * this.pixelsPerCell - 1];
 					this.pixels[x].unshift(pixel);
 				}
@@ -288,8 +294,12 @@ Snake.UI.glitchPixels = function() {
 };
 {% endhighlight %}
 
-The glitched graphic feature's purpose is only to make game little harder to control your snake. The amount of glitches increases during the play.
-
+The glitched graphic feature's purpose is to make it little harder to control your snake. The amount of glitches increases during the play.
+In every game loop, just before painting the pixels, we try to glitch a number of columns. That number equals to the level achieved by the user (which increases every 5th consumed food).
+So if the user reached for example 3rd level, the game will try 3 times to glitch a random amount of columns. In order to do that, we have to calculate the distance of how far to move those columns and how many of them should be altered.
+Then the random number is generated and based on that we know the direction of the movement. The probability of moving columns either to the left (< 0.01) or to the right (> 0.99) is rather low but if the level is high, there is more chances of generating one or another direction. Also, the amount of glitched columns increases with the level.
+After generating random direction value which is less than 0.01, we have to remove the first **column** from the **rows array** and add it to the end of the same array. This operation will move all of the columns to the left.
+Moving columns to the right is little easier. We just have to copy the last value from the **rows array** and place it at the beginning of the same array.
 
 <div class='image left'>
 <img src='/assets/sliding_puzzle/folder.png' alt='TRON mode'>
