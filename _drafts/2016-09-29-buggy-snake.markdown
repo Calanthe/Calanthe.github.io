@@ -192,7 +192,7 @@ Snake.UI.paintCell = function(x, y, color, cellPixels, isGlitched) {
 
 In the `paintCell` method we just have to go through all of the pixels in given cell and set a proper color. Except in the situation when we want to glitch one cell, eg to show wall's piece as a portal. In that situation (??), there is no point of drawing all of the cell's pixels. That's why there is a random number generated in the condition before setting the color. If that number is bigger than `0.9`, which happens in 10% of situations, than current pixel is not drawn. This gives us nice and little flickering effect.
 
-As mentioned before, each of the cells are represented as a *4 x 4* pixels. This is how food looks like:
+As mentioned before, each of the cells are represented as *4 x 4* pixels. This is how food looks like:
 
 ~~~js
 Snake.UI = {
@@ -227,22 +227,81 @@ Snake.UI.paintPixels = function() {
 };
 ~~~
 
+Each cells are drawn as a 16 pixels with additional empty spacing in a standard mode. The TRON mode looks little more futuristic, that's why there is no space between cells.
+After setting the pixel's width and spacing values, we just go through each of the pixels and draw them on canvas with a standard `ctx.fillRect` method.
 
-The glitched graphic feature's purpose is only to make game little harder. The amount of glitches increases during the play
+<div class='image left'>
+<img src='/assets/sliding_puzzle/folder.png' alt='Each cells are drawn as 4 x (4 + 1px) pixels'>
+<span class="caption">Each cells are drawn as 4 x (4 + 1px) pixels</span>
+</div>
 
-The same method was used to draw pixel like fonts.
+Introducing `pixels` and `board` array helped us implementing collision checking much easier and faster.
+Before refactor the collision checking with walls looked like this:
+
+{% highlight js %}
+Snake.Game.ifCollided = function(snakeX, snakeY, walls) {
+    var i;
+    //check if the snakeX/snakeY coordinates exist in the walls' array
+    for (i = 0; i < walls.length; i++) {
+        if (walls[i].x === snakeX && walls[i].y === snakeY && !walls[i].isGlitched) {
+            return true;
+        }
+    }
+};
+{% endhighlight %}
+
+And after refactor it was just one line solution:
+
+{% highlight js %}
+if (this.state.board[snakeX][snakeY].type === 'wall') {
+    //collision detected
+}
+{% endhighlight %}
+
+The aforementioned big refactor made easier for us to introduce features like flickering walls, pixelated fonts and glitched board. This is how we glitched whole columns:
+
+{% highlight js %}
+Snake.UI.glitchPixels = function() {
+	var state = Snake.Game.state;
+
+	for (var g = 0; g < state.level - 1; g++) {
+		// glitch columns (simple shifting/pushing pixels around)
+		var glitchOffset = Snake.Game.random(0, state.level - 1); // move by how many pixels
+		var glitchWidth = Snake.Game.random(1, state.boardWidth * this.pixelsPerCell / 2);  // group of how many columns/rows to move
+		var rand = Math.random(); // direction of move
+
+		var column = Snake.Game.random(0, state.boardWidth * this.pixelsPerCell - 1 - glitchWidth); // which column to move
+
+		for (var w = 0; w < glitchWidth; w++) {
+			var x = column + w;
+			for (var o = 0; o < glitchOffset; o++) {
+				if (rand < 0.01) {
+					var pixel = this.pixels[x].shift();
+					this.pixels[x].push(pixel);
+				} else if (rand > 0.99) {
+					pixel = this.pixels[x][state.boardHeight * this.pixelsPerCell - 1];
+					this.pixels[x].unshift(pixel);
+				}
+			}
+		}
+	}
+};
+{% endhighlight %}
+
+The glitched graphic feature's purpose is only to make game little harder to control your snake. The amount of glitches increases during the play.
+
+
+<div class='image left'>
+<img src='/assets/sliding_puzzle/folder.png' alt='TRON mode'>
+<span class="caption">After eating the bug, SnAkE enters the TRON mode</span>
+</div>
 
 How collision checking improved with the 2dim array and paintCell? glitchy walls, fonts, whole board glitched
 it was also easy to draw a flickering portal which allows snake to go through.
 
 Having board's cells stored like that we can now use micro fonts.
 
-mention about the BOSS?
 
-<div class='image left'>
-<img src='/assets/sliding_puzzle/folder.png' alt='TRON mode'>
-<span class="caption">After eating the bug, SnAkE enters the TRON mode</span>
-</div>
 
 
 {% highlight js %}
