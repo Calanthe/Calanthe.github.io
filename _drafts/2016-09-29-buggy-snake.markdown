@@ -258,7 +258,7 @@ if (this.state.board[snakeX][snakeY].type === 'wall') {
 }
 {% endhighlight %}
 
-The aforementioned big refactor made easier for us to introduce features like flickering walls, pixelated fonts and glitched board. This is how we glitched whole columns:
+The aforementioned big refactor (???) made easier for us to introduce features like flickering walls, pixelated fonts and glitched board. This is how we glitched whole columns:
 
 {% highlight js %}
 Snake.UI.glitchPixels = function() {
@@ -313,9 +313,10 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS,
 
 ###Conclusion
 
-That's it! You've created a very easy puzzle game in `Phaser` using many of the built-in capabilities of the framework. If you want to explore further you could try implementing scores, an option to change the background image or functionality to share your best score on facebook.
+That's it for now. I shared with you some interesting parts of the SnAkE game but there is a lot more delicious staff like that in the [main repository][repo]. As always let me know if you have any questions in the comments' section below.
 
 [swift]: http://zofiakorcz.pl/swift-my-first-arcade-canvas-game
 [Js13kGames]: http://js13kgames.com/
 [bartaz]: https://twitter.com/bartaz
 [buggySnake]: http://js13kgames.com/entries/buggy-snake
+[repo]: https://github.com/Calanthe/snake13k
