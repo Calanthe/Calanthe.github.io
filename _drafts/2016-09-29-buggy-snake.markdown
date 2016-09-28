@@ -238,7 +238,7 @@ After setting the pixel's width and spacing values, we just go through each of t
 Introducing `pixels` and `board` array helped us implementing collision checking much easier and faster.
 Before refactor the collision checking with walls looked like this:
 
-{% highlight js %}
+~~~js
 Snake.Game.ifCollided = function(snakeX, snakeY, walls) {
     var i;
     //check if the snakeX/snakeY coordinates exist in the walls' array
@@ -248,19 +248,19 @@ Snake.Game.ifCollided = function(snakeX, snakeY, walls) {
         }
     }
 };
-{% endhighlight %}
+~~~
 
 And after refactor it was just one line solution:
 
-{% highlight js %}
+~~~js
 if (this.state.board[snakeX][snakeY].type === 'wall') {
     //collision detected
 }
-{% endhighlight %}
+~~~
 
 The aforementioned big refactor (???) made easier for us to introduce features like flickering walls, pixelated fonts and glitched board. This is how we glitched whole columns:
 
-{% highlight js %}
+~~~js
 Snake.UI.glitchPixels = function() {
 	var state = Snake.Game.state;
 
@@ -292,41 +292,82 @@ Snake.UI.glitchPixels = function() {
 		}
 	}
 };
-{% endhighlight %}
+~~~
 
 The glitched graphic feature's purpose is to make it little harder to control your snake. The amount of glitches increases during the play.
 In every game loop, just before painting the pixels, we try to glitch a number of columns. That number equals to the level achieved by the user (which increases every 5th consumed food).
 So if the user reached for example 3rd level, the game will try 3 times to glitch a random amount of columns. In order to do that, we have to calculate the distance of how far to move those columns and how many of them should be altered.
-Then the random number is generated and based on that we know the direction of the movement. The probability of moving columns either to the left (< 0.01) or to the right (> 0.99) is rather low but if the level is high, there is more chances of generating one or another direction. Also, the amount of glitched columns increases with the level.
-After generating random direction value which is less than 0.01, we have to remove the first **column** from the **rows array** and add it to the end of the same array. This operation will move all of the columns to the left.
+Then the random number is generated and based on that we know the direction of the movement. The probability of moving columns either to the left (*< 0.01*) or to the right (*> 0.99*) is rather low but if the level is high, there is more chances of generating one or another direction. Also, the amount of glitched columns increases with the level.
+We have to remove the first **column** from the **rows array** and add it to the end of the same array. This operation will move all of the columns to the left.
 Moving columns to the right is little easier. We just have to copy the last value from the **rows array** and place it at the beginning of the same array.
+
+I hope that the above code snippet didn't scare you ;). The following examples will be much easier.
+
+### The TRON mode
+
+While reading the [Wikipedia's page][wiki] about the classic Snake game something interesting occurs to us. It seems that some of the original Snake games had slightly different rules:
+
+> In some games, the end of the trail is in a fixed position, so the snake continually gets longer as it moves.
+
+I really liked the various bugs that gave extra points in the second version of the Nokia's 3310 Snake game. The wiki's quote gave us the idea for another glitch. Let's have a secret mode which will be triggered only after eating a bug. Bugs are generated on the at least second level of the game and there is only 30% chance that it will be shown on the board. And even then, there is a limited amount of time after which the bug will disappear. So it's rather difficult to get it but when the user will success, he/she will enter the special mode which we called the TRON mode (guess why?) during which the tail will stay in one place and snake will start to increase as long as it will reach the normal (non bug) food.
+It may seem to be difficult but the biggest advantage of that mode is that for each time when Snake grows, it get extra points. Thus this is the best method to gain lot's of points and break some records.
 
 <div class='image left'>
 <img src='/assets/sliding_puzzle/folder.png' alt='TRON mode'>
 <span class="caption">After eating the bug, SnAkE enters the TRON mode</span>
 </div>
 
-How collision checking improved with the 2dim array and paintCell? glitchy walls, fonts, whole board glitched
-it was also easy to draw a flickering portal which allows snake to go through.
+Here is how the Snake works after entering the TRON mode:
 
-Having board's cells stored like that we can now use micro fonts.
+~~~js
+Snake.Game.update = function() {
+    switch (this.state.board[snakeX][snakeY].type) {
+
+        //if the new head position matches the food
+        case 'food': this.consumeFood(snakeX, snakeY);
+            break;
+
+        //if the new head position matches the bug
+        case 'buggybug': this.consumeBuggyBug(snakeX, snakeY);
+            break;
+
+        default:
+            if (this.state.mode === 'snake') {
+                this.state.snake.shift(); // remove the first cell - tail
+
+                // make it smaller in every paint
+                if (this.state.prevLength && this.state.snake.length > this.state.prevLength) {
+                    this.glitchSnakeTail(10, this.state.snake.length - this.state.prevLength);
+                } else if (this.state.prevLength && this.state.snake.length === this.state.prevLength) { //no need to make it smaller anymore
+                    this.state.prevLength = null;
+                    this.state.glitchedLength = 0;
+                }
+            } else if (this.state.mode === 'tron') {
+                this.state.score += 1; // score one point for every piece grown in tron mode
+            }
+            break;
+    }
+
+    this.state.snake.push({
+        x: snakeX,
+        y: snakeY
+    });
+}
+~~~
+
+If the snake's head position does not match either food or bug (or wall which is checked in a different place) it means that we can safe (??) move the snake. If we are in the TRON mode this is very easy. We just have to add one point for every new piece and push a new head's position into the existing **snake's array**.
+Situation is little more complicated when we are not in the TRON mode anymore. The tail is not sticky anymore, so we have to remove it from the **snake's array**. This tail will be the new head. But before pushing it into the same array, we have to remember about making it smaller. While entering the TRON mode we saved the current length of the snake as a variable `prevLength`.
+After leaving the TRON mode, we also have to decrease the length of Snake by 10 pieces until the `prevLength` value will be zero again and the snake's length will be the same as before entering the TRON mdoe.
 
 
-
-
-{% highlight js %}
-
-var game = new Phaser.Game(800, 600, Phaser.CANVAS,
-'slidingpuzzle', { preload: preload, create: create });
-
-{% endhighlight %}
 
 ###Conclusion
 
-That's it for now. I shared with you some interesting parts of the SnAkE game but there is a lot more delicious staff like that in the [main repository][repo]. As always let me know if you have any questions in the comments' section below.
+That's it for now. I shared with you some interesting parts of the SnAkE game but there is a lot more delicious staff like calculating the timer of the bugs, drawing pixel fonts or handling key inputs. You can dig into the code base in the [main repository][repo]. As always let me know if you have any questions in the comments' section below.
 
 [swift]: http://zofiakorcz.pl/swift-my-first-arcade-canvas-game
 [Js13kGames]: http://js13kgames.com/
 [bartaz]: https://twitter.com/bartaz
 [buggySnake]: http://js13kgames.com/entries/buggy-snake
 [repo]: https://github.com/Calanthe/snake13k
+[wiki]: https://en.wikipedia.org/wiki/Snake_(video_game)
