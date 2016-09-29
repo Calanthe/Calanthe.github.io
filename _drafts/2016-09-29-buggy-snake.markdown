@@ -357,9 +357,60 @@ Snake.Game.update = function() {
 
 If the snake's head position does not match either food or bug (or wall which is checked in a different place) it means that we can safe (??) move the snake. If we are in the TRON mode this is very easy. We just have to add one point for every new piece and push a new head's position into the existing **snake's array**.
 Situation is little more complicated when we are not in the TRON mode anymore. The tail is not sticky anymore, so we have to remove it from the **snake's array**. This tail will be the new head. But before pushing it into the same array, we have to remember about making it smaller. While entering the TRON mode we saved the current length of the snake as a variable `prevLength`.
-After leaving the TRON mode, we also have to decrease the length of Snake by 10 pieces until the `prevLength` value will be zero again and the snake's length will be the same as before entering the TRON mdoe.
+After leaving the TRON mode, we also have to decrease the length of Snake by 10 pieces until the `prevLength` value will be zero again and the snake's length will be the same as before entering the TRON mode.
 
+### Favicon on canvas
 
+Probably most of the players don't notice that tiny detail, but the whole favicon is done in canvas element. Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. Not to mention that we could easily change the And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
+
+~~~js
+Snake.UI.initFavicons = function(mode) {
+	this.icons = {};
+	this.icons['snake'] = this.getFavicon('snake');
+	this.icons['tron'] = this.getFavicon('tron');
+
+	var link = document.createElement('link');
+	link.type = 'image/x-icon';
+	link.id = 'canvas-favicon';
+	link.rel = 'shortcut icon';
+	document.getElementsByTagName('head')[0].appendChild(link);
+
+	this.iconLink = link;
+	this.updateFavicon(mode);
+};
+
+Snake.UI.getFavicon = function(mode) {
+	var canvasWH = 32;
+	var canvas = document.createElement('canvas');
+	canvas.width = canvasWH;
+	canvas.height = canvasWH;
+
+	var ctx = canvas.getContext('2d');
+	ctx.fillStyle = this.color[mode].bg;
+	ctx.fillRect(0, 0, canvasWH, canvasWH);
+	ctx.fillStyle = this.color[mode].food;
+	this.paintFaviconFood(ctx, canvasWH, this.cells.food);
+	ctx.fillStyle = this.color[mode].wall;
+	this.paintFaviconWall(ctx, 28);
+
+	return canvas.toDataURL("image/x-icon");
+};
+
+Snake.UI.updateFavicon = function(mode) {
+	if (this.iconLink.dataset.mode !== mode) {
+		this.iconLink.href = this.icons[mode];
+		this.iconLink.dataset.mode = mode;
+	}
+};
+~~~
+
+During the initialisation we have to create and append into `head` a correct tag indicating the favicon icon. We also have to generate such favicons and this is what `getFavicon` method does.
+It just creates a new *32x32* `canvas` element, draws proper background color, food icon (just the same way as explained before for the game board) and walls. When the image is ready just convert the canvas to the icon format and save it as a [DataURI][DataURI] string.
+Both generated strings (one for each modes) are saved in the `icons` object. Later on, when there is a need to change the favicon, we don't have to generate the whole canvas and repeat the operation. Instead, we just need to replace the `href` of the favicon tag so it matches the mode.
+
+###Mobile tweaks
+
+The SnAkE game was also submitted to the mobile category. In order to make it working on touch devices, despite handling the touch events and drawing extra buttons on the screen, we had to implement a special tweak for sounds.
 
 ###Conclusion
 
@@ -371,3 +422,4 @@ That's it for now. I shared with you some interesting parts of the SnAkE game bu
 [buggySnake]: http://js13kgames.com/entries/buggy-snake
 [repo]: https://github.com/Calanthe/snake13k
 [wiki]: https://en.wikipedia.org/wiki/Snake_(video_game)
+[DataURI]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
