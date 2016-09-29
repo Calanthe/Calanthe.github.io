@@ -361,7 +361,7 @@ After leaving the TRON mode, we also have to decrease the length of Snake by 10 
 
 ### Favicon on canvas
 
-Probably most of the players don't notice that tiny detail, but the whole favicon is done in canvas element. Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. Not to mention that we could easily change the And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
+Probably most of you didn't notice that tiny detail, but the whole favicon is done in canvas element. Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. Not to mention that we could easily change the And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
 
 ~~~js
 Snake.UI.initFavicons = function(mode) {
@@ -410,7 +410,69 @@ Both generated strings (one for each modes) are saved in the `icons` object. Lat
 
 ###Mobile tweaks
 
-The SnAkE game was also submitted to the mobile category. In order to make it working on touch devices, despite handling the touch events and drawing extra buttons on the screen, we had to implement a special tweak for sounds.
+SnAkE game was also submitted to the mobile category. In order to make it working on touch devices, despite handling the touch events and drawing extra buttons on the screen, we had to implement a special tweak for sounds.
+As probably most of the entries, we used a [jsfxr][jsfxr] library to handle sounds. At first we had working solution with one audio stream and amendable (???) source for each sound (which is different for every action). Unfortunately this didn't work on mobile, so we came up with a better idea:
+
+~~~js
+Snake.Sound.sounds = {
+    // Example sound - entering the TRON mode
+    enterTronMode: [
+        jsfxr([0,,0.0864,,0.4458,0.2053,,0.3603,,,,,,0.2349,,0.4484,,,1,,,,,0.5]),
+        jsfxr([0,,0.2012,,0.4803,0.2939,,0.326,,,,,,0.525,,0.6112,,,1,,,,,0.5]),
+        jsfxr([0,,0.2424,,0.2184,0.2631,,0.2023,,,,,,0.2315,,,,,1,,,,,0.5]),
+        jsfxr([0,,0.0429,,0.4426,0.5,,0.2284,,,,,,0.1798,,,,,1,,,,,0.5]),
+        jsfxr([1,,0.2311,,0.2188,0.2821,,0.0801,,,,,,,,,,,1,,,,,0.5])
+    ]
+};
+
+Snake.Sound.initAudio = function() {
+	Object.keys(this.sounds).forEach(function(name){
+		var sounds = this.sounds[name];
+
+		// Mobile Safari on iOS seems to have trouble loading so many audio elements
+		// and their sounds, so we limit sounds to one per type.
+		// Except tronMove type, because it sounds way better when having different
+		// tone on each turn.
+		if (isiOS && name !== "tronMove") {
+			sounds = [ sounds[Snake.Game.random(0, sounds.length - 1)] ]; // pick up random one so there can be different sounds on each refresh
+		}
+
+		sounds = sounds.map(function(sound){
+			var player = new Audio();
+			player.src = sound;
+			var promise = player.play();
+			player.pause();
+			return player;
+		});
+
+		this.sounds[name] = sounds;
+	}.bind(this));
+};
+
+Snake.Sound.play = function(name) {
+	if (this.isMuted) return;
+
+	var i = Snake.Game.random(0, this.sounds[name].length - 1);
+	if (Snake.MOBILE) {
+		this.sounds[name][i].currentTime = 0;
+	}
+	this.sounds[name][i].play();
+};
+~~~
+
+During initialisation, the new audio stream is created for each specified sound. The big issue with Mobile Safari is that it does not allow to play more than one audio stream at once. In order to respect that (??) we take only one, randomly selected sound.
+The most important part of the `initAudio` method is, that after each initialisation of the new audio, the current element is being played and immediately paused. This is the trick that will make sounds work on mobile. But in the end we applied that solution also to the desktop version because it allows to play a few sounds at the same time (which is helpful in TRON mode).
+
+Another mobile improvement we implemented was extracting background canvas from the one with the play board. This solution improved the overall performance, especially on mobile, because there is no need to draw all the pixels in every lop anymore (too long?).
+If we had more time, we could improve it even better. Having in mind that we store the whole board's array, we could save also the previous board's state, compare those arrays and draw on the main canvas only those pixels which actually changed in the current loop.
+
+And by the way, this is an interesting fragment of an article wrote by [the author][oldSnake] of the Nokia's 3300 Snake game that we stumbled upon:
+
+>One thing that I do remember is the way that the game only updated the screen where necessary each frame.  These days, it’s pretty common to do a full screen refresh each frame on mobile games, but on the older devices, it was worth being careful about full screen updates.  In Snake, only the head, tail and any food that popped in or out needed to be updated each frame.  Doing this meant the frame rate would keep to a steady 15 fps no matter how long the snake got.
+
+
+ which is called [audio sprites][audioSprites].
+`Audio sprites` is a method where, similar like in css, all of the small sounds are combined into one long audio file. This is an
 
 ###Conclusion
 
@@ -423,3 +485,6 @@ That's it for now. I shared with you some interesting parts of the SnAkE game bu
 [repo]: https://github.com/Calanthe/snake13k
 [wiki]: https://en.wikipedia.org/wiki/Snake_(video_game)
 [DataURI]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+[jsfxr]: https://github.com/mneubrand/jsfxr
+[audioSprites]: https://remysharp.com/2010/12/23/audio-sprites
+[oldSnake]: http://www.longsteve.com/fixmybugs/?p=306
