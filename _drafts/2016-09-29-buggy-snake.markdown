@@ -16,8 +16,8 @@ I would like to show you(??) the most interesting programming challenges and ide
 This year's theme of the [Js13kGames][Js13kGames] competition is `Glitch`. We had an idea to create a well known classic game and add some glitches to it. We choose Snake because it is one of the easiest game to do in canvas. And also because I loved the Snake 2 game originally released on Nokia 3310 phone. I used to spend lot's of time mastering it when I was younger, mostly while commuting to school.
 It was also important to do something that people know and recognise. I am aware (also from my own experience) that sometimes people are too lazy to read rules of a new game. It is not very practical to do complicated entry for contests like [Js13kGames][Js13kGames], where people want to play and test as many different games as possible.
 
-I think that there is no need to explain the rules of classic Snake in much details. Simply as that: player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls** and get out of the main play board.
-We wanted the game to have a retro graphic style, the more similar to the classic Nokia Snake the best. We ended up showing (???) the snake just as a line as it was in the old Nokia's 3210 'Snake 1' game. The graphical inspiration for bugs was obviously my favourite Nokia's 3310 'Snake 2' version. Because of the limited *4 x 8* cells' sizes we were forced to alter a little those original bugs. Hopefully they still remind you the original ones!
+I think that there is no need to explain the rules of classic Snake in much details. Simply as that: player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls** in order to get out of the main play board.
+We wanted the game to have a retro graphic style, similar to the classic Nokia Snake. We ended up showing (???) the snake just as a line as it was in the old Nokia's 3210 'Snake 1' game. The graphical inspiration for bugs was obviously my favourite Nokia's 3310 'Snake 2' version. Because of the limited *4 x 8* cells' sizes we were forced to alter a little those original bugs. Hopefully they still remind the original ones!
 
 ### How to program the standard Snake game?
 
@@ -333,7 +333,8 @@ Snake.Game.update = function() {
                 // make it smaller in every paint
                 if (this.state.prevLength && this.state.snake.length > this.state.prevLength) {
                     this.glitchSnakeTail(10, this.state.snake.length - this.state.prevLength);
-                } else if (this.state.prevLength && this.state.snake.length === this.state.prevLength) { //no need to make it smaller anymore
+                } else if (this.state.prevLength && this.state.snake.length === this.state.prevLength) {
+                    //no need to make it smaller anymore
                     this.state.prevLength = null;
                     this.state.glitchedLength = 0;
                 }
@@ -357,7 +358,7 @@ After leaving the TRON mode, we also have to decrease the length of Snake by 10 
 ### Favicon on canvas
 
 Probably most of you didn't notice that tiny detail, but the whole favicon is done in canvas element.
-Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. Not to mention that we could easily change the And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
+Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
 <div class='image left'>
 <img src='/assets/snake/favicons.png' alt='favicon icons'>
 <span class="caption">Favicons drawn in canvas</span>
@@ -461,7 +462,7 @@ Snake.Sound.play = function(name) {
 };
 ~~~
 
-During initialisation, the new audio stream is created for each specified sound. The big issue with Mobile Safari is that it does not allow to play more than one audio stream at once. In order to respect that (??) we take only one, randomly selected sound.
+During initialisation, the new audio stream is created for each specified sound. The big issue with mobile Safari is that it does not allow to play more than one audio stream at once. In order to respect that (??) we take only one, randomly selected sound.
 The most important part of the `initAudio` method is, that after each initialisation of the new audio, the current element is being played and immediately paused. This is the trick that will make sounds work on mobile. But in the end we applied that solution also to the desktop version because it allows to play a few sounds at the same time (which is helpful in TRON mode).
 
 Another mobile improvement we implemented was extracting background canvas from the one with the play board. This solution improved the overall performance, especially on mobile, because there is no need to draw all the pixels in every lop anymore (too long?).
