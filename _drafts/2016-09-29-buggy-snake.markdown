@@ -2,21 +2,21 @@
 layout: post
 title: "Buggy SnAkE for the Js13kGames (???)"
 date:   2016-09-29 18:05:00
-image: <img src='/assets/sliding_puzzle/sliding_puzzle.png' alt='Buggy SnAkE for the Js13kGames'>
+image: <img src='/assets/snake/snake.jpg' alt='Buggy SnAkE for the Js13kGames'>
 ---
 <div class='image right'>
-<img src='/assets/sliding_puzzle/sliding_puzzle.png' alt='Buggy SnAkE for the Js13kGames'>
-<span class="caption">Buggy SnAkE for the Js13kGames</span>
+<img src='/assets/snake/snake.jpg' alt='Buggy SnAkE for the Js13kGames'>
+<span class="caption">Buggy SnAkE entry for the Js13kGames</span>
 </div>
 After 4 years of slacking off I finally had time, energy and idea to do [another][swift] game for the [Js13kGames][Js13kGames] contest. With help from [Bartek][bartaz] we created a glitched version of the classic Snake game.
-In this article I want to show you(??) the most interesting programming challenges and ideas we came of during development of the [buggy SnAkE game][buggySnake].
+I would like to show you(??) the most interesting programming challenges and ideas we came of during development of the [buggy SnAkE game][buggySnake].
 
 <!--more-->
 
 This year's theme of the [Js13kGames][Js13kGames] competition is `Glitch`. We had an idea to create a well known classic game and add some glitches to it. We choose Snake because it is one of the easiest game to do in canvas. And also because I loved the Snake 2 game originally released on Nokia 3310 phone. I used to spend lot's of time mastering it when I was younger, mostly while commuting to school.
 It was also important to do something that people know and recognise. I am aware (also from my own experience) that sometimes people are too lazy to read rules of a new game. It is not very practical to do complicated entry for contests like [Js13kGames][Js13kGames], where people want to play and test as many different games as possible.
 
-I think that there is no need to explain the rules of classic Snake in much details. Simply as that: player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls**.
+I think that there is no need to explain the rules of classic Snake in much details. Simply as that: player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls** and get out of the main play board.
 We wanted the game to have a retro graphic style, the more similar to the classic Nokia Snake the best. We ended up showing (???) the snake just as a line as it was in the old Nokia's 3210 'Snake 1' game. The graphical inspiration for bugs was obviously my favourite Nokia's 3310 'Snake 2' version. Because of the limited *4 x 8* cells' sizes we were forced to alter a little those original bugs. Hopefully they still remind you the original ones!
 
 ### How to program the standard Snake game?
@@ -84,7 +84,7 @@ Snake.Game.paint = function() {
 This is how we started implementing the first version of the game. Originally snake was implemented? as an `Array` of objects with `x` and `y` coordinates. In the main game loop we have to repaint the whole board (which is just a rectangular in `canvas`), take the snake's head coordinates and update them based on the player's key pressed.
 We have to check a few things before re-drawing the snake. First, if it didn't collide with the walls or itself. Secondly, if the snake's head didn't match the position of randomly generated food. If so, update score points, generate new food and save the food's position as the new piece of the snake. If there is no food there, just take the current tail and place it in front of the snake, so it will be it's new head.
 
-This is how to implement the basic Snake game. But in order to introduce glitched features we had to refactor almost everything what you just learnt (what I just shown? what shown above?). Without further due let's focus on much more interesting parts of the game.
+This is how to implement the basic Snake game. But in order to introduce glitched features we had to refactor almost everything what you just learnt (what I just shown? what shown above?). Without further due, let's focus on much more interesting parts of the game.
 
 ### Introducing graphical glitches (??)
 
@@ -230,11 +230,6 @@ Snake.UI.paintPixels = function() {
 Each cells are drawn as a 16 pixels with additional empty spacing in a standard mode. The TRON mode looks little more futuristic, that's why there is no space between cells.
 After setting the pixel's width and spacing values, we just go through each of the pixels and draw them on canvas with a standard `ctx.fillRect` method.
 
-<div class='image left'>
-<img src='/assets/sliding_puzzle/folder.png' alt='Each cells are drawn as 4 x (4 + 1px) pixels'>
-<span class="caption">Each cells are drawn as 4 x (4 + 1px) pixels</span>
-</div>
-
 Introducing `pixels` and `board` array helped us implementing collision checking much easier and faster.
 Before refactor the collision checking with walls looked like this:
 
@@ -309,13 +304,13 @@ While reading the [Wikipedia's page][wiki] about the classic Snake game somethin
 
 > In some games, the end of the trail is in a fixed position, so the snake continually gets longer as it moves.
 
-I really liked the various bugs that gave extra points in the second version of the Nokia's 3310 Snake game. The wiki's quote gave us the idea for another glitch. Let's have a secret mode which will be triggered only after eating a bug. Bugs are generated on the at least second level of the game and there is only 30% chance that it will be shown on the board. And even then, there is a limited amount of time after which the bug will disappear. So it's rather difficult to get it but when the user will success, he/she will enter the special mode which we called the TRON mode (guess why?) during which the tail will stay in one place and snake will start to increase as long as it will reach the normal (non bug) food.
-It may seem to be difficult but the biggest advantage of that mode is that for each time when Snake grows, it get extra points. Thus this is the best method to gain lot's of points and break some records.
-
+I really liked the various bugs that gave extra points in the second version of the Nokia's 3310 Snake game. The wiki's quote gave us the idea for another glitch.
 <div class='image left'>
-<img src='/assets/sliding_puzzle/folder.png' alt='TRON mode'>
+<img src='/assets/snake/tron.png' alt='TRON mode'>
 <span class="caption">After eating the bug, SnAkE enters the TRON mode</span>
 </div>
+Let's have a secret mode which will be triggered only after eating a bug. Bugs are generated on the at least second level of the game and there is only 30% chance that it will be shown on the board. And even then, there is a limited amount of time after which the bug will disappear. So it's rather difficult to get it but when the user will success, he/she will enter the special mode which we called the TRON mode (guess why?) during which the tail will stay in one place and snake will start to increase as long as it will reach the normal (non bug) food.
+It may seem to be difficult but the biggest advantage of that mode is that for each time when Snake grows, it get extra points. Thus this is the best method to gain lot's of points and break some records.
 
 Here is how the Snake works after entering the TRON mode:
 
@@ -361,7 +356,12 @@ After leaving the TRON mode, we also have to decrease the length of Snake by 10 
 
 ### Favicon on canvas
 
-Probably most of you didn't notice that tiny detail, but the whole favicon is done in canvas element. Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. Not to mention that we could easily change the And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
+Probably most of you didn't notice that tiny detail, but the whole favicon is done in canvas element.
+Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. Not to mention that we could easily change the And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
+<div class='image left'>
+<img src='/assets/snake/favicons.png' alt='favicon icons'>
+<span class="caption">Favicons drawn in canvas</span>
+</div>
 
 ~~~js
 Snake.UI.initFavicons = function(mode) {
@@ -405,7 +405,8 @@ Snake.UI.updateFavicon = function(mode) {
 ~~~
 
 During the initialisation we have to create and append into `head` a correct tag indicating the favicon icon. We also have to generate such favicons and this is what `getFavicon` method does.
-It just creates a new *32x32* `canvas` element, draws proper background color, food icon (just the same way as explained before for the game board) and walls. When the image is ready just convert the canvas to the icon format and save it as a [DataURI][DataURI] string.
+It just creates a new *32x32* `canvas` element, draws proper background color, food icon (just the same way as explained before for the game board) and walls.
+When the image is ready just convert the canvas to the icon format and save it as a [DataURI][DataURI] string.
 Both generated strings (one for each modes) are saved in the `icons` object. Later on, when there is a need to change the favicon, we don't have to generate the whole canvas and repeat the operation. Instead, we just need to replace the `href` of the favicon tag so it matches the mode.
 
 ###Mobile tweaks
