@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Buggy SnAkE for the Js13kGames (???)"
+title: "Buggy SnAkE entry for the Js13kGames"
 date:   2016-09-29 18:05:00
 image: <img src='/assets/snake/snake.jpg' alt='Buggy SnAkE for the Js13kGames'>
 ---
@@ -8,20 +8,20 @@ image: <img src='/assets/snake/snake.jpg' alt='Buggy SnAkE for the Js13kGames'>
 <img src='/assets/snake/snake.jpg' alt='Buggy SnAkE for the Js13kGames'>
 <span class="caption">Buggy SnAkE entry for the Js13kGames</span>
 </div>
-After 4 years of slacking off I finally had time, energy and idea to do [another][swift] game for the [Js13kGames][Js13kGames] contest. With help from [Bartek][bartaz] we created a glitched version of the classic Snake game.
-I would like to show you(??) the most interesting programming challenges and ideas we came of during development of the [buggy SnAkE game][buggySnake].
+After 4 years of slacking off I finally had time, energy and the idea for [another][swift] game for the [Js13kGames][Js13kGames] contest. With help from [Bartek][bartaz] we created a glitched version of the classic game Snake.
+I would like to show you here the most interesting programming challenges and ideas we came across during development of the [buggy SnAkE game][buggySnake].
 
 <!--more-->
 
-This year's theme of the [Js13kGames][Js13kGames] competition is `Glitch`. We had an idea to create a well known classic game and add some glitches to it. We choose Snake because it is one of the easiest game to do in canvas. And also because I loved the Snake 2 game originally released on Nokia 3310 phone. I used to spend lot's of time mastering it when I was younger, mostly while commuting to school.
-It was also important to do something that people know and recognise. I am aware (also from my own experience) that sometimes people are too lazy to read rules of a new game. It is not very practical to do complicated entry for contests like [Js13kGames][Js13kGames], where people want to play and test as many different games as possible.
+This year's theme of the [Js13kGames][Js13kGames] competition is `Glitch`. We had an idea to recreate a well known classic game and add some glitches to it. We choose Snake because it is one of the easiest game to render in a `canvas` tag and because I loved the Snake 2 game originally released on the Nokia 3310 phone. I used to spend lots of time mastering it when I was younger, mostly while commuting to school.
+It was also important to do something that people know and recognise. I am aware (also from my own experience) that sometimes people are too lazy to read rules of a new game. It is not very practical to make a complicated entry for contests like [Js13kGames][Js13kGames], where people want to play and test as many different games as possible.
 
-I think that there is no need to explain the rules of classic Snake in much details. Simply as that: player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls** in order to get out of the main play board.
-We wanted the game to have a retro graphic style, similar to the classic Nokia Snake. We ended up showing (???) the snake just as a line as it was in the old Nokia's 3210 'Snake 1' game. The graphical inspiration for bugs was obviously my favourite Nokia's 3310 'Snake 2' version. Because of the limited *4 x 8* cells' sizes we were forced to alter a little those original bugs. Hopefully they still remind the original ones!
+I think that there is no need to explain the rules of classic Snake in much detail. Simply, the player has to control the snake and collect food in order to get more points. Our SnAkE version has three additional features though: **glitched graphic**, the **TRON mode** and the **ability to go through walls** in order to get out of the main play board.
+We wanted the game to have a retro graphic style, similar to the classic Nokia Snake. We ended up rendering the snake just as a line as it was in the old Nokia's 3210 'Snake 1' game. The graphical inspiration for bugs was obviously my favourite; Nokia's 3310 'Snake 2' version. Because of the limited *4 x 8* cell size we were forced to alter a little those original bugs. Hopefully they are still reminiscent of the original ones!
 
 ### How to program the standard Snake game?
 
-This post's idea is to focus mainly on the most interesting and little bit more advanced technical details of the SnAkE game. But in order to understand them, it's important to be aware of how the classic Snake version works:
+This post's idea is to focus mainly on the most interesting and some more advanced technical details of the SnAkE game. But in order to understand them, it's important to be aware of how the classic Snake version works:
 
 ~~~js
 Snake.SNAKE = [];
@@ -40,7 +40,7 @@ Snake.Game.paint = function() {
 	Snake.CTX.strokeStyle = 'black';
 	Snake.CTX.strokeRect(0, 0, Snake.CANVASW, Snake.CANVASH);
 
-	//take the snake's head
+	//store the position of snake's head
 	var snakeX = Snake.SNAKE[Snake.SNAKE.length - 1].x;
 	var snakeY = Snake.SNAKE[Snake.SNAKE.length - 1].y;
 
@@ -81,14 +81,14 @@ Snake.Game.paint = function() {
 };
 ~~~
 
-This is how we started implementing the first version of the game. Originally snake was implemented? as an `Array` of objects with `x` and `y` coordinates. In the main game loop we have to repaint the whole board (which is just a rectangular in `canvas`), take the snake's head coordinates and update them based on the player's key pressed.
+This is how we started implementing the first version of the game. Originally snake was implemented as an `array` of objects with `x` and `y` coordinates. In the main game loop we have to repaint the whole board (which is just a rectangular `canvas`), take the snake's head coordinates and update them based on the player's key presses.
 We have to check a few things before re-drawing the snake. First, if it didn't collide with the walls or itself. Secondly, if the snake's head didn't match the position of randomly generated food. If so, update score points, generate new food and save the food's position as the new piece of the snake. If there is no food there, just take the current tail and place it in front of the snake, so it will be it's new head.
 
-This is how to implement the basic Snake game. But in order to introduce glitched features we had to refactor almost everything what you just learnt (what I just shown? what shown above?). Without further due, let's focus on much more interesting parts of the game.
+This is how to implement the basic Snake game. But in order to introduce glitched features we had to refactor almost everything that I just showed you! Without further ado, let's focus on the much more interesting parts of the game.
 
-### Introducing graphical glitches (??)
+### Introducing graphical glitches
 
-In order to easily implement glitched and retro like graphic, we had to divide the whole canvas into *20 x 20 px* cells. The whole board (including score points, HI score and bug's timeout at the top) is represented as a `two dimensional Array` (2d array??):
+In order to easily implement glitched and retro like graphics, we had to divide the whole canvas into *20 x 20 px* cells. The whole board (including score points, HI score and bug's timeout at the top) is represented as a two dimensional array :
 
 ~~~js
 Snake.Game.initStateValues = function() {
@@ -108,7 +108,7 @@ Snake.Game.initStateValues = function() {
 Snake.Board.initBoard = function(state) {
 	var offset = state.borderOffset;
 
-    //create a two dimensional Array (array??) with no walls at all
+    //create a two dimensional array with no walls at all
 	for (var x = 0; x < state.boardWidth; x++) {
 		state.board[x] = new Array(state.boardWidth);
 		for (var y = 0; y < state.boardHeight; y++) {
@@ -133,9 +133,9 @@ Snake.Board.initBoard = function(state) {
 };
 ~~~
 
-During the initialisation, the whole board is saved into `board` 2d array, where each cell is represented as an object with `type` and `isGlitched` properties. After creating the empty `board` array, we have to mark proper horizontal and vertical lines as walls, by setting it's cells `type` to `wall`.
+During the initialisation, the whole board is saved into a `board` 2d array, where each cell is represented as an object with `type` and `isGlitched` properties. After creating the empty `board` array, we have to mark horizontal and vertical lines as walls, by setting its cells `type` to `wall`.
 
-Now the painting algorithm is quite straightforward. We just have to go through the main `board` array and paint the elements (wall pieces, food and bugs) in a proper place, with given graphic style and defined color:
+Now the painting algorithm is quite straightforward. We just have to loop through the main `board` array and paint the elements (wall pieces, food and bugs) in a proper place, with given graphic style and defined color:
 
 ~~~js
 Snake.UI.paint = function(state) {
@@ -190,9 +190,9 @@ Snake.UI.paintCell = function(x, y, color, cellPixels, isGlitched) {
 };
 ~~~
 
-In the `paintCell` method we just have to go through all of the pixels in given cell and set a proper color. Except in the situation when we want to glitch one cell, eg to show wall's piece as a portal. In that situation (??), there is no point of drawing all of the cell's pixels. That's why there is a random number generated in the condition before setting the color. If that number is bigger than `0.9`, which happens in 10% of situations, than current pixel is not drawn. This gives us nice and little flickering effect.
+In the `paintCell` method we just have to go through all of the pixels in given cell and set a proper color. Except in the situation when we want to glitch one cell, eg to show wall's piece as a portal. In that situation, there is no point of drawing all of the cell pixels. That's why there is a random number generator in the condition before setting the color. If that number is bigger than `0.9`, which happens in 10% of situations, than current pixel is not drawn. This gives us nice and little flickering effect.
 
-As mentioned before, each of the cells are represented as *4 x 4* pixels. This is how food looks like:
+As mentioned before, each of the cells are represented as *4 x 4* pixels. This is how food looks:
 
 ~~~js
 Snake.UI = {
@@ -227,11 +227,11 @@ Snake.UI.paintPixels = function() {
 };
 ~~~
 
-Each cells are drawn as a 16 pixels with additional empty spacing in a standard mode. The TRON mode looks little more futuristic, that's why there is no space between cells.
+Each cell is drawn as *16 pixels* with additional empty spacing in a standard mode. The TRON mode looks little more futuristic, that's why there is no space between cells.
 After setting the pixel's width and spacing values, we just go through each of the pixels and draw them on canvas with a standard `ctx.fillRect` method.
 
-Introducing `pixels` and `board` array helped us implementing collision checking much easier and faster.
-Before refactor the collision checking with walls looked like this:
+Introducing `pixels` and `board` array made implementing collision checking much easier and faster.
+Before the refactor the collision checking with walls looked like this:
 
 ~~~js
 Snake.Game.ifCollided = function(snakeX, snakeY, walls) {
@@ -245,7 +245,7 @@ Snake.Game.ifCollided = function(snakeX, snakeY, walls) {
 };
 ~~~
 
-And after refactor it was just one line solution:
+And after the refactor it was just a one line solution:
 
 ~~~js
 if (this.state.board[snakeX][snakeY].type === 'wall') {
@@ -253,7 +253,7 @@ if (this.state.board[snakeX][snakeY].type === 'wall') {
 }
 ~~~
 
-The aforementioned big refactor (???) made easier for us to introduce features like flickering walls, pixelated fonts and glitched board. This is how we glitched whole columns:
+The aforementioned big refactor made easier for us to introduce features like flickering walls, pixelated fonts and glitched board. This is how we glitched whole columns:
 
 ~~~js
 Snake.UI.glitchPixels = function() {
@@ -261,10 +261,10 @@ Snake.UI.glitchPixels = function() {
 
 	for (var g = 0; g < state.level - 1; g++) {
 
-		//how far move the pixels
+		//how far to move the pixels
 		var glitchOffset = Snake.Game.random(0, state.level - 1);
 
-		//group of how many columns to move
+		//number of columns to move
 		var glitchWidth = Snake.Game.random(1, state.boardWidth * this.pixelsPerCell / 2);
 
 		//direction of move
@@ -289,30 +289,30 @@ Snake.UI.glitchPixels = function() {
 };
 ~~~
 
-The glitched graphic feature's purpose is to make it little harder to control your snake. The amount of glitches increases during the play.
-In every game loop, just before painting the pixels, we try to glitch a number of columns. That number equals to the level achieved by the user (which increases every 5th consumed food).
-So if the user reached for example 3rd level, the game will try 3 times to glitch a random amount of columns. In order to do that, we have to calculate the distance of how far to move those columns and how many of them should be altered.
+The glitched graphic feature's purpose is to make it a little harder to control your snake. The amount of glitches increases as you play.
+In every game loop, just before painting the pixels, we try to glitch a number of columns. That number is equal to the level achieved by the user (which increases after every 5th food consumed).
+So if the user reached for example 3rd level, the game will try 3 times to glitch a random amount of columns. In order to do that, we have to calculate the distance to move those columns and how many of them should be altered.
 Then the random number is generated and based on that we know the direction of the movement. The probability of moving columns either to the left (*< 0.01*) or to the right (*> 0.99*) is rather low but if the level is high, there is more chances of generating one or another direction. Also, the amount of glitched columns increases with the level.
-We have to remove the first **column** from the **rows array** and add it to the end of the same array. This operation will move all of the columns to the left.
-Moving columns to the right is little easier. We just have to copy the last value from the **rows array** and place it at the beginning of the same array.
+We have to remove the first *column* from the *rows array* and add it to the end of the same array. This operation will move all of the columns to the left.
+Moving columns to the right is little easier. We just have to copy the last value from the *rows array* and place it at the beginning of the same array.
 
 I hope that the above code snippet didn't scare you ;). The following examples will be much easier.
 
 ### The TRON mode
 
-While reading the [Wikipedia's page][wiki] about the classic Snake game something interesting occurs to us. It seems that some of the original Snake games had slightly different rules:
+While reading the [Wikipedia's page][wiki] about the classic Snake game something interesting occurred to us. It seems that some of the original Snake games had slightly different rules:
 
 > In some games, the end of the trail is in a fixed position, so the snake continually gets longer as it moves.
 
 I really liked the various bugs that gave extra points in the second version of the Nokia's 3310 Snake game. The wiki's quote gave us the idea for another glitch.
-<div class='image left'>
+<div class='image right'>
 <img src='/assets/snake/tron.png' alt='TRON mode'>
 <span class="caption">After eating the bug, SnAkE enters the TRON mode</span>
 </div>
-Let's have a secret mode which will be triggered only after eating a bug. Bugs are generated on the at least second level of the game and there is only 30% chance that it will be shown on the board. And even then, there is a limited amount of time after which the bug will disappear. So it's rather difficult to get it but when the user will success, he/she will enter the special mode which we called the TRON mode (guess why?) during which the tail will stay in one place and snake will start to increase as long as it will reach the normal (non bug) food.
-It may seem to be difficult but the biggest advantage of that mode is that for each time when Snake grows, it get extra points. Thus this is the best method to gain lot's of points and break some records.
+Let's have a secret mode which will be triggered only after eating a bug. Bugs are generated on the at least second level of the game and there is only 30% chance that it will be shown on the board. And even then, there is a limited amount of time after which the bug will disappear. So it's rather difficult to get it but when the user succeeds, they will enter the special mode which we called TRON mode (guess why?) in which the tail will stay in one place and snake will start to increase as long as it will reach the normal (non bug) food.
+It may seem to be difficult but the biggest advantage of that mode is that for each time when snake grows, it get extra points. Thus this is the best method to gain lots of points and break some records.
 
-Here is how the Snake works after entering the TRON mode:
+Here is how the snake works after entering the TRON mode:
 
 ~~~js
 Snake.Game.update = function() {
@@ -351,18 +351,14 @@ Snake.Game.update = function() {
 }
 ~~~
 
-If the snake's head position does not match either food or bug (or wall which is checked in a different place) it means that we can safe (??) move the snake. If we are in the TRON mode this is very easy. We just have to add one point for every new piece and push a new head's position into the existing **snake's array**.
-Situation is little more complicated when we are not in the TRON mode anymore. The tail is not sticky anymore, so we have to remove it from the **snake's array**. This tail will be the new head. But before pushing it into the same array, we have to remember about making it smaller. While entering the TRON mode we saved the current length of the snake as a variable `prevLength`.
-After leaving the TRON mode, we also have to decrease the length of Snake by 10 pieces until the `prevLength` value will be zero again and the snake's length will be the same as before entering the TRON mode.
+If the snake's head position does not match either food or bug (or wall which is checked in a different place) it means that we can safely move the snake. If we are in the TRON mode this is very easy. We just have to add one point for every new piece and push a new head's position into the existing *snake array*.
+The situation is little more complicated when we are no longer in the TRON mode. The tail is then not sticky, so we have to remove it from the *snake array*. This tail will be the new head. But before pushing it into the same array, we have to remember about making it smaller. While entering the TRON mode we saved the current length of the snake as a variable `prevLength`.
+After leaving the TRON mode, we also have to decrease the length of snake by 10 pieces until the `prevLength` value will be zero again and the snake's length will be the same as before entering the TRON mode.
 
 ### Favicon on canvas
 
-Probably most of you didn't notice that tiny detail, but the whole favicon is done in canvas element.
+Probably most of you didn't notice that tiny detail, but the whole favicon is done in a `canvas` element.
 Because of the size limitations we couldn't use standard png icons. It was straightforward to use existing code and simply draw already defined elements like food. And it was also very easy to update the graphic and colors during play. Have you notice it changes while entering the TRON mode?
-<div class='image left'>
-<img src='/assets/snake/favicons.png' alt='favicon icons'>
-<span class="caption">Favicons drawn in canvas</span>
-</div>
 
 ~~~js
 Snake.UI.initFavicons = function(mode) {
@@ -405,15 +401,19 @@ Snake.UI.updateFavicon = function(mode) {
 };
 ~~~
 
-During the initialisation we have to create and append into `head` a correct tag indicating the favicon icon. We also have to generate such favicons and this is what `getFavicon` method does.
-It just creates a new *32x32* `canvas` element, draws proper background color, food icon (just the same way as explained before for the game board) and walls.
-When the image is ready just convert the canvas to the icon format and save it as a [DataURI][DataURI] string.
-Both generated strings (one for each modes) are saved in the `icons` object. Later on, when there is a need to change the favicon, we don't have to generate the whole canvas and repeat the operation. Instead, we just need to replace the `href` of the favicon tag so it matches the mode.
+During the initialisation we have to create and append into `head` a tag indicating the favicon icon. We also have to generate the favicons and this is what `getFavicon` method does.
+It just creates a new *32 x 32* `canvas` element, drawing the proper background color, food icon (just the same way as explained before for the game board) and walls.
+When the image is ready it just converts the canvas to the icon format and saves it as a [DataURI][DataURI] string.
+<div class='image right'>
+<img src='/assets/snake/favicons.png' alt='favicon icons'>
+<span class="caption">Favicons drawn in canvas</span>
+</div>
+Both generated strings (one for each mode) are saved in the `icons` object. Later on, when there is a need to change the favicon, we don't have to generate the whole canvas and repeat the operation. Instead, we just need to replace the `href` of the favicon tag so it matches the mode.
 
 ###Mobile tweaks
 
-SnAkE game was also submitted to the mobile category. In order to make it working on touch devices, despite handling the touch events and drawing extra buttons on the screen, we had to implement a special tweak for sounds.
-As probably most of the entries, we used a [jsfxr][jsfxr] library to handle sounds. At first we had working solution with one audio stream and amendable (???) source for each sound (which is different for every action). Unfortunately this didn't work on mobile, so we came up with a better idea:
+SnAkE game was also submitted to the mobile category. In order to make it work on touch devices, despite handling the touch events and drawing extra buttons on the screen, we had to implement a special tweak for sounds.
+Like (I suspect) most of the entries, we used the [jsfxr][jsfxr] library to handle sounds. At first we had a working solution with one audio stream and an updatable source for each sound (which is different for every action). Unfortunately this didn't work on mobile, so we came up with a better idea:
 
 ~~~js
 Snake.Sound.sounds = {
@@ -462,23 +462,19 @@ Snake.Sound.play = function(name) {
 };
 ~~~
 
-During initialisation, the new audio stream is created for each specified sound. The big issue with mobile Safari is that it does not allow to play more than one audio stream at once. In order to respect that (??) we take only one, randomly selected sound.
-The most important part of the `initAudio` method is, that after each initialisation of the new audio, the current element is being played and immediately paused. This is the trick that will make sounds work on mobile. But in the end we applied that solution also to the desktop version because it allows to play a few sounds at the same time (which is helpful in TRON mode).
+During initialisation, a new audio stream is created for each specified sound. The big issue with mobile Safari is that it does not allow to play more than one audio stream at once. In order to accommodate that we pick only one, randomly selected sound.
+The most important part of the `initAudio` method is, that after each initialisation, the current element is played and immediately paused. This is the trick that will make sounds work on mobile. But in the end we applied that solution also to the desktop version because it allows us to play a few sounds at the same time (which is helpful in TRON mode).
 
-Another mobile improvement we implemented was extracting background canvas from the one with the play board. This solution improved the overall performance, especially on mobile, because there is no need to draw all the pixels in every lop anymore (too long?).
-If we had more time, we could improve it even better. Having in mind that we store the whole board's array, we could save also the previous board's state, compare those arrays and draw on the main canvas only those pixels which actually changed in the current loop.
+Another mobile improvement we implemented was extracting a background canvas from the one with the play board. This solution improved the overall performance, especially on mobile, because there is no need to draw all the pixels in every loop.
+If we had more time, we could improve it even better. Bearing in mind that we store the whole board's array, we could save also the previous board's state, compare those arrays and draw on the main canvas only those pixels which actually changed in the current loop.
 
 And by the way, this is an interesting fragment of an article wrote by [the author][oldSnake] of the Nokia's 3300 Snake game that we stumbled upon:
 
->One thing that I do remember is the way that the game only updated the screen where necessary each frame.  These days, it’s pretty common to do a full screen refresh each frame on mobile games, but on the older devices, it was worth being careful about full screen updates.  In Snake, only the head, tail and any food that popped in or out needed to be updated each frame.  Doing this meant the frame rate would keep to a steady 15 fps no matter how long the snake got.
-
-
- which is called [audio sprites][audioSprites].
-`Audio sprites` is a method where, similar like in css, all of the small sounds are combined into one long audio file. This is an
+>One thing that I do remember is the way that the game only updated the screen where necessary each frame.  These days, it’s pretty common to do a full screen refresh each frame on mobile games, but on the older devices, it was worth being careful about full screen updates. In Snake, only the head, tail and any food that popped in or out needed to be updated each frame.  Doing this meant the frame rate would keep to a steady 15 fps no matter how long the snake got.
 
 ###Conclusion
 
-That's it for now. I shared with you some interesting parts of the SnAkE game but there is a lot more delicious staff like calculating the timer of the bugs, drawing pixel fonts or handling key inputs. You can dig into the code base in the [main repository][repo]. As always let me know if you have any questions in the comments' section below.
+That's it for now. I shared some interesting parts of the SnAkE game but there is a lot more delicious staff like calculating the timer of the bugs, drawing pixel fonts or handling key inputs. You can dig into the code base in the [repository][repo]. As always let me know if you have any questions in the comments section below.
 
 [swift]: http://zofiakorcz.pl/swift-my-first-arcade-canvas-game
 [Js13kGames]: http://js13kgames.com/
