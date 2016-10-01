@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Buggy SnAkE entry for the Js13kGames"
-date:   2016-09-29 18:05:00
+date:   2016-10-01 18:05:00
 image: <img src='/assets/snake/snake.jpg' alt='Buggy SnAkE for the Js13kGames'>
 ---
 <div class='image right'>
