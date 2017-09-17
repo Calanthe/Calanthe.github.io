@@ -472,7 +472,7 @@ And by the way, this is an interesting fragment of an article wrote by [the auth
 
 >One thing that I do remember is the way that the game only updated the screen where necessary each frame.  These days, it’s pretty common to do a full screen refresh each frame on mobile games, but on the older devices, it was worth being careful about full screen updates. In Snake, only the head, tail and any food that popped in or out needed to be updated each frame.  Doing this meant the frame rate would keep to a steady 15 fps no matter how long the snake got.
 
-###Conclusion
+### Conclusion
 
 That's it for now. I shared some interesting parts of the SnAkE game but there is a lot more delicious staff like calculating the timer of the bugs, drawing pixel fonts or handling key inputs. You can dig into the code base in the [repository][repo]. As always let me know if you have any questions in the comments section below.
 
