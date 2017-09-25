@@ -115,7 +115,7 @@ The above example shows a method of generating `traps` object only. For the sake
 One of the trickiest part of the game was generating the unique codes in such a way that they will correspond to each other in two remote devices.
 There is no unique url parameter or any id that has to generated and shared between a pair of players. The magic lies in the method of generating the codes found on nodes in the maze.
 
-As mentioned before, each maze is described by 4 parameters: `connections`, `sectors` (can be also called as `colors`), `traps` and `target`. Based on the network's object representation, the unique codes for each of those parameters are generated and hidden in the maze, one in each sector.
+As mentioned before, each maze is described by 4 parameters: `connections`, `sectors`, `traps` and `target`. Based on the network's object representation, the unique codes for each of those parameters are generated and hidden in the maze, one in each sector.
 
 <div class='image center no-mobile'>
 <img src='/assets/cyberspace/code_in_maze.png' alt='Example code found in the maze'>
@@ -237,25 +237,6 @@ After entering correct code, the maze's map is shown in the terminal.
 </div>
 
 The more hints are shown on the terminal map, the easier for hacker is to reach the correct node and hack it.
-
-### Performance improvements
-
-In the early stage of the development we had some performance issues of the VR scene, especially during moving in the maze. The node's networks is very big and at the beginning we were rendering all elements at once. Obviously, one of the first improvement was to render only those elements which are visible:
-
-~~~js
-function enterNode(node) {
-  currentNode = node;
-  moves++;
-
-  // render inside of the box only for current node
-  document.querySelectorAll('.node-inside').forEach(n => n.setAttribute('visible', false));
-  node.el.querySelector('.node-inside').setAttribute('visible', true);
-
-  (...)
-}
-~~~
-
-After moving camera/player to the next node, the insides from all of the nodes are hidden. Then only current node is rendered fully with whole interior - including panel with information about time left, help and the current code.
 
 ### Conclusion
 
