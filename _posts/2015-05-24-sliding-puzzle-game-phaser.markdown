@@ -270,7 +270,7 @@ To check if the game is completed, we loop through the elements and check if the
 
 When the game is finished, we can show a 'Congratulation' text to the user. We can achieve that by using the `game.add.text()` and `text.anchor.set()` methods.
 
-###Conclusion
+### Conclusion
 
 That's it! You've created a very easy puzzle game in `Phaser` using many of the built-in capabilities of the framework. If you want to explore further you could try implementing scores, an option to change the background image or functionality to share your best score on facebook.
 

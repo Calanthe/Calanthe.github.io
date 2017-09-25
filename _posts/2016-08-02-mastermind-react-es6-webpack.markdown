@@ -187,7 +187,7 @@ The whole components' hierarchy is more readable on the following diagram:
 This is how those components look like in the Chrome's React extension:
 
 <div class='image no-mobile'>
-<img src='/assets/mastermind/react_extension.png' alt='DecodingBoard in the Chrome's React extension'>
+<img src='/assets/mastermind/react_extension.png' alt='DecodingBoard in the Chromes React extension'>
 <span class="caption">DecodingBoard in the Chrome's React extension</span>
 </div>
 
@@ -212,7 +212,7 @@ export default Mastermind
 
 We have a few React classes defined in the `./src/mastermind` file but we want to expose only one value. The `default export` syntax means that the other ES6 modules can only access that one particular class, and it can only be read without any modifications. The `./src/mastermind` module exports the `Mastermind` class because it is a child module and can't export modules that have been defined elsewhere.
 
-###Props versus states
+### Props versus states
 
 Components in React are state machines, which means that the `DOM` is updated only based on the new state.
 Components have also predefined methods, called `lifecycle methods` which are executed at specific points in a component's lifecycle.
@@ -314,7 +314,7 @@ This is considered to be a good practice, because the `stateful` `Mastermind` co
 When the callback functions call `this.setState()` method and mutate `states`, React takes care of re-rendering components.
 As you probably noticed, each of the components have a `render` method. It is a required method responsible only for returning the single child element. As you can see it always returns either `HTML` tags or another child component which will eventually render to HTML.
 
-###JSX
+### JSX
 
 As mentioned before, I used the `JSX` syntax extension. It is possible to skip `JSX` and use plain Javascript. Instead of:
 
@@ -342,7 +342,7 @@ I prefer to use the `JSX` extension, because it is more familiar syntax for defi
 
 I think that I covered all of the most important basics of React library. It will be easier now to understand how the Mastermind game works.
 
-###Generating the code to guess the peg colors
+### Generating the code to guess the peg colors
 
 I assume that you already are familiar with the rules of the Mastermind game. If not, take a look at this useful [Wikipedia description][wiki].
 
@@ -394,7 +394,7 @@ let times = (n) => {
 
 The `times` method is a [functional-ish][times] method created to prevent me from using `for var` to iterate n times. I found that solution really clean and useful.
 
-###Building the board and pegs
+### Building the board and pegs
 
 The decoding board located on the left consists of ten rows, where each of them includes:
 
@@ -574,7 +574,7 @@ input[type="radio"] {
 
 As you probably already figured out, the `className` value sets the css class attribute. It is called `className` instead of just `class`, because `JSX` gets translated to JS, where `class` is already in use.
 
-###User actions and peg selection
+### User actions and peg selection
 
 Pegs on the decoding board located on the left change their state (which is represented as colors) based on the selected peg on the right. By default the first peg (orange one) is selected, which is marked with a darker border.
 As mentioned before, the `Peg` is the lowest module in the hierarchy. The user actions are handled by the `onClick` attribute `onClick={this.props.activatePeg}`.
@@ -607,7 +607,7 @@ The `currentGuess` is a `Map` structure, where a proper value identified by a `e
 
 Once again, after changing the `state`, React renders the updated board.
 
-###Let's take a guess!
+### Let's take a guess!
 
 After choosing four pegs, the user can submit a guess to check if they are correct. The submit button is visible only when all of the four pegs in one row are selected.
 On selection, the `this.props.submitPegs` is called:
@@ -757,13 +757,13 @@ const EndGame = React.createClass({
 
 {% endhighlight %}
 
-###Summary
+### Summary
 
 I know that this is a rather long post and I really appreciate that you stayed with me this far :). I focused only on the most important parts of the game. The code related to enhanced functionality like reloading the game and toggling game rules I will leave as an exercise for you!
 
 Let's summarise what we've just learned about ECMAScript 6 and React library.
 
-###ES6:
+### ES6:
 
 - There are new `let` and `const` variable declarations, mostly to avoid hoisting.
 - The `str.startsWith()` is one of the newest string method, which determines whether a string begins with the characters of another string.
@@ -773,7 +773,7 @@ Let's summarise what we've just learned about ECMAScript 6 and React library.
 - It is possible to create and import modules.
 - The `default parameter` of the function allow parameters to be initialized with default values if no value is passed.
 
-###React:
+### React:
 
 - A component is a React class, which ideally is responsible for one thing only.
 - Always return one DOM element which wraps child components or markup inside.

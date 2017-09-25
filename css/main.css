@@ -20,7 +20,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.0;
-  font-size: 100%; 
+  font-size: 100%;
 }
 
 .clearfix:after {
@@ -66,7 +66,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .posts .posts-elem p {
-  margin: 2px 0 0 0; 
+  margin: 2px 0 0 0;
 }
 
 .post p:nth-child(2) {
@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .post p {
-  padding: 5px 0; 
+  padding: 5px 0;
 }
 
 .date {
@@ -195,7 +195,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .site a:hover {
-  color: #07594D; 
+  color: #07594D;
   text-decoration: none;
 }
 
@@ -327,6 +327,10 @@ ul {
   list-style-position: inside;
 }
 
+.post ul {
+  padding-left: 30px;
+}
+
 /* terminal */
 .terminal {
   border: 1px solid #000;
@@ -348,7 +352,7 @@ ul {
 
 .post h3 {
   font-size: 20px;
-  padding: 5px 0;  
+  padding: 5px 0;
 }
 
 .post h3,
@@ -359,7 +363,7 @@ ul {
 
 .post h2 {
   font-size: 16px;
-  padding: 3px 0 0 0;  
+  padding: 3px 0 0 0;
 }
 
 .posts img,

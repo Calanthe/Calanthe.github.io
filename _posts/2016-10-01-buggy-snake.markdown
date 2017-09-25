@@ -410,7 +410,7 @@ When the image is ready it just converts the canvas to the icon format and saves
 </div>
 Both generated strings (one for each mode) are saved in the `icons` object. Later on, when there is a need to change the favicon, we don't have to generate the whole canvas and repeat the operation. Instead, we just need to replace the `href` of the favicon tag so it matches the mode.
 
-###Mobile tweaks
+### Mobile tweaks
 
 SnAkE game was also submitted to the mobile category. In order to make it work on touch devices, despite handling the touch events and drawing extra buttons on the screen, we had to implement a special tweak for sounds.
 Like (I suspect) most of the entries, we used the [jsfxr][jsfxr] library to handle sounds. At first we had a working solution with one audio stream and an updatable source for each sound (which is different for every action). Unfortunately this didn't work on mobile, so we came up with a better idea:

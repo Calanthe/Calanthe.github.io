@@ -15,26 +15,26 @@ image: <img src='/assets/duck_hunt.png' alt='CSS only Duck Hunt game'>
 
 At the beginning I had only a very general idea about what I wanted to accomplish. Everything except for the flying bird and the gun were supposed to be static images. After implementing the duck's movement and the process of shooting it, I started thinking about a more complex solution.
 
-###Birds and dog
+### Birds and dog
 
 Lets start with the basics. The core of this game is \*just\* flying ducks and the capability to shot them with the gun. I think it was the easiest part ;). I prepared an animated gif with a flying duck and styled it as a background of `label` of `input` element.
 
 {% highlight html %}
 <form autocomplete="off">
-	<div>	
+	<div>
 		<input type="radio" name="duck_1" id="duck_1" class="duck"/>
 		<label for="duck_1"></label>
 		<!-- other important markup !-->
 	</div>
-	<div>	
+	<div>
 		<input type="radio" name="duck_2" id="duck_2" class="duck"/>
 		<label for="duck_2"></label>
-		<!-- other important markup !-->	
+		<!-- other important markup !-->
 	</div>
-	<div>	
+	<div>
 		<input type="radio" name="duck_3" id="duck_3" class="duck"/>
 		<label for="duck_3"></label>
-		<!-- other important markup !-->	
+		<!-- other important markup !-->
 	</div>
 </form>
 {% endhighlight %}
@@ -79,7 +79,7 @@ input#duck_1 + label{
 }  
 {% endhighlight %}
 
-The first bird will show up 6 seconds after the page loads and the 'GAME START' title disappears. The whole animation of that particular duck will last 3 seconds and during that time, the duck will move across the game area from certain points, which are specified in `duck_1` animation. In the last step (100%), the uncaught bird will disappear on the top of the game area, so that's why `opacity` is set to 0. The browser will animate not only the movement of bird but also its smooth process of going invisible. 
+The first bird will show up 6 seconds after the page loads and the 'GAME START' title disappears. The whole animation of that particular duck will last 3 seconds and during that time, the duck will move across the game area from certain points, which are specified in `duck_1` animation. In the last step (100%), the uncaught bird will disappear on the top of the game area, so that's why `opacity` is set to 0. The browser will animate not only the movement of bird but also its smooth process of going invisible.
 More information about CSS animations can be found on [w3.org][w3org].
 
 But what will happen when the user shots the duck? How does the shooting process work? It's very simple. As you remember, each bird is represented as an `<input type="radio">` element and its `label`. When the user clicks on that `label`, corresponding `input` will be checked, but from now on, it can be styled differently:
@@ -119,7 +119,7 @@ Very similar to this, is the dog's animation. Every duck has its own dogs repres
 {% highlight html %}
 <div>
 	<input type="radio" name="duck_1" id="duck_1" class="duck"/>
-	<label for="duck_1"></label>	
+	<label for="duck_1"></label>
 	<div class="dog_catch"></div>
 	<div class="dog_laugh"></div>
 </div>
@@ -157,14 +157,14 @@ Very similar to this, is the dog's animation. Every duck has its own dogs repres
 }
 {% endhighlight %}
 
-Using `~` selector we can select any `.dog_catch` element, as long as they follow a checked `#duck_1`. So it means that after shooting a duck, the pleased dog will start his animation and show caught bird. 
+Using `~` selector we can select any `.dog_catch` element, as long as they follow a checked `#duck_1`. So it means that after shooting a duck, the pleased dog will start his animation and show caught bird.
 However, if the duck hasn't been shot, the laughing hound will appear to make fun of you ;). To better understand it, I can use a conditional statement:
 
 {% highlight js %}
 if (duck and its label is clicked) {
 	// do not show laughing dog
     .dog_laugh { display:none; }
-	//start animating pleased dog 
+	//start animating pleased dog
 	.dog_catch { animation: dog_catch 3s linear 1s; }
 } else {
 	//by default, show laughing dog
@@ -172,12 +172,12 @@ if (duck and its label is clicked) {
 }
 {% endhighlight %}
 
-###Ammunition and shots
+### Ammunition and shots
 
 Now let's continue with something a little more complicated. In the left bottom corner of the screen, there is place with ammunition, representing number of available shots. Each player has three chances to catch the duck, if he/she doesn't kill it, then the bird's label gets `pointer-events: none` style, so from now on, clicking event won't be effective. It's something like `event.preventDefault()` in JavaScript.
 
 {% highlight html %}
-<div>	
+<div>
 	<input type="radio" name="shot_1_1" id="shot_1_1" class="shot"/>
 		<label for="shot_1_1"></label>
 	<input type="radio" name="shot_1_2" id="shot_1_2" class="shot"/>
@@ -185,7 +185,7 @@ Now let's continue with something a little more complicated. In the left bottom 
 	<input type="radio" name="shot_1_3" id="shot_1_3" class="shot"/>
 		<label for="shot_1_3"></label>
 	<input type="radio" name="duck_1" id="duck_1" class="duck"/>
-		<label for="duck_1"></label>	
+		<label for="duck_1"></label>
 	<div class="dog_catch"></div>
 	<div class="dog_laugh"></div>
 	<div class="ammo" id="ammo_1_1"></div>
@@ -272,31 +272,31 @@ if (duck and its label is clicked) {
 } else if (duck is missed for the first time) {
 	//hide first shot layer
     input#shot_1_1:checked + label { display:none; }
-	//hide first ammo 
+	//hide first ammo
 	input#shot_1_1:checked ~ #ammo_1_1 { display: none; }
 } else if (duck is missed for the second time) {
 	//hide second shot layer
     input#shot_1_2:checked + label { display:none; }
-	//hide second ammo 
+	//hide second ammo
 	input#shot_1_2:checked ~ #ammo_1_2 { display: none; }
 } else if (duck is missed for the third time) {
 	//hide third shot layer
     input#shot_1_3:checked + label { display:none; }
-	//hide third ammo 
+	//hide third ammo
 	input#shot_1_3:checked ~ #ammo_1_3 { display: none; }
 	//prevent duck from clicking
 	input#shot_1_3:checked ~ input.duck + label { pointer-events: none; }
 }
 {% endhighlight %}
 
-###Score and points
+### Score and points
 
 On the right side of ammunition area, there is another panel with 'HIT' caption and ten white icons of ducks, which display missed or scored shots. Missed shots are represented with grey icons, scored with red ones.
 
 {% highlight html %}
-<div>	
+<div>
 	<input type="radio" name="duck_1" id="duck_1" class="duck"/>
-		<label for="duck_1"></label>	
+		<label for="duck_1"></label>
 	<div class="score_miss" id="score_1_miss"></div>
 	<div class="score_hit" id="score_1_hit"></div>
 </div>
@@ -337,19 +337,19 @@ if (duck and its label is clicked) {
 	//start animation to show red icon
 	#duck_1:checked ~ #score_1_hit {
 		animation: score 0.1s linear 0.1s;
-		animation-fill-mode: forwards; 
+		animation-fill-mode: forwards;
 	}
 } else {
-	//continue with grey animation and leave it visible 
+	//continue with grey animation and leave it visible
     #score_1_miss {
 		animation: score 0.1s linear 9s;
 		animation-fill-mode: forwards;
 	}
-} 
+}
 {% endhighlight %}
 
-Counting points is a little bit more tricky. I prepared an image with a list of all possible points from 0 to 10000, which you can get during play and I used it as a background of `div.points_bg` element. This `div` is located inside `div.points_wrapper` element, which acts like some kind of window, because its height is set to `14px` so it can show only one row of score number. At the beginning of the game, only the lowest part of score image will be visible, so a player always starts with 0 points. 
-Despite `div.points_bg` there are also ten `radio inputs` which are checked, hidden (`display: none`) and has `14px` of height by default. 
+Counting points is a little bit more tricky. I prepared an image with a list of all possible points from 0 to 10000, which you can get during play and I used it as a background of `div.points_bg` element. This `div` is located inside `div.points_wrapper` element, which acts like some kind of window, because its height is set to `14px` so it can show only one row of score number. At the beginning of the game, only the lowest part of score image will be visible, so a player always starts with 0 points.
+Despite `div.points_bg` there are also ten `radio inputs` which are checked, hidden (`display: none`) and has `14px` of height by default.
 When the user clicks the duck's label, related `radio input` will be marked as unchecked and new styles (`display: block`) will apply. It will \*push\* other `block` elements further to the bottom of page. So then `div.points_bg` will be \*moved down\* by `14px` and in the end, in window element (`div.points_wrapper`) next row of score image will be shown.    
 
 {% highlight html %}
@@ -395,17 +395,17 @@ input.point:checked{
 }
 {% endhighlight %}
 
-###Conclusion
+### Conclusion
 
-Making games in CSS is neither easy nor is it an effective task. The whole game is just a long animation with a few \*condition statements\*, which depends on whether the user shoots a duck or not. I am also aware that my version of Duck Hunt is far away from perfection. 
+Making games in CSS is neither easy nor is it an effective task. The whole game is just a long animation with a few \*condition statements\*, which depends on whether the user shoots a duck or not. I am also aware that my version of Duck Hunt is far away from perfection.
 Sometimes browsers have problems with detecting shots, and in addition, if a bird animates too fast, the player can shoot more that three times. Because of its \*CSS nature\* we can't pause the game, save it or restore it's state after reloading the page.
 
-I don't think it's the new way of building HTML games, on the contrary, it isn't. But it definitely is the best way to learn something new and uncommon, to face problems you probably wouldn't have during development of a typical website. 
-The most important thing for me is to try new, non standard ways of building software that will teach me how to open my mind to think differently and improve creativity. 
+I don't think it's the new way of building HTML games, on the contrary, it isn't. But it definitely is the best way to learn something new and uncommon, to face problems you probably wouldn't have during development of a typical website.
+The most important thing for me is to try new, non standard ways of building software that will teach me how to open my mind to think differently and improve creativity.
 
 If you have any ideas on how to improve this game, add some features or make it completely different - just [let me know](mailto:korczzofia@gmail.com). You can also contribute on [github][github] or comment below this article.
 
-###Appendage
+### Appendage
 
 A few months after my submision to MDN 'CSS only' contest, I found on [Codepen][codepen] a very similar Duck Hunt game. I recommend you read and analyze its code. Its author developed it a little differently than me. He also added few additional sprite based animaitons like: a running dog at the start of the game and the falling of a shot duck. His code opened my mind and gave me solutions, of which I hadn't thought of. It is very valuable reading!
 
