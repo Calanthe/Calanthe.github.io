@@ -1,27 +1,27 @@
 ---
 layout: post
 title: "Lost in Cyberspace Co-op VR game"
-date:   2017-09-15 12:26:00
-image: <img src='/assets/cyberspace/lost_in_cyberspace.jpg' alt='Lost in Cyberspace Co-op VR game'>
+date:   2017-09-26 12:26:00
+image: <img src='/assets/cyberspace/lost_in_cyberspace.png' alt='Lost in Cyberspace Co-op VR game'>
 ---
 <div class='image right'>
-<img src='/assets/cyberspace/lost_in_cyberspace.jpg' alt='Lost in Cyberspace Co-op VR game'>
+<img src='/assets/cyberspace/lost_in_cyberspace.png' alt='Lost in Cyberspace Co-op VR game'>
 <span class="caption">Lost in Cyberspace Co-op VR game</span>
 </div>
-This year, [Js13kGames][Js13kGames] contest has a new category called: `A-Frame`. [A-Frame][aframe] is a library that helps building virtual reality experiences. Together with [Bartek][bartaz] we decided to try it and build a cooperative game around a theme of `Lost`.
-I want to share with you some interesting fragments and pitfalls we encountered during developing [Lost in CYBERSPACE][LostinCyberspace].
+This year, [Js13kGames][Js13kGames] contest has a new category called: `A-Frame`. [A-Frame][aframe] is a library that helps building virtual reality experiences. I, together with [Bartek][bartaz] decided to try it and build a cooperative game around a theme of `Lost`.
+I want to share with you some interesting fragments and pitfalls we encountered while developing [Lost in CYBERSPACE][LostinCyberspace].
 
 <!--more-->
 
-The game is dedicated for 2 players only. The aim is to cooperate together to reveal the cyberspace’s map and hack a specific node. One of the player takes role of a hacker who enters the virtual reality maze, wonders around and give the other player found codes. Another player - a navigator, uses terminal and enters the codes received from the hacker. Dependently on the number and type of code, navigator reveals the map of the cyberspace and gives instructions about connections, traps and target to the hacker. The most important part of the game is good and fast communication between the players.
+The game is designed for 2 players. The aim is to cooperate to reveal the cyberspace’s map and hack a specific node. One of the player takes role of a hacker who enters the virtual reality maze, wonders around and gives the other player their found codes. Another player - a navigator, uses a terminal and enters the codes received from the hacker. Depending on the number and type of code, the navigator reveals the map of the cyberspace and gives instructions about connections, traps and target to the hacker. The most important part of the game is good and fast communication between the players.
 
 Let’s dive now into some interesting fragments from the codebase.
 
-### Generating random network
+### Generating a random network
 
-Every time when a player starts a new game, the new network is randomly generated. The whole maze's structure has to be computed in such way that it may be encoded into 4 codes and easily decoded in the terminal. That's why it is represented by an object with 4 parameters: `connections`, `sectors` (also called as `colors`), `traps` and `target`. Those 4 values are later on used to calculate code values shown in the maze.
+Every time when a player starts a new game, the new network is randomly generated. The whole maze's structure has to be computed in such a way that it may be encoded into 4 codes and easily decoded in the terminal. That's why it is represented by an object with 4 parameters: `connections`, `sectors` (also called as `colors`), `traps` and `target`. Those 4 values are later on used to calculate code values shown in the maze.
 
-Based on that object, the 3d VR maze is generated:
+Based on that object, the 3D VR maze is generated:
 
 <div class='image center no-mobile'>
 <img src='/assets/cyberspace/maze_from_top.png' alt='The maze shown in the inspector'>
@@ -106,14 +106,14 @@ function createTrapsObject(trapsSeed) {
 }
 ~~~
 
-First, four random integers which represents a sector are computed and saved into `trapsSeed` array. There are 16 nodes in each quarter of the maze, so the random range is from 0 to 15. The `traps'` coordinates in all of the `sectors` are based on 2 `seed` values. The first one is just a previously generated integer. The second `seed` is calculated as shifted sum of 2 next integers from the `trapsSeed` array. Then, after making sure that traps won't overlap, each of the `seed` is used to calculate the coordinates of `traps`. The coordinates' array called `xy` is built based on `seed` value modulo 4 and the integer value of `seed` divided by 4. The last thing before pushing those coords to the returned array is to shift them by adding 4 towards either right or bottom dependently on the current sector.  
+First, four random integers which represents a sector are computed and saved into `trapsSeed` array. There are 16 nodes in each quarter of the maze, so the random range is from 0 to 15. The `traps'` coordinates in all of the `sectors` are based on 2 `seed` values. The first one is just a previously generated integer. The second `seed` is calculated as shifted sum of the 2 next integers from the `trapsSeed` array. Then, after making sure that traps won't overlap, each `seed` is used to calculate the coordinates of `traps`. The coordinates' array called `xy` is built based on `seed` value modulo 4 and the integer value of `seed` divided by 4. The last thing before pushing those coords to the returned array is to shift them by adding 4 towards either right or bottom dependently on the current sector.  
 
-The above example shows a method of generating `traps` object only. For the sake of simplicity I will omit the whole method of generating maze's object.
+The above example shows a method of generating the `traps` object only. For the sake of simplicity I will omit the whole method of generating the maze's objects.
 
 ### Creating unique shared codes
 
-One of the trickiest part of the game was generating the unique codes in such a way that they will correspond to each other in two remote devices.
-There is no unique url parameter or any id that has to generated and shared between a pair of players. The magic lies in the method of generating the codes found on nodes in the maze.
+One of the trickiest part of the game was generating the unique codes in such a way that they will correspond to each other on two remote devices.
+There is no unique url parameter or id that has to generated and shared between a pair of players. The magic lies in the method of generating the codes found on nodes in the maze.
 
 As mentioned before, each maze is described by 4 parameters: `connections`, `sectors`, `traps` and `target`. Based on the network's object representation, the unique codes for each of those parameters are generated and hidden in the maze, one in each sector.
 
@@ -142,14 +142,14 @@ function colorsToCode(colors) {
 }
 ~~~
 
-As mentioned before, the code consists of the `0x` prefix, `type` and `color` values. The `type` is a hex value of randomly generated number from 1-4, multiplied by 4 and added to a specific `n` number, in this example - `0`. The rest of a division by 4 of such number will give `0`. During decoding, it will be a decisive information about the `type` of a given code.
-The last part of the code is the value. It is a string combined with a hex values generated the same way as `type`, where the added `n` number is just the value given in the `colors` object - one per each sector.
+As mentioned before, the code consists of the `0x` prefix, `type` and `color` values. The `type` is a hex value of randomly generated number from 1-4, multiplied by 4 and added to a specific `n` number, in this example - `0`. The rest of a division by 4 of such a number will give `0`. During decoding, it will decide about the `type` of a given code.
+The last part of the code is the value. It is a string combined with a hex values generated the same way as `type`, where the added `n` number is just the value given in the `colors` object - one for each sector.
 
-After finding the code, hacker shares it with the navigator who enters it into the terminal. If entered codes are valid, the exact same maze should be shown in the terminal. Based on that the navigator may conclude where the hacker currently is and guide them to the target node.
+After finding the code, the hacker shares it with the navigator who enters it into the terminal. If the entered codes are valid, the exact same maze should be shown in the terminal. Based on that the navigator may deduce where the hacker currently is and guide them to the target node.
 
 ### Decoding unique shared codes
 
-When the navigator enters the code to the terminal, it is decoded, interpreted and shown on the map. The decoding method of colors is just the reverse of encoding:
+When the navigator enters the code into the terminal, it is decoded, interpreted and shown on the map. The decoding method of colors is just the reverse of encoding:
 
 ~~~js
 function networkFromCodes(codes) {
@@ -202,7 +202,7 @@ function decodeColors(values) {
 }
 ~~~
 
-In the `parseCode` method, the `0x` prefix is removed and the rest of the code is split into array of hex characters. Then each of the character is parsed into integer number. If there is no invalid characters, the `parseCode` method returns array of parsed values. The first value in the returned array indicates `type`. If the rest from the division of `type` and 4 equals `0`, the `decodeColors` method is called. The body of that function just goes through every value indicating `color` and calculates it modulo 4. Before returning decoded `sectors`, the `decodeColors` method validates if all of the `colors` are unique.
+In the `parseCode` method, the `0x` prefix is removed and the rest of the code is split into an array of hex characters. Then each of the character is parsed into an integer. If there are no invalid characters, the `parseCode` method returns an array of parsed values. The first value in the returned array indicates the `type`. If the remainder from the division of `type` and 4 equals `0`, the `decodeColors` method is called. The body of that function just goes through every value indicating `color` and calculates it modulo 4. Before returning decoded `sectors`, the `decodeColors` method validates if all of the `colors` are unique.
 
 Here is the example of a valid color code:
 
@@ -229,18 +229,18 @@ and incorrect one:
 
 I only demonstrated `colors` here but `connections`, `traps` and `target` are implemented in a quite similar way.
 
-After entering correct code, the maze's map is shown in the terminal.
+After entering a correct code, the maze's map is shown in the terminal.
 
 <div class='image center no-mobile'>
 <img src='/assets/cyberspace/map_terminal.png' alt='The mazes map is shown in the terminal'>
 <span class="caption">The mazes map with revealed sectors shown in the terminal.</span>
 </div>
 
-The more hints are shown on the terminal map, the easier for hacker is to reach the correct node and hack it.
+The more hints are shown on the terminal map, the easier it becomes for the hacker to reach the correct node and hack it.
 
 ### Conclusion
 
-I hope that you've learnt something today and maybe even felt motivated to try building a VR game by your own. I intentionally didn't show any fragments of `A-Frame` code because I wanted to focus on the most crucial parts of the game, not the library itself. If you are willing to learn it's basics, here is a [A-Frame examples' page][aframe-examples] and an [introduction tutorials][intro-aframe] to start with.
+I hope that you've learnt something today and maybe even felt motivated to try building a VR game of your own. I intentionally didn't show any fragments of `A-Frame` code because I wanted to focus on the most crucial parts of the game, not the library itself. If you are willing to learn it's basics, here is an [A-Frame examples' page][aframe-examples] and an [introduction tutorials][intro-aframe] to get started.
 
 If you have any questions about the [Lost in Cyberspace][LostinCyberspace] game, investigate its [codebase][repo] by yourself and as always feel free to ask about it in the section below.
 
