@@ -20,7 +20,7 @@ The main theme of this year&#39;s jam, was &#39;<em>We don&#39;t see things as t
 <p>My team (me &amp; <a href="https://twitter.com/lukaszwojciak">@lukaszwojciak</a>) decided to learn something new and related to circle geometry, so we got the idea to implement a game called <a href="http://wojciak.com.pl/jam_defender">Planet Defender</a>, which is somehow similar to the classic <a href="https://www.youtube.com/watch?v=QObneYZIdKI">Space Invaders</a>, but with a planet behind the main character, so he/she can protect it.
 We had some problems with defining the main character, but at the end we came to the conclusion, that the easiest to implement and animate would be a simple pyramid, which would imitate the Egyptian God Ra.</p>
 
-<p>Similar to <a href="http://zofiakorcz.pl/purrfect-game/">Purrfect</a>, we used <a href="http://esotericsoftware.com">Spine</a> and <a href="http://www.pixijs.com/">Pixi.js</a> to animate and render graphic assets. In this article I would like to focus mainly on circle geometry and all of the mathematics which is necessary to understand the rotation of the planet and collision between the planet and meteors.</p>
+<p>Similar to <a href="https://zofiakorcz.pl/purrfect-game/">Purrfect</a>, we used <a href="http://esotericsoftware.com">Spine</a> and <a href="http://www.pixijs.com/">Pixi.js</a> to animate and render graphic assets. In this article I would like to focus mainly on circle geometry and all of the mathematics which is necessary to understand the rotation of the planet and collision between the planet and meteors.</p>
 
 <h3>Rotation of the planet</h3>
 
@@ -48,7 +48,7 @@ We had some problems with defining the main character, but at the end we came to
 </div>
 </p>
 
-<p>Knowing this, we can now move to the aspect of rendering and rotating our planet. Similar to the <a href="http://zofiakorcz.pl/purrfect-game/">Purrfect game</a>, we used <a href="http://www.pixijs.com/">Pixi.js</a> to help us render assets on <code>canvas</code> element.
+<p>Knowing this, we can now move to the aspect of rendering and rotating our planet. Similar to the <a href="https://zofiakorcz.pl/purrfect-game/">Purrfect game</a>, we used <a href="http://www.pixijs.com/">Pixi.js</a> to help us render assets on <code>canvas</code> element.
 First we need to create a container, which will represent a collection of displayed objects. <a href="http://www.pixijs.com/">Pixi.js</a> implemented a helpful object called <a href="http://www.goodboydigital.com/pixijs/docs/classes/DisplayObjectContainer.html">DisplayObjectContainer()</a>, which allows us to simply add, remove and manage other objects which it contains.</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">camera</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PIXI</span><span class="p">.</span><span class="nx">DisplayObjectContainer</span><span class="p">();</span>

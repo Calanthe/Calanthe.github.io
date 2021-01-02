@@ -282,5 +282,5 @@ That's it! You've created a very easy puzzle game in `Phaser` using many of the 
 [yeoman]: http://yeoman.io/
 [yeogen]: http://www.html5gamedevs.com/topic/5127-generator-phaser-official-yeoman-generator-for-phaser-projects/
 [github]: https://github.com/Calanthe/PhaserSlidingPuzzle
-[sliding-puzzle]: http://zofiakorcz.pl/PhaserSlidingPuzzle/
+[sliding-puzzle]: https://zofiakorcz.pl/PhaserSlidingPuzzle/
 [docs]: http://phaser.io/docs/2.3.0/Phaser.TweenManager.html

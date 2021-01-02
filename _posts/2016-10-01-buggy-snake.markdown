@@ -476,7 +476,7 @@ And by the way, this is an interesting fragment of an article wrote by [the auth
 
 That's it for now. I shared some interesting parts of the SnAkE game but there is a lot more delicious staff like calculating the timer of the bugs, drawing pixel fonts or handling key inputs. You can dig into the code base in the [repository][repo]. As always let me know if you have any questions in the comments section below.
 
-[swift]: http://zofiakorcz.pl/swift-my-first-arcade-canvas-game
+[swift]: https://zofiakorcz.pl/swift-my-first-arcade-canvas-game
 [Js13kGames]: http://js13kgames.com/
 [bartaz]: https://twitter.com/bartaz
 [buggySnake]: http://js13kgames.com/entries/buggy-snake

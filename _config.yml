@@ -1,6 +1,6 @@
 name: Zofia Korcz
 description: Personal site of Zofia Korcz - front-end developer and amateur HTML5 game maker
-url: http://zofiakorcz.pl
+url: https://zofiakorcz.pl
 markdown: kramdown
 highlighter: rouge
 permalink: /:title

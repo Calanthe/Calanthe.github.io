@@ -409,7 +409,7 @@ If you have any ideas on how to improve this game, add some features or make it 
 
 A few months after my submision to MDN 'CSS only' contest, I found on [Codepen][codepen] a very similar Duck Hunt game. I recommend you read and analyze its code. Its author developed it a little differently than me. He also added few additional sprite based animaitons like: a running dog at the start of the game and the falling of a shot duck. His code opened my mind and gave me solutions, of which I hadn't thought of. It is very valuable reading!
 
-[mdnduck]: http://zofiakorcz.pl/DuckHunt/
+[mdnduck]: https://zofiakorcz.pl/DuckHunt/
 [mdn]: https://developer.mozilla.org/en/demos/devderby
 [w3org]: http://www.w3.org/TR/css3-animations/
 [displaynone]: http://stackoverflow.com/questions/13037637/css3-animation-and-display-none

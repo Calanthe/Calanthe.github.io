@@ -790,7 +790,7 @@ In this particular example React may not be faster than standard native DOM oper
 
 Big thanks to [Rob Berry][robjamesberry] and [Richard Nguyen][richard] for mentoring me while writing this game and article.
 
-[mastermind]: http://zofiakorcz.pl/mastermind
+[mastermind]: https://zofiakorcz.pl/mastermind
 [ecmastript6]: http://www.ecma-international.org/ecma-262/6.0
 [es6support]: https://kangax.github.io/compat-table/es6/
 [babel]: https://babeljs.io/
